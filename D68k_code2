@@ -2507,11 +2507,11 @@ c_bitk2	move.w	#$0923,(a4)+		;TAB + '#'
 	moveq	#0,d2
 ;	move.l	Pointer-x(a5),a0
 	move.b	3(a0),d2
+	andi.b	#$1f,d2		; modulo 32
 	bsr	DecL
 	move.l	Pointer-x(a5),a0
 	cmp.b	#7,3(a0)
 	bls.b	1$
-	move.b	Buffer+7-x(a5),(a4)+
 	move.b	Buffer+8-x(a5),(a4)+
 1$	move.b	Buffer+9-x(a5),(a4)+
 	move.b	#',',(a4)+
