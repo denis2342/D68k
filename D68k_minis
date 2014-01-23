@@ -213,8 +213,7 @@ QuickSort:
 QuickS:	move.l	a0,d2
 	add.l	a1,d2
 	lsr.l	#1,d2
-	bclr	#0,d2	;es ist sowieso IMMER gerade
-	bclr	#1,d2	;hier holt er sich den Wert der Mitte
+	andi.b	#-4,d2	; durch vier teilbar machen
 	move.l	d2,a4
 	move.l	(a4),d2
 
