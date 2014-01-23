@@ -3222,11 +3222,8 @@ NoBaseDisplacement:
 	bne.b	2$
 
 	move.b	#'A',(a4)+
-	move.l	Pointer-x(a5),a0
-	move.w	(a0),d2
-	andi.b	#%0111,d2
-	add.b	#"0",d2
-	move.b	d2,(a4)+
+	add.b	#"0",d7
+	move.b	d7,(a4)+
 
 	move.b	AdMode+1-x(a5),d2
 2$	btst	#2,d2
