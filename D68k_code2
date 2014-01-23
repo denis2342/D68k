@@ -755,10 +755,7 @@ JumpTableListTest:
 
 ;**********************************
 
-c_rts:	move.w	#'RT',(a4)+
-	move.b	#'S',(a4)+
-
-	move.b	#10,(a4)+
+c_rts:	move.l	#'RTS\n',(a4)+
 
 	tst.l	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
@@ -766,10 +763,7 @@ c_rts:	move.w	#'RT',(a4)+
 
 ;**********************************
 
-c_rtr:	move.w	#'RT',(a4)+
-	move.b	#'R',(a4)+
-
-	move.b	#10,(a4)+
+c_rtr:	move.l	#'RTR\n',(a4)+
 
 	tst.l	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
@@ -783,10 +777,7 @@ c_nop:	move.w	#'NO',(a4)+
 
 ;**********************************
 
-c_rte:	move.w	#'RT',(a4)+
-	move.b	#'E',(a4)+
-
-	move.b	#10,(a4)+
+c_rte:	move.l	#'RTE\n',(a4)+
 
 	tst.l	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
@@ -814,7 +805,7 @@ c_trapv	move.l	#'TRAP',(a4)+
 
 ;**********************************
 
-c_rtd:	move.l	#$52544409,(a4)+
+c_rtd:	move.l	#"RTD\t",(a4)+
 
 	tst.l	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
@@ -829,9 +820,8 @@ c_rtd:	move.l	#$52544409,(a4)+
 ;**********************************
 
 c_stop:	move.l	#'STOP',(a4)+
-	move.b	#9,(a4)+
+	move.w	#"\t#",(a4)+
 
-	move.b	#'#',(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	HexWDi
@@ -855,8 +845,7 @@ c_eori_to_sr:
 	move.w	#'.W',(a4)+
 ;	bra	c_to_sr
 
-c_to_sr	move.b	#9,(a4)+
-	move.b	#'#',(a4)+
+c_to_sr	move.w	#"\t#",(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	HexWDi
@@ -884,8 +873,7 @@ c_eori_to_ccr:
 ;	bra	c_to_ccr
 
 c_to_ccr
-	move.b	#9,(a4)+
-	move.b	#'#',(a4)+
+	move.w	#"\t#",(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	bsr	HexBDi
@@ -915,7 +903,7 @@ c_moveq
 	beq	OpCodeError
 
 2$	move.l	#'MOVE',(a4)+	;MOVE
-	move.w	#$5109,(a4)+	;Q + TAB
+	move.w	#"Q\t",(a4)+	;Q + TAB
 	move.b	#'#',(a4)+
 	move.w	(a0),d2
 	bsr	HexBs
@@ -927,7 +915,7 @@ c_moveq
 ;**********************************
 
 c_trap	move.l	#'TRAP',(a4)+
-	move.w	#$0923,(a4)+	;TAB + '#'
+	move.w	#"\t#",(a4)+	;TAB + '#'
 	moveq	#0,d2
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
@@ -940,14 +928,14 @@ c_trap	move.l	#'TRAP',(a4)+
 ;**********************************
 
 c_bkpt	move.l	#'BKPT',(a4)+
-	move.w	#$0923,(a4)+	;TAB + '#'
+	move.w	#"\t#",(a4)+	;TAB + '#'
 	bsr	RegNumD
 	bra	DoublePrint
 
 ;**********************************
 
 c_swap	move.l	#'SWAP',(a4)+
-	move.w	#$0944,(a4)+	;TAB + 'D'
+	move.w	#"\tD",(a4)+	;TAB + '#'
 	bsr	RegNumD
 	bra	DoublePrint
 
@@ -979,7 +967,7 @@ c_ext:	move.w	#'EX',(a4)+
 
 ;**********************************
 
-c_rtm	move.l	#$52544d09,(a4)+	;'RTM' + TAB
+c_rtm	move.l	#"RTM\t",(a4)+	;'RTM' + TAB
 	move.b	#'D',(a4)+
 ;	move.l	Pointer-x(a5),a0
 	btst	#3,1(a0)
@@ -1016,9 +1004,9 @@ c_move_usp
 
 ;**********************************
 
-c_link.w:
+c_link_w:
 	move.l	#'LINK',(a4)+	;'LINK'
-	move.w	#$0941,(a4)+	;TAB + 'A'
+	move.w	#"\tA",(a4)+	;TAB + 'A'
 	bsr	RegNumD
 	move.b	#',',(a4)+	;','
 	move.b	#'#',(a4)+	;'#'
@@ -1032,10 +1020,9 @@ c_link.w:
 	addq.l	#2,ToAdd-x(a5)
 	bra	DoublePrint
 
-c_link.l:
+c_link_l:
 	move.l	#'LINK',(a4)+	;'LINK'
-	move.w	#'.L',(a4)+
-	move.w	#$0941,(a4)+	;TAB + 'A'
+	move.l	#'.L\tA',(a4)+
 	bsr	RegNumD
 	move.b	#',',(a4)+	;','
 	move.b	#'#',(a4)+	;'#'
@@ -1052,7 +1039,7 @@ c_link.l:
 ;**********************************
 
 c_unlk	move.l	#'UNLK',(a4)+
-	move.w	#$0941,(a4)+	;TAB + 'A'
+	move.w	#"\tA",(a4)+	;TAB + 'A'
 	bsr	RegNumD
 	bra	DoublePrint
 
@@ -1929,7 +1916,7 @@ c_subqaddq
 
 ;**********************************
 
-c_lea	move.l	#$4c454109,(a4)+	;'LEA' + TAB
+c_lea	move.l	#"LEA\t",(a4)+	;'LEA' + TAB
 	move.w	#%011111100100,Adressposs-x(a5)
 	bsr	GetSEA
 	move.b	#',',(a4)+
