@@ -250,6 +250,12 @@ MarkOK:	tst.l	Argu3-x(a5)	;NOPC/S
 	moveq	#18,d2
 	cmp.l	ToAdd-x(a5),d2
 	beq	JO
+
+	bsr	PCHexWord9      ;einmal für alle
+
+	moveq	#20,d2
+	cmp.l	ToAdd-x(a5),d2
+	beq	JO
 9$
 JO2:	moveq	#9,d1
 	move.b	d1,(a4)+		;drei TAB's ausgeben
@@ -313,6 +319,7 @@ PCHexWord5:
 PCHexWord6:
 PCHexWord7:
 PCHexWord8:
+PCHexWord9:
 	move.b	Relocmarke+5-x(a5),(a4)+	;erstmal ein Space
 	bra	PCHexWordx
 
