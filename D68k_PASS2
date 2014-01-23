@@ -78,7 +78,7 @@ HCode1:	move.l	(a2)+,d0	;CodeSize in Longwords
 
 3$	bsr	PrintHunkName
 
-	tst.l	Argu7-x(a5)
+	tst.b	Argu7-x(a5)
 	bne.b	1$
 	bsr	Dissa4_1	;Code ausgeben oder nicht ???
 
@@ -114,7 +114,7 @@ HData1:	addq.l	#4,a2
 
 3$	bsr	PrintHunkName
 
-	tst.l	Argu8-x(a5)
+	tst.b	Argu8-x(a5)
 	bne.b	1$
 	bsr	DisData		;DATA ausgeben oder nicht ???
 
@@ -150,7 +150,7 @@ HBSS1:	move.l	(a2)+,d0
 
 3$	bsr	PrintHunkName
 
-	tst.l	Argu9-x(a5)
+	tst.b	Argu9-x(a5)
 	bne.b	1$
 	bsr	DisBSS		;BSS ausgeben oder nicht ???
 
@@ -265,7 +265,7 @@ HExt1:	clr.l	CodeSize-x(a5)
 ;	move.w	#'  ',HunkForm3-x(a5)
 ;	bsr	PrintHunkName2
 
-	tst.l	Argu5-x(a5)	;HUNKLAB/S
+	tst.b	Argu5-x(a5)	;HUNKLAB/S
 	bne.b	6$
 	addq.l	#4,SP
 	rts
@@ -356,7 +356,7 @@ HSymbol1:
 2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
-	tst.l	Argu5-x(a5)	;HUNKLAB/S
+	tst.b	Argu5-x(a5)	;HUNKLAB/S
 	bne.b	6$
 	addq.l	#4,SP
 	rts
@@ -393,7 +393,7 @@ Bootblock1:
 
 	bsr	PrintHunkName
 
-	tst.l	Argu7-x(a5)	;NC=NOCODE/S
+	tst.b	Argu7-x(a5)	;NC=NOCODE/S
 	bne.b	1$
 
 	bsr	Return
@@ -402,7 +402,7 @@ Bootblock1:
 	move.l	#Boot2T-Boot1T,d2
 	bsr	Print
 
-	tst.l	Argu3-x(a5)	;NOPC
+	tst.b	Argu3-x(a5)	;NOPC
 	bne.b	2$
 	bsr	TAB
 2$	move.l	-12(a2),d2
@@ -413,7 +413,7 @@ Bootblock1:
 	move.l	#Boot3T-Boot2T,d2
 	bsr	Print
 
-	tst.l	Argu3-x(a5)	;NOPC
+	tst.b	Argu3-x(a5)	;NOPC
 	bne.b	3$
 	bsr	TAB
 3$	move.l	-8(a2),d2
@@ -424,7 +424,7 @@ Bootblock1:
 	move.l	#Boot4T-Boot3T,d2
 	bsr	Print
 
-	tst.l	Argu3-x(a5)	;NOPC
+	tst.b	Argu3-x(a5)	;NOPC
 	bne.b	4$
 	bsr	TAB
 4$	move.l	-4(a2),d2
@@ -446,7 +446,7 @@ KickStart1:
 	move.l	d0,CodeSize-x(a5)
 	move.l	a2,CodeAnfang-x(a5)
 
-	tst.l	Argu7-x(a5)	;NC=NOCODE/S
+	tst.b	Argu7-x(a5)	;NC=NOCODE/S
 	bne.b	1$
 
 	bsr	Dissa4_1	;Code ausgeben oder nicht ???
@@ -482,7 +482,7 @@ PrintHunkName:
 
 	lea	Befehl-x(a5),a4
 	move.b	#10,(a4)+
-	tst.l	Argu3-x(a5)	;NOPC
+	tst.b	Argu3-x(a5)	;NOPC
 	bne.b	1$
 
 	move.b	#9,(a4)+

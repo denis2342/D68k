@@ -231,7 +231,7 @@ DateiL:	move.l	DosBase-x(a5),a6
 
 	move.l	#1,ArguD-x(a5)		;TRACE-Mode einschalten !!!
 
-2$	tst.l	Argu4-x(a5)	;INFO/S
+2$	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	1$
 
 		move.l	#Status1T,d1		;Dateilänge ausgeben
@@ -261,7 +261,7 @@ Speicher:
 	move.l	d0,LabelMem-x(a5)
 	beq	ErrorMemory
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	move.l	#SprungMemSize,d0

@@ -85,7 +85,7 @@ LabelcodeSearch:
 	add.l	PCounter-x(a5),a0
 	move.l	a0,Pointer-x(a5)	;WICHTIG !!!
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	move.l	PCounter-x(a5),d5	;waren wir bei dem Befehl schon ?
@@ -140,7 +140,7 @@ c2_gr0000
 	cmp.w	#%0000101001111100,d0	;($0A7C) EORI to SR
 	beq	c2_eori_to_sr
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	1$
 
 ;	move.w	(a0),d0
@@ -170,7 +170,7 @@ c2_gr0000
 	cmp.w	#%0000100011000000,d0	;BSET #data
 	beq	c2_bitk
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	2$
 
 	cmp.w	#%0000000011000000,d0	;CHK2.b 68020...
@@ -258,7 +258,7 @@ c2_gr0100
 	cmp.w	#%0100100001001000,d0	;BKPT 68010...
 	beq	QWERTYUIOPA
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	3$
 
 	cmp.w	#%0100100000001000,d0	;LINK.L 68020...
@@ -292,7 +292,7 @@ c2_gr0100
 	cmp.w	#%0100011011000000,d0	;MOVE TO SR
 	beq	c2_movetosr
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	4$
 
 	cmp.w	#%0100110001000000,d0	;DIVx.L 68020...
@@ -330,7 +330,7 @@ c2_gr0100
 	cmp.w	#%0100000110000000,d0	;CHK.w
 	beq	c2_chk
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	5$
 
 	cmp.w	#%0100000100000000,d0	;CHK.l  68020...
@@ -344,7 +344,7 @@ c2_gr0101
 	cmp.w	#%0101000011001000,d0	;DBcc
 	beq	c2_dbcc
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	6$
 
 	move.w	(a0),d0
@@ -374,7 +374,7 @@ c2_gr1000
 	cmp.w	#%1000000100000000,d0	;SBCD
 	beq	QWERTYUIOPA
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	7$
 
 	cmp.w	#%1000000101000000,d0	;PACK 68020...
@@ -493,7 +493,7 @@ c2_gr1110
 	cmp.w	#%1110000011000000,d0	;ASL, ROL, LSL, ROXL mit _EA_
 	beq	c2_shift_ea
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	8$
 
 	move.w	(a0),d0
@@ -655,7 +655,7 @@ c2_divx	addq.l	#2,ToAdd-x(a5)
 c2_moveq:
 ;	move.l	Pointer-x(a5),a0
 
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	beq	3$
 
 	clr.w	d0
@@ -686,7 +686,7 @@ c2_bcc:
 
 ;	move.l	Pointer-x(a5),a0
 
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne	99$
 
 	cmp.l	#"grap",(a0)	;graphics.library
@@ -898,7 +898,7 @@ c2_ext:
 	btst	#8,d2
 	beq	QWERTYUIOPA
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	bne	QWERTYUIOPA
 
 	bsr	DochFalsch2
@@ -915,7 +915,7 @@ c2_move_b
 	bra	QWERTYUIOPA
 
 c2_move_w
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne.b	3$
 
 	cmp.l	#"6804",(a0)	;68040.library
@@ -955,7 +955,7 @@ c2_move_w
 	bra	c2_movex
 
 c2_move_l
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne.b	2$
 
 	cmp.l	#".lib",(a0)	;.library
@@ -1391,7 +1391,7 @@ AdreInDirektDisIndex2:			;110rrr $12(A0,D0.l)
 	rts
 
 AdreInDirektBaseDisIndex2:			;111 011
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll2
 
 	addq.l	#2,ToAdd-x(a5)
@@ -1426,7 +1426,7 @@ AbsoShort2:				;111 000
 	btst	#7,d0		;$1234 (Adresse)
 	beq	AdressIll2
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 	tst.b	Springer-x(a5)
 	beq.b	1$
@@ -1450,7 +1450,7 @@ AbsoLong2:				;111 001
 	btst	#8,d0		;$12345678 (Adresse)
 	beq	AdressIll2
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 	tst.b	Springer-x(a5)
 	beq.b	1$
@@ -1521,7 +1521,7 @@ PCIndexDis2:				;111 011
 	addq.l	#2,d2
 	add.l	PCounter-x(a5),d2
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	2$
 	bsr	JumpTable2
 
@@ -1537,7 +1537,7 @@ PCIndexDis2:				;111 011
 	rts
 
 PCIndexBaseDis2				;111 011
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll2
 
 	move.b	AdMode+1-x(a5),d2
@@ -1615,7 +1615,7 @@ Konstante2:				;111 100
 	cmp.b	#'L',SizeBWL-x(a5)	;long-word integer
 	beq	KonsL2
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll2
 
 	cmp.b	#'S',SizeBWL-x(a5)	;single-precision real
@@ -1695,7 +1695,7 @@ c2_NoCode:
 	cmp.l	CodeSize-x(a5),d1
 	bgt.b	EndMark2
 MarkOK2:
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 	tst.b	WallPoint-x(a5)		;Ein RoutinenEnde ??
 	bne	GetNewLabel
@@ -1710,7 +1710,7 @@ EndMark2:
 	bra.b	MarkOK3
 
 BitSetter:
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	move.l	CurrHunk-x(a5),d7

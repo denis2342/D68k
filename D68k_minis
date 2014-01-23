@@ -42,7 +42,7 @@ PCheck:	cmp.l	0(a1,d3.l),d2		;gibt es ein Label?
 		move.l	d1,NextLabel-x(a5)
 
 Pline2:	move.l	d3,LabelPointer-x(a5)
-	tst.l	Argu3-x(a5)		;NOPC/S
+	tst.b	Argu3-x(a5)		;NOPC/S
 	bne.b	1$
 
 	move.l	PCounter-x(a5),d2	;PC ausgeben
@@ -58,7 +58,7 @@ Pline2:	move.l	d3,LabelPointer-x(a5)
 	move.w	(a0),(a1)+
 	move.b	#9,(a1)
 
-	tst.l	ArguC-x(a5)		;NEXTLABEL/S
+	tst.b	ArguC-x(a5)		;NEXTLABEL/S
 	beq.b	1$
 
 	move.l	NextLabel-x(a5),d2
@@ -79,7 +79,7 @@ PLabel:		move.l	8(a0,d6.l),d1	;Ende des aktuellen Hunks in D1
 		bge.b	3$
 		move.l	d1,NextLabel-x(a5)
 
-3$	tst.l	Argu3-x(a5)	;NOPC/S
+3$	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	2$
 	bsr	TAB4
 2$	move.l	d3,d2		;LabelPointer,d2
@@ -135,7 +135,7 @@ SymbolLabel:
 5$	movem.l	d2/d4/a0,-(SP)		;PrintSymbolLabel
 	move.l	d3,a1
 
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	6$
 	movem.l	d0/a1,-(SP)
 	bsr	TAB4
@@ -400,7 +400,7 @@ LabelCalcRelocX08:
 ; LabelCalc3 ist nur für PASS1 !!!!
 
 LabelCalc3:
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 	tst.b	Springer-x(a5)	;ist es Sprungbefehl gewesen ??
 	beq.b	1$
@@ -433,7 +433,7 @@ LabelCalcS:
 	move.l	d2,d5
 	add.l	8(a0,d6.l),d2	;Pos. des Hunks addieren (File-relativ)
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	3$
 	tst.b	Springer-x(a5)	;ist es ein Sprungbefehl gewesen ???
 	beq.b	3$
@@ -1317,7 +1317,7 @@ xYesExternXX:
 
 LoadJumplist:
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq	1$
 
 	tst.l	ArguE-x(a5)		;JL/K
@@ -1438,7 +1438,7 @@ LoadJumplist:
 	move.l	4,a6
 	jsr	_LVOFreeVec(a6)
 
-	tst.l	Argu4-x(a5)	;INFO/S
+	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	1$
 
 		move.l	#Status7T,d1		;Dateilänge ausgeben
@@ -1546,7 +1546,7 @@ nibblein:
 
 MakeIDFile:
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq	9$
 
 	tst.l	ArguE-x(a5)	;JUMPLIST/S

@@ -123,7 +123,7 @@ HData3:	move.l	(a2)+,d0
 	addq.l	#4,d0			;wegen HunkEndLabel
 	add.l	d0,HunkAdd-x(a5)	;Größe des DataHunks addieren
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	lsr.l	#4,d0		;d0 geteilt durch 16
@@ -154,7 +154,7 @@ HCode3:	move.l	(a2)+,d0
 	addq.l	#4,d0			;wegen HunkEndLabel
 	add.l	d0,HunkAdd-x(a5)	;Größe des CodeHunks addieren
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	lsr.l	#4,d0		;d0 geteilt durch 16
@@ -377,7 +377,7 @@ Bootblock3:
 
 	add.l	d0,a2
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	lsr.l	#4,d0		;d0 geteilt durch 16
@@ -415,7 +415,7 @@ KickStart3:
 
 	add.l	d0,a2
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	lsr.l	#4,d0		;d0 geteilt durch 16

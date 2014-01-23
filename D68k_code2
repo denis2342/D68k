@@ -49,7 +49,7 @@ DissaCode:
 	btst	#0,PCounter+3-x(a5)
 	bne	ByteData
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	3$
 
 	move.l	PCounter-x(a5),d5	;waren wir bei dem Befehl schon ?
@@ -76,10 +76,10 @@ DissaCode:
 
 2$	clr.l	ToAdd-x(a5)
 
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne.b	1$
 
-		tst.l	ArguA-x(a5)	;DATALOGICOFF ?
+		tst.b	ArguA-x(a5)	;DATALOGICOFF ?
 		bne.b	1$
 
 			tst.b	DataRem-x(a5)
@@ -117,7 +117,7 @@ c_gr0000
 	move.w	(a0),d7
 	move.w	d7,d0
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	1$
 
 	cmp.w	#%0000110011111100,d0	;CAS2.w 68020...
@@ -138,7 +138,7 @@ c_gr0000
 	cmp.w	#$0a7c,d0	;EORI to SR
 	beq	c_eori_to_sr
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	2$
 
 	move.w	d7,d0
@@ -163,7 +163,7 @@ c_gr0000
 	cmp.w	#%0000100011000000,d0	;BSET #
 	beq	c_bsetk
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	3$
 
 	cmp.w	#%0000000011000000,d0	;CHK2.b 68020...
@@ -252,7 +252,7 @@ c_gr0100
 	cmp.w	#%0100111001011000,d0	;UNLK
 	beq	c_unlk
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	4$
 
 	cmp.w	#%0100100001001000,d0	;BKPT 68010...
@@ -322,7 +322,7 @@ c_gr0100
 	cmp.w	#%0100000110000000,d0	;CHK.w
 	beq	c_chk
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	6$
 
 	cmp.w	#%0100000100000000,d0	;CHK.l  68020...
@@ -339,7 +339,7 @@ c_gr0101
 	cmp.w	#%0101000011001000,d0	;DBcc
 	beq	c_dbcc
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	7$
 
 	move.w	d7,d0
@@ -374,7 +374,7 @@ c_gr1000
 	cmp.w	#%1000000100000000,d0	;SBCD
 	beq	c_sbcd
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	8$
 
 	cmp.w	#%1000000101000000,d0	;PACK 68020...
@@ -499,7 +499,7 @@ b_addx	move.w	d7,d0
 c_gr1110
 	move.w	(a0),d7
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	9$
 
 	move.w	d7,d0
@@ -559,7 +559,7 @@ OpCode1:
 	cmp.l	NextLabel-x(a5),d2		;gibt es ein ungerades Label?
 	beq	ByteData
 
-	tst.l	ArguA-x(a5)	;DLO/S
+	tst.b	ArguA-x(a5)	;DLO/S
 	bne.b	WordData
 
 	moveq	#3,d2
@@ -635,7 +635,7 @@ LongData:
 	beq.b	4$
 	bra	WordData
 4$
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
 	move.l	PCounter-x(a5),d5	;waren wir bei dem Befehl schon ?
@@ -757,7 +757,7 @@ JumpTableListTest:
 
 c_rts:	move.l	#'RTS\n',(a4)+
 
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	bra	DoublePrint
 
@@ -765,7 +765,7 @@ c_rts:	move.l	#'RTS\n',(a4)+
 
 c_rtr:	move.l	#'RTR\n',(a4)+
 
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	bra	DoublePrint
 
@@ -779,7 +779,7 @@ c_nop:	move.w	#'NO',(a4)+
 
 c_rte:	move.l	#'RTE\n',(a4)+
 
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	bra	DoublePrint
 
@@ -807,7 +807,7 @@ c_trapv	move.l	#'TRAP',(a4)+
 
 c_rtd:	move.l	#"RTD\t",(a4)+
 
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	move.b	#'#',(a4)+
 ;	move.l	Pointer-x(a5),a0
@@ -889,7 +889,7 @@ c_to_ccr
 c_moveq
 ;	move.l	Pointer-x(a5),a0
 
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne.b	2$
 
 	cmp.l	#"util",(a0)	;utility.library
@@ -948,7 +948,7 @@ c_ext:	move.w	#'EX',(a4)+
 	btst	#8,d2
 	beq.b	1$
 
-	tst.l	ArguF-x(a5)		;68020 Option ??
+	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	3$
 
 	move.b	#'B',(a4)+
@@ -974,7 +974,7 @@ c_rtm	move.l	#"RTM\t",(a4)+	;'RTM' + TAB
 	beq.b	1$
 	move.b	#'A',-1(a4)
 1$	bsr	RegNumD
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	bra	DoublePrint
 
@@ -1047,7 +1047,7 @@ c_unlk	move.l	#'UNLK',(a4)+
 
 c_bcc:	;move.l	Pointer-x(a5),a0
 
-	tst.l	ArguD-x(a5)	;TRACE ?
+	tst.b	ArguD-x(a5)	;TRACE ?
 	bne.b	6$
 
 	cmp.l	#"grap",(a0)	;graphics.library
@@ -1687,7 +1687,7 @@ c_AddSub
 
 ;**********************************
 
-c_ori:	tst.l	ArguB-x(a5)	;OLO=ORILOGICOFF/S
+c_ori:	tst.b	ArguB-x(a5)	;OLO=ORILOGICOFF/S
 	bne.b	1$
 
 		move.l	PCounter-x(a5),d3	;Adresse
@@ -1949,7 +1949,7 @@ c_chkx	move.w	#%111111111101,Adressposs-x(a5)
 c_jmp	move.l	#$4a4d5009,(a4)+		;'JMP' + TAB
 	move.w	#%011111100100,Adressposs-x(a5)
 	bsr	GetSEA
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 	bra	DoublePrint
 
@@ -3169,7 +3169,7 @@ AdreInDirektDisIndex:			;110rrr
 	lsr.b	#1,d2
 	beq.b	5$		;1 als Skalierung weglassen
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
 	moveq	#1,d6
@@ -3183,7 +3183,7 @@ AdreInDirektDisIndex:			;110rrr
 	rts
 
 AdreInDirektBaseDisIndex:			;110rrr
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
 	addq.l	#2,ToAdd-x(a5)
@@ -3434,7 +3434,7 @@ PCIndexDis				;111 011
 	lsr.b	#1,d2
 	beq.b	3$		;1 als Skalierung weglassen
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
 	moveq	#1,d6
@@ -3448,7 +3448,7 @@ PCIndexDis				;111 011
 	rts
 
 PCIndexBaseDis				;111 011
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
 	addq.l	#2,ToAdd-x(a5)
@@ -3613,7 +3613,7 @@ Konstante:				;111 100
 	cmp.b	#'L',SizeBWL-x(a5)	;long-word integer or Label
 	beq	KonsL
 
-	tst.l	ArguF-x(a5)		;68020 Option ???
+	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
 	cmp.b	#'S',SizeBWL-x(a5)	;singe-precision real
@@ -3708,7 +3708,7 @@ GetCoCo	move.l	Pointer-x(a5),a0
 
 	tst.b	d2
 	bne.b	1$
-	tst.l	Argu6-x(a5)
+	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 
 1$	rts

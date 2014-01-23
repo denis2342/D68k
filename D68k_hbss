@@ -26,7 +26,7 @@ DissaBSS:
 
 	bsr	PLine		;Ausgabe des PC + TAB
 
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 
 	move.l	#Befehl2,d1	;und ausgeben
@@ -43,7 +43,7 @@ DissaBSS:
 
 b_dc_l:	move.l	d3,d7
 	lsr.l	#2,d7
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 
 	moveq	#9,d2
@@ -80,7 +80,7 @@ b_dc_l:	move.l	d3,d7
 
 b_dc_w:	move.l	d3,d7
 	lsr.l	#1,d7
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 
 	moveq	#9,d2
@@ -116,7 +116,7 @@ b_dc_w:	move.l	d3,d7
 	rts
 
 b_dc_b:	move.l	d3,d7
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 
 	moveq	#9,d2

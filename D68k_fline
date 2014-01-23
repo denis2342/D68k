@@ -5,7 +5,7 @@
 ; F-Line für Ausgabe
 
 c_fline:
-	tst.l	ArguF-x(a5)
+	tst.b	ArguF-x(a5)
 	beq	OpCode1
 
 	move.w	(a0),d7
@@ -1923,7 +1923,7 @@ x_lpstop:
 
 c2_fline
 
-	tst.l	ArguF-x(a5)		;68020 ???
+	tst.b	ArguF-x(a5)		;68020 ???
 	beq	c2_iNULL
 
 	lea	Befehl-x(a5),a4		;WICHTIG !!!

@@ -41,7 +41,7 @@ NHunk2	move.l	FileSize-x(a5),d0
 
 	bra.b	NHunk2
 
-1$		tst.l	Argu4-x(a5)	;INFO/S
+1$		tst.b	Argu4-x(a5)	;INFO/S
 		beq.b	2$
 
 		move.l	#Status2T,d1		;HunkAnzahl ausgeben

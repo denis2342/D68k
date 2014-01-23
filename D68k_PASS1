@@ -7,7 +7,7 @@ PASS1:	bsr	LoadJumplist	;JumpList einlesen und checken (wenn vorhanden)
 
 	bsr	LibraryInit	;wenn nötig ev. ein paar Adressen einfügen
 
-	tst.l	Argu4-x(a5)	;INFO/S
+	tst.b	Argu4-x(a5)	;INFO/S
 	beq	1$
 
 		move.l	Relocs32-x(a5),d7
@@ -81,7 +81,7 @@ NextHunk4:
 	lsr.l	#2,d2
 	move.l	d2,LabelMax-x(a5)
 
-	tst.l	Argu4-x(a5)	;INFO/S
+	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	3$
 
 		move.l	ICodesP1-x(a5),d7
@@ -113,7 +113,7 @@ NextHunk4:
 	lsr.l	#2,d2
 	move.l	d2,LabelMin-x(a5)
 
-	tst.l	Argu4-x(a5)	;INFO/S
+	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	4$
 
 		move.l	#Status4T,d1		;min Labelanzahl ausgeben
@@ -178,7 +178,7 @@ ExePASS1:
 HCode4:	move.l	(a0)+,d0	;CodeSize in Longwords
 	lsl.l	#2,d0
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	2$
 
 	cmp.l	#-1,SprungPointer-x(a5)
@@ -196,7 +196,7 @@ HCode4:	move.l	(a0)+,d0	;CodeSize in Longwords
 	move.l	a0,CodeAnfang-x(a5)
 	move.l	d0,CodeSize-x(a5)
 
-	tst.l	ArguD-x(a5)	;TRACE/S
+	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 	move.l	#-1,SprungPointer-x(a5)
 

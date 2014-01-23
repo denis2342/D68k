@@ -152,7 +152,7 @@ DoublePrint:
 	move.l	a4,ErrorNumber-x(a5)
 	lea	Befehl2-x(a5),a4
 
-	tst.l	Argu3-x(a5)		;NOPC/S
+	tst.b	Argu3-x(a5)		;NOPC/S
 	bne.b	1$
 
 	addq.l	#7,a4
@@ -171,7 +171,7 @@ DoublePrint:
 	cmp.l	CodeSize-x(a5),d1
 	bgt	EndMark		;Routine für letztes Füllbyte
 
-MarkOK:	tst.l	Argu3-x(a5)	;NOPC/S
+MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	bne	MarkNotOK
 
 	move.l	PCounter-x(a5),d4

@@ -3,7 +3,7 @@
 ;
 
 DisData:
-	tst.l	ArguD-x(a5)
+	tst.b	ArguD-x(a5)
 	bne	Dissa4_1
 
 	clr.l	PCounter-x(a5)
@@ -37,7 +37,7 @@ DissaData:
 
 	bsr	PLine		;Ausgabe des PC + TAB
 
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 	move.l	#Befehl2,d1
 	moveq	#7,d2
@@ -84,7 +84,7 @@ d_dc_b:	move.l	#'dc.b',(a4)+	;dann BYTE
 
 	bsr	PrintByteData
 
-2$	tst.l	Argu3-x(a5)	;NOPC/S
+2$	tst.b	Argu3-x(a5)	;NOPC/S
 	bne	1$
 
 		move.l	Pointer-x(a5),a0
@@ -136,7 +136,7 @@ d_dc_w2
 
 	bsr	PrintWordData
 
-2$	tst.l	Argu3-x(a5)	;NOPC/S
+2$	tst.b	Argu3-x(a5)	;NOPC/S
 	bne	1$
 
 		move.l	Pointer-x(a5),a0
@@ -203,7 +203,7 @@ d_dc_l2
 
 	bsr	PrintLongData
 
-2$	tst.l	Argu3-x(a5)	;NOPC/S
+2$	tst.b	Argu3-x(a5)	;NOPC/S
 	bne	1$
 
 		move.l	Pointer-x(a5),a0
@@ -235,7 +235,7 @@ d_dc_l2
 
 
 PrintLongData:
-	tst.l	ArguG-x(a5)	;HEXDATA/S
+	tst.b	ArguG-x(a5)	;HEXDATA/S
 	bne	4$
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
@@ -285,7 +285,7 @@ PrintLongData:
 
 
 PrintWordData:
-	tst.l	ArguG-x(a5)	;HEXDATA/S
+	tst.b	ArguG-x(a5)	;HEXDATA/S
 	bne	4$
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
@@ -324,7 +324,7 @@ PrintWordData:
 
 
 PrintByteData:
-	tst.l	ArguG-x(a5)	;HEXDATA/S
+	tst.b	ArguG-x(a5)	;HEXDATA/S
 	bne	4$
 
 	move.l	Pointer-x(a5),a0	;wenn NULL dann kein ASCII-Text

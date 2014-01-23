@@ -30,7 +30,7 @@ DisSymbol:
 	rts
 
 XXX:	move.l	a2,-(SP)
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 	bsr	TAB4
 1$	move.b	#9,Hexminus2-x(a5)

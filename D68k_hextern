@@ -41,7 +41,7 @@ DisExt:	tst.l	(a2)
 
 PrintExt:
 	move.l	a2,-(SP)
-	tst.l	Argu3-x(a5)	;NOPC/S
+	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 	bsr	TAB4
 1$	bsr	PrintExtText
