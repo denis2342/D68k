@@ -1852,7 +1852,7 @@ BinSearch:
 	moveq	#-4,d3
 .loop	move.l	d0,d2
 	lsr.l	#1,d2
-	and.l	d3,d2
+	and.b	d3,d2		;unteren zwei bits ausblenden
 	cmp.l	0(a0,d2.l),d1
 	blt	.lower
 	beq	.found
