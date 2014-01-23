@@ -3302,22 +3302,19 @@ NoIndex:
 9$	btst	#1,d2
 	beq.b	3$
 
-	btst	#0,d2
-	bne.b	6$
-
 	move.b	#',',(a4)+		;Outer Displacement WORD
 	move.l	Pointer-x(a5),a0
 	add.l	ToAdd-x(a5),a0
+	btst	#0,d2
+	bne.b	6$
+
 	move.w	2(a0),d2
 	ext.l	d2
 	bsr	HexWs
 	addq.l	#2,ToAdd-x(a5)
 	bra.b	3$
 
-6$	move.b	#',',(a4)+		;Outer Displacement LONG
-	move.l	Pointer-x(a5),a0
-	add.l	ToAdd-x(a5),a0
-	move.l	2(a0),d2
+6$	move.l	2(a0),d2
 	bsr	HexLs
 	addq.l	#4,ToAdd-x(a5)
 
