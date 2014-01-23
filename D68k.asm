@@ -490,9 +490,9 @@ HunkMemLen:	dc.l	0	;Länge der HunkTabelle
 HunkAdd:	dc.l	0
 
 CurrHunk:	dc.l	0	;Aktueller Hunk (Für Ausgabe)
-HunkForm1:	dc.b	'DATA'	;Speicher1 für HunkNamenausgabe
-HunkForm2:	dc.b	'CODE'	;Speicher2 für HunkNamenausgabe
-HunkForm3:	dc.b	'CHIP'	;Speicher3 für HunkNamenausgabe
+HunkForm1:	dc.l	0	;Speicher1 für HunkNamenausgabe
+HunkForm2:	dc.l	0	;Speicher2 für HunkNamenausgabe
+HunkForm3:	dc.l	0	;Speicher3 für HunkNamenausgabe
 
 CodeSize:	dc.l	0	;CodeLänge
 CodeAnfang:	dc.l	0	;Zeiger auf CodeAnfang

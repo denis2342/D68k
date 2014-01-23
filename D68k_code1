@@ -108,9 +108,9 @@ LabelcodeSearch:
 	jmp	Liste2(PC,d7.w)
 
 Liste2:	dc.w	c2_gr0000-Liste2	;0000
-	dc.w	c2_move.b-Liste2	;0001	MOVE.B
-	dc.w	c2_move.l-Liste2	;0010	MOVE.L
-	dc.w	c2_move.w-Liste2	;0011	MOVE.W
+	dc.w	c2_move_b-Liste2	;0001	MOVE.B
+	dc.w	c2_move_l-Liste2	;0010	MOVE.L
+	dc.w	c2_move_w-Liste2	;0011	MOVE.W
 	dc.w	c2_gr0100-Liste2	;0100
 	dc.w	c2_gr0101-Liste2	;0101
 	dc.w	c2_bcc-Liste2		;0110	BCC
@@ -252,7 +252,7 @@ c2_gr0100
 	cmp.w	#%0100100001000000,d0	;SWAP
 	beq	QWERTYUIOPA
 	cmp.w	#%0100111001010000,d0	;LINK.W
-	beq	c2_link.w
+	beq	c2_link_w
 	cmp.w	#%0100111001011000,d0	;UNLK
 	beq	QWERTYUIOPA
 	cmp.w	#%0100100001001000,d0	;BKPT 68010...
@@ -262,7 +262,7 @@ c2_gr0100
 	beq.b	3$
 
 	cmp.w	#%0100100000001000,d0	;LINK.L 68020...
-	beq	c2_link.l
+	beq	c2_link_l
 3$
 ;	move.w	(a0),d0
 	andi.w	#%1111111111110000,d0
@@ -352,9 +352,9 @@ c2_gr0101
 	cmp.w	#%0101000011111100,d0	;TRAPCC 68020...
 	beq	QWERTYUIOPA
 	cmp.w	#%0101000011111010,d0	;TRAPCC.w 68020...
-	beq	c2_trapcc.w
+	beq	c2_trapcc_w
 	cmp.w	#%0101000011111011,d0	;TRAPCC.l 68020...
-	beq	c2_trapcc.l
+	beq	c2_trapcc_l
 6$
 	move.w	(a0),d0
 	andi.w	#%1111000011000000,d0
@@ -420,21 +420,21 @@ c2_gr1011
 ;	move.w	(a0),d0
 	andi.w	#%1111000111000000,d0
 	cmp.w	#%1011000100000000,d0	;EOR.b
-	beq	c2_eor.b
+	beq	c2_eor_b
 	cmp.w	#%1011000101000000,d0	;EOR.w
-	beq	c2_eor.w
+	beq	c2_eor_w
 	cmp.w	#%1011000110000000,d0	;EOR.l
-	beq	c2_eor.l
+	beq	c2_eor_l
 	cmp.w	#%1011000000000000,d0	;CMP.b
-	beq	c2_cmp.b
+	beq	c2_cmp_b
 	cmp.w	#%1011000001000000,d0	;CMP.w
-	beq	c2_cmp.w
+	beq	c2_cmp_w
 	cmp.w	#%1011000010000000,d0	;CMP.l
-	beq	c2_cmp.l
+	beq	c2_cmp_l
 	cmp.w	#%1011000011000000,d0	;CMPA.w
-	beq	c2_cmpa.w
+	beq	c2_cmpa_w
 	cmp.w	#%1011000111000000,d0	;CMPA.l
-	beq	c2_cmpa.l
+	beq	c2_cmpa_l
 
 	bra	c2_iNULL		;Mir fällt nichts ein
 
@@ -543,13 +543,13 @@ c2_eori_to_sr:
 c2_ori_to_ccr:	
 c2_andi_to_ccr:	
 c2_eori_to_ccr:	
-c2_link.w
+c2_link_w
 c2_to_ccr
 c2_movec
 c2_movep
 c2_pack
 c2_unpk
-c2_trapcc.w
+c2_trapcc_w
 	addq.l	#2,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 
@@ -588,9 +588,9 @@ c2_nbcd:
 c2_scc:
 c2_movefromccr:
 c2_movefromsr:
-c2_eor.b
-c2_eor.w
-c2_eor.l
+c2_eor_b
+c2_eor_w
+c2_eor_l
 	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
@@ -625,8 +625,8 @@ c2_cas:
 
 ;********************************************
 
-c2_link.l:
-c2_trapcc.l:
+c2_link_l:
+c2_trapcc_l:
 c2_cas2:
 	addq.l	#4,ToAdd-x(a5)
 	bra	QWERTYUIOPA
@@ -906,7 +906,7 @@ c2_ext:
 
 ;**********************************
 
-c2_move.b
+c2_move_b
 	move.b	#'B',SizeBWL-x(a5)
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA2
@@ -914,7 +914,7 @@ c2_move.b
 	bsr	GetDEA2_1
 	bra	QWERTYUIOPA
 
-c2_move.w
+c2_move_w
 	tst.l	ArguD-x(a5)	;TRACE ?
 	bne.b	3$
 
@@ -954,7 +954,7 @@ c2_move.w
 	move.b	#'W',SizeBWL-x(a5)
 	bra	c2_movex
 
-c2_move.l
+c2_move_l
 	tst.l	ArguD-x(a5)	;TRACE ?
 	bne.b	2$
 
@@ -986,22 +986,22 @@ c2_movex
 
 ;**********************************
 
-c2_cmp.b
+c2_cmp_b
 	move.b	#'B',SizeBWL-x(a5)
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
-c2_cmpa.w
-c2_cmp.w
+c2_cmpa_w
+c2_cmp_w
 	move.b	#'W',SizeBWL-x(a5)
-	bra	c2_cmp.x
-c2_cmpa.l
-c2_cmp.l
+	bra	c2_cmp_x
+c2_cmpa_l
+c2_cmp_l
 	move.b	#'L',SizeBWL-x(a5)
-;	bra	c2_cmp.x
+;	bra	c2_cmp_x
 
-c2_cmp.x
+c2_cmp_x
 	move.w	#%111111111111,Adressposs-x(a5)
 	move.w	#3,CodeID-x(a5)	;Anzahl der Sprünge der JumpTable
 	bsr	GetSEA2

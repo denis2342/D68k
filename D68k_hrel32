@@ -11,7 +11,7 @@ SearchReloc32Label:		;Für Reloc32 einträge
 
 	move.l	CurrHunk-x(a5),d5	;Nummer der Reloc-Hunks
 	lsl.l	#TabSize,d5
-\Search4
+Search4$
 	move.l	(a0)+,d7	;Anzahl der Offsets in d7
 	bne.b	1$
 	rts
@@ -21,12 +21,12 @@ SearchReloc32Label:		;Für Reloc32 einträge
 	move.l	(a0)+,d6	;Nummer des Hunks auf den die Offsets zeigen
 	lsl.l	#TabSize,d6
 
-\Search3
+Search3$
 	move.l	36(a1,d5.l),a2		;Anfang des Hunks im Speicher
 	add.l	(a0)+,a2		;Stelle des Reloc32
 	move.l	(a2),d3			;Label nach D3
 
-\LabelCalcSymbol2:			;in D6 wird der Hunk übergeben
+LabelCalcSymbol2$:			;in D6 wird der Hunk übergeben
 	tst.l	16(a1,d6.l)		;Testen ob Zeiger auf Symbol = NULL ?
 	beq.b	5$			;Wenn ja Ausstieg
 
@@ -47,8 +47,8 @@ SearchReloc32Label:		;Für Reloc32 einträge
 	add.l	d3,d2		;Label zu dem Anfang des Hunks addieren
 	bsr	AddLabelPointer
 
-4$	dbra	d7,\Search3
-	bra.b	\Search4
+4$	dbra	d7,Search3$
+	bra.b	Search4$
 
 ;******************************************************************
 
@@ -57,7 +57,7 @@ SearchReloc16Label:		;Für Reloc16 einträge
 
 	move.l	CurrHunk-x(a5),d5	;Nummer der Reloc-Hunks
 	lsl.l	#TabSize,d5
-\Search4
+Search4$
 	move.l	(a0)+,d7	;Anzahl der Offsets in d7
 	bne.b	1$
 	rts
@@ -67,13 +67,13 @@ SearchReloc16Label:		;Für Reloc16 einträge
 	move.l	(a0)+,d6	;Nummer des Hunks
 	lsl.l	#TabSize,d6
 
-\Search3
+Search3$
 	move.l	36(a1,d5.l),a2		;Anfang des Hunks im Speicher
 	add.l	(a0)+,a2		;Stelle des Reloc32
 	move.l	(a2),d3			;Label nach D3
 	ext.l	d3
 
-\LabelCalcSymbol2:			;in D6 wird der Hunk übergeben
+LabelCalcSymbol2$:			;in D6 wird der Hunk übergeben
 	tst.l	16(a1,d6.l)		;Testen ob Zeiger NULL
 	beq.b	5$			;Wenn ja Ausstieg
 
@@ -94,8 +94,8 @@ SearchReloc16Label:		;Für Reloc16 einträge
 	add.l	d3,d2		;Label zu dem Anfang des Hunks addieren
 	bsr	AddLabelPointer
 
-4$	dbra	d7,\Search3
-	bra.b	\Search4
+4$	dbra	d7,Search3$
+	bra.b	Search4$
 
 ;******************************************************************
 
@@ -104,7 +104,7 @@ SearchReloc08Label:		;Für Reloc08 einträge
 
 	move.l	CurrHunk-x(a5),d5	;Nummer der Reloc-Hunks
 	lsl.l	#TabSize,d5
-\Search4
+Search4$
 	move.l	(a0)+,d7	;Anzahl der Offsets in d7
 	bne.b	1$
 	rts
@@ -114,14 +114,14 @@ SearchReloc08Label:		;Für Reloc08 einträge
 	move.l	(a0)+,d6	;Nummer des Hunks
 	lsl.l	#TabSize,d6
 
-\Search3
+Search3$
 	move.l	36(a1,d5.l),a2		;Anfang des Hunks im Speicher
 	add.l	(a0)+,a2		;Stelle des Reloc32
 	move.l	(a2),d3			;Label nach D3
 	ext.w	d3
 	ext.l	d3
 
-\LabelCalcSymbol2:			;in D6 wird der Hunk übergeben
+LabelCalcSymbol2$:			;in D6 wird der Hunk übergeben
 	tst.l	16(a1,d6.l)		;Testen ob Zeiger auf Symbol = NULL
 	beq.b	5$			;Wenn ja Ausstieg
 
@@ -142,5 +142,5 @@ SearchReloc08Label:		;Für Reloc08 einträge
 	add.l	d3,d2		;Label zu dem Anfang des Hunks addieren
 	bsr	AddLabelPointer
 
-4$	dbra	d7,\Search3
-	bra.b	\Search4
+4$	dbra	d7,Search3$
+	bra.b	Search4$

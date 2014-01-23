@@ -61,7 +61,7 @@ DissaCode:
 	move.w	d5,d7		;gesetzt war, wenn das der Fall ist dann
 	lsr.l	#3,d5		;braucht die Adresse nicht abgearbeitet werden.
 	btst	d7,0(a2,d5.w)
-	beq	OpCode???
+	beq	OpCode1
 
 3$	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
@@ -83,7 +83,7 @@ DissaCode:
 		bne.b	1$
 
 			tst.b	DataRem-x(a5)
-			bne	OpCode???
+			bne	OpCode1
 
 1$	clr.b	JumpTableOn-x(a5)
 
@@ -97,9 +97,9 @@ DissaCode:
 	jmp	Liste(PC,d7.w)
 
 Liste:	dc.w	c_gr0000-Liste		;0000
-	dc.w	c_move.b-Liste		;0001	move.b
-	dc.w	c_move.l-Liste		;0010	move.l
-	dc.w	c_move.w-Liste		;0011	move.w
+	dc.w	c_move_b-Liste		;0001	move.b
+	dc.w	c_move_l-Liste		;0010	move.l
+	dc.w	c_move_w-Liste		;0011	move.w
 	dc.w	c_gr0100-Liste		;0100
 	dc.w	c_gr0101-Liste		;0101
 	dc.w	c_bcc-Liste		;0110	bcc
@@ -121,9 +121,9 @@ c_gr0000
 	beq.b	1$
 
 	cmp.w	#%0000110011111100,d0	;CAS2.w 68020...
-	beq	c_cas2.w
+	beq	c_cas2_w
 	cmp.w	#%0000111011111100,d0	;CAS2.l 68020...
-	beq	c_cas2.l
+	beq	c_cas2_l
 1$
 	cmp.w	#$003c,d0	;ORI to CCR
 	beq	c_ori_to_ccr
@@ -167,11 +167,11 @@ c_gr0000
 	beq.b	3$
 
 	cmp.w	#%0000000011000000,d0	;CHK2.b 68020...
-	beq	c_chk2.b
+	beq	c_chk2_b
 	cmp.w	#%0000001011000000,d0	;CHK2.w 68020...
-	beq	c_chk2.w
+	beq	c_chk2_w
 	cmp.w	#%0000010011000000,d0	;CHK2.l 68020...
-	beq	c_chk2.l
+	beq	c_chk2_l
 	cmp.w	#%0000011011000000,d0	;CALLM 68020 only
 	beq	c_callm
 
@@ -248,7 +248,7 @@ c_gr0100
 	cmp.w	#%0100100001000000,d0	;SWAP
 	beq	c_swap
 	cmp.w	#%0100111001010000,d0	;LINK.w
-	beq	c_link.w
+	beq	c_link_w
 	cmp.w	#%0100111001011000,d0	;UNLK
 	beq	c_unlk
 
@@ -258,7 +258,7 @@ c_gr0100
 	cmp.w	#%0100100001001000,d0	;BKPT 68010...
 	beq	c_bkpt
 	cmp.w	#%0100100000001000,d0	;LINK.l 68020...
-	beq	c_link.l
+	beq	c_link_l
 4$
 	move.w	d7,d0
 	andi.w	#%1111111111110000,d0
@@ -347,9 +347,9 @@ c_gr0101
 	cmp.w	#%0101000011111100,d0	;TRAPCC 68020...
 	beq	c_trapcc
 	cmp.w	#%0101000011111010,d0	;TRAPCC.w 68020...
-	beq	c_trapcc.w
+	beq	c_trapcc_w
 	cmp.w	#%0101000011111011,d0	;TRAPCC.l 68020...
-	beq	c_trapcc.l
+	beq	c_trapcc_l
 7$
 	move.w	d7,d0
 	andi.w	#%1111000011000000,d0
@@ -419,30 +419,30 @@ c_gr1011
 	move.w	d7,d0
 	andi.w	#%1111000111111000,d0
 	cmp.w	#%1011000100001000,d0	;CMPM.b
-	beq	c_cmpm.b
+	beq	c_cmpm_b
 	cmp.w	#%1011000101001000,d0	;CMPM.w
-	beq	c_cmpm.w
+	beq	c_cmpm_w
 	cmp.w	#%1011000110001000,d0	;CMPM.l
-	beq	c_cmpm.l
+	beq	c_cmpm_l
 
 ;	move.w	d7,d0
 	andi.w	#%1111000111000000,d0
 	cmp.w	#%1011000100000000,d0	;EOR.b
-	beq	c_eor.b
+	beq	c_eor_b
 	cmp.w	#%1011000101000000,d0	;EOR.w
-	beq	c_eor.w
+	beq	c_eor_w
 	cmp.w	#%1011000110000000,d0	;EOR.l
-	beq	c_eor.l
+	beq	c_eor_l
 	cmp.w	#%1011000000000000,d0	;CMP.b
-	beq	c_cmp.b
+	beq	c_cmp_b
 	cmp.w	#%1011000001000000,d0	;CMP.w
-	beq	c_cmp.w
+	beq	c_cmp_w
 	cmp.w	#%1011000010000000,d0	;CMP.l
-	beq	c_cmp.l
+	beq	c_cmp_l
 	cmp.w	#%1011000011000000,d0	;CMPA.w
-	beq	c_cmpa.w
+	beq	c_cmpa_w
 	cmp.w	#%1011000111000000,d0	;CMPA.l
-	beq	c_cmpa.l
+	beq	c_cmpa_l
 
 	bra	OpCodeError
 
@@ -551,7 +551,7 @@ c_gr1110
 
 OpCodeError:
 	bsr	DochFalsch
-OpCode???:
+OpCode1:
 
 	bsr	JumpTableListTest		;L00001-L00002
 
@@ -1304,20 +1304,20 @@ EALinksRechts
 
 ;**********************************
 
-c_cmpm.b:
+c_cmpm_b:
 	move.l	#'CMPM',(a4)+
 	move.w	#'.B',(a4)+
-	bra	c_cmpm.x
-c_cmpm.w:
+	bra	c_cmpm_x
+c_cmpm_w:
 	move.l	#'CMPM',(a4)+
 	move.w	#'.W',(a4)+
-	bra	c_cmpm.x
-c_cmpm.l:
+	bra	c_cmpm_x
+c_cmpm_l:
 	move.l	#'CMPM',(a4)+
 	move.w	#'.L',(a4)+
-;	bra	c_cmpm.x
+;	bra	c_cmpm_x
 
-c_cmpm.x
+c_cmpm_x
 	move.b	#9,(a4)+
 	move.b	#'(',(a4)+
 	move.b	#'A',(a4)+
@@ -1408,7 +1408,7 @@ exgpr	move.l	#$45584709,(a4)+	;EXG + TABs
 
 ;**********************************
 
-c_move.b:
+c_move_b:
 	move.b	#'B',SizeBWL-x(a5)	;For byte size operation, adress register
 	move.l	#'MOVE',(a4)+		;direct is not allowed
 	move.w	#'.B',(a4)+
@@ -1420,7 +1420,7 @@ c_move.b:
 	bsr	GetDEA
 	bra	DoublePrint
 
-c_move.w:
+c_move_w:
 	cmp.l	#"6804",(a0)	;68040.library
 	bne.b	1$
 	cmp.l	#"0.li",4(a0)
@@ -1447,7 +1447,7 @@ c_move.w:
 3$	move.b	#'W',SizeBWL-x(a5)
 	bra	c_movex
 
-c_move.l:
+c_move_l:
 	move.b	#'L',SizeBWL-x(a5)
 ;	bra	c_movex
 
@@ -1473,7 +1473,7 @@ c_movex	move.w	#%000111111101,HunkForm1-x(a5)
 
 ;**********************************
 
-c_cmp.b	move.l	#'CMP.',(a4)+		;CMP.B
+c_cmp_b	move.l	#'CMP.',(a4)+		;CMP.B
 	move.w	#$4209,(a4)+		;'B' + TAB
 	move.b	-2(a4),SizeBWL-x(a5)
 	move.w	#%111111111101,Adressposs-x(a5)
@@ -1483,33 +1483,33 @@ c_cmp.b	move.l	#'CMP.',(a4)+		;CMP.B
 	bsr	RegNumD2
 	bra	DoublePrint
 
-c_cmp.w	move.l	#'CMP.',(a4)+
+c_cmp_w	move.l	#'CMP.',(a4)+
 	move.b	#'W',(a4)+		;CMP.W
 	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#'D',RegArt-x(a5)
-	bra	c_cmp.x
+	bra	c_cmp_x
 
-c_cmp.l	move.l	#'CMP.',(a4)+
+c_cmp_l	move.l	#'CMP.',(a4)+
 	move.b	#'L',(a4)+		;CMP.L
 	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#'D',RegArt-x(a5)
-	bra	c_cmp.x
+	bra	c_cmp_x
 
-c_cmpa.w
+c_cmpa_w
 	move.l	#'CMPA',(a4)+
 	move.w	#'.W',(a4)+
 	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#'A',RegArt-x(a5)
-	bra	c_cmp.x
+	bra	c_cmp_x
 
-c_cmpa.l
+c_cmpa_l
 	move.l	#'CMPA',(a4)+
 	move.w	#'.L',(a4)+
 	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#'A',RegArt-x(a5)
-;	bra	c_cmp.x
+;	bra	c_cmp_x
 
-c_cmp.x	move.b	#9,(a4)+
+c_cmp_x	move.b	#9,(a4)+
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
 	move.b	#',',(a4)+
@@ -1813,19 +1813,19 @@ CmpiEnd	addq.l	#2,ToAdd-x(a5)
 
 ;**********************************
 
-c_eor.b	move.l	#'EOR.',(a4)+
+c_eor_b	move.l	#'EOR.',(a4)+
 	move.b	#'B',(a4)+
-	bra	c_eor.x
+	bra	c_eor_x
 
-c_eor.w	move.l	#'EOR.',(a4)+
+c_eor_w	move.l	#'EOR.',(a4)+
 	move.b	#'W',(a4)+
-	bra	c_eor.x
+	bra	c_eor_x
 
-c_eor.l	move.l	#'EOR.',(a4)+
+c_eor_l	move.l	#'EOR.',(a4)+
 	move.b	#'L',(a4)+
-;	bra	c_eor.x
+;	bra	c_eor_x
 
-c_eor.x	move.b	-1(a4),SizeBWL-x(a5)
+c_eor_x	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#9,(a4)+
 	move.b	#'D',(a4)+
 	bsr	RegNumD2
@@ -2063,12 +2063,12 @@ c_cas:	move.l	#'CAS.',(a4)+
 ;	CAS2.x	68020...
 ;**********************************
 
-c_cas2.w
+c_cas2_w
 	move.l	#'CAS2',(a4)+
 	move.w	#'.W',(a4)+
 	bra	c_cas2x
 
-c_cas2.l
+c_cas2_l
 	move.l	#'CAS2',(a4)+
 	move.w	#'.L',(a4)+
 ;	bra	c_cas2x
@@ -2150,15 +2150,15 @@ c_cas2x	move.b	#9,(a4)+
 
 ;Klappt auch mit CMP2 (c_cmp2)
 
-c_chk2.b
+c_chk2_b
 	move.l	#'CHK2',(a4)+
 	move.w	#'.B',(a4)+
 	bra	c_chk2x
-c_chk2.w
+c_chk2_w
 	move.l	#'CHK2',(a4)+
 	move.w	#'.W',(a4)+
 	bra	c_chk2x
-c_chk2.l
+c_chk2_l
 	move.l	#'CHK2',(a4)+
 	move.w	#'.L',(a4)+
 ;	bra	c_chk2x
@@ -2448,7 +2448,7 @@ c_trapcc
 	bsr	GetCoCo2
 	bra	DoublePrint
 
-c_trapcc.w
+c_trapcc_w
 	move.l	#'TRAP',(a4)+
 	bsr	GetCoCo2
 	move.b	#'.',(a4)+
@@ -2461,7 +2461,7 @@ c_trapcc.w
 	addq.l	#2,ToAdd-x(a5)
 	bra	DoublePrint
 
-c_trapcc.l
+c_trapcc_l
 	move.l	#'TRAP',(a4)+
 	bsr	GetCoCo2
 	move.b	#'.',(a4)+

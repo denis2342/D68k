@@ -6,7 +6,7 @@
 
 c_fline:
 	tst.l	ArguF-x(a5)
-	beq	OpCode???
+	beq	OpCode1
 
 	move.w	(a0),d7
 	move.w	d7,d0
@@ -38,7 +38,7 @@ c_fline:
 	move.w	d7,d0
 	andi.w	#%1111111111111000,d0
 	cmp.w	#%1111011000100000,d0	;MOVE16 68040
-	beq	f_move16.1
+	beq	f_move16_1
 	cmp.w	#%1111000001111000,d0	;PTRAPcc 68851
 	beq	f_ptrapcc
 	cmp.w	#%1111001001001000,d0	;FDBcc 6888x
@@ -64,7 +64,7 @@ c_fline:
 	move.w	d7,d0
 	andi.w	#%1111111111100000,d0
 	cmp.w	#%1111011000000000,d0	;MOVE16 68040
-	beq	f_move16.2
+	beq	f_move16_2
 	cmp.w	#%1111010100000000,d0	;PFLUSH 68040
 	beq	p_pflush040
 
@@ -1817,7 +1817,7 @@ f_xtrapcc
 ;	MOVE16 68040			;MOVE16 (Ax)+,(Ay)+
 ;**********************************
 
-f_move16.1:
+f_move16_1:
 	move.l	#'MOVE',(a4)+
 	move.l	#$31360928,(a4)+	;'16' + TAB + '('
 	move.b	#'A',(a4)+
@@ -1838,7 +1838,7 @@ f_move16.1:
 ;	MOVE16 68040			;MOVE16 xxx.L,(Ay)
 ;**********************************
 
-f_move16.2
+f_move16_2
 ;	move.l	Pointer-x(a5),a0
 	move.l	#'MOVE',(a4)+
 	move.w	#'16',(a4)+
@@ -1958,7 +1958,7 @@ c2_fline
 	move.w	d7,d0
 	andi.w	#%1111111111111000,d0
 	cmp.w	#%1111011000100000,d0	;MOVE16 68040
-	beq	f2_move16.1
+	beq	f2_move16_1
 	cmp.w	#%1111001001111000,d0	;FTRAPcc 68881/2 68040
 	beq	f2_ftrapcc
 	cmp.w	#%1111001001001000,d0	;FDBcc 6888x
@@ -1977,7 +1977,7 @@ c2_fline
 ;	move.w	d7,d0
 	andi.w	#%1111111111100000,d0
 	cmp.w	#%1111011000000000,d0	;MOVE16 68040
-	beq	f2_move16.2
+	beq	f2_move16_2
 	cmp.w	#%1111010100000000,d0	;PFLUSH 68040
 	beq	c2_NULL
 
@@ -2311,7 +2311,7 @@ f2_fmove2
 ;**********************************
 
 f2_fmovecrom
-f2_move16.1
+f2_move16_1
 	addq.l	#2,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 
@@ -2356,7 +2356,7 @@ p2_prestore:
 
 ;**********************************
 
-f2_move16.2:
+f2_move16_2:
 	addq.l	#4,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 

@@ -44,30 +44,30 @@ DissaData:
 	bsr	Print
 
 1$	btst	#0,PCounter+3-x(a5)	;test auf gerade
-	bne.b	d_dc.b
+	bne.b	d_dc_b
 
 	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
 	beq.b	2$
 	move.b	ExternSize-x(a5),d0
 	cmp.b	#1,d0
-	beq	d_dc.b
+	beq	d_dc_b
 	cmp.b	#2,d0
-	beq	d_dc.w2
+	beq	d_dc_w2
 	cmp.b	#4,d0
-	beq	d_dc.l2
+	beq	d_dc_l2
 2$
 	move.l	NextLabel-x(a5),d3
 
 	moveq	#4,d2
 	cmp.l	d2,d3		;erst LONG
-	bcc	d_dc.l
+	bcc	d_dc_l
 
 	moveq	#2,d2
 	cmp.l	d2,d3		;dann WORD
-	bcc	d_dc.w
+	bcc	d_dc_w
 
-d_dc.b:	move.l	#'dc.b',(a4)+	;dann BYTE
+d_dc_b:	move.l	#'dc.b',(a4)+	;dann BYTE
 	move.b	#9,(a4)+
 
 	moveq	#0,d2
@@ -110,15 +110,15 @@ d_dc.b:	move.l	#'dc.b',(a4)+	;dann BYTE
 	add.l	d0,PCounter-x(a5)
 	rts
 
-d_dc.w:	addq.l	#1,PCounter-x(a5)
+d_dc_w:	addq.l	#1,PCounter-x(a5)
 	bsr	NotPrintExternXX
 	subq.l	#1,PCounter-x(a5)
 
 	tst.b	LabelYes-x(a5)
 	beq.b	4$
-	bra	d_dc.b
+	bra	d_dc_b
 4$
-d_dc.w2
+d_dc_w2
 	move.l	#'dc.w',(a4)+
 	move.b	#9,(a4)+
 
@@ -162,13 +162,13 @@ d_dc.w2
 	add.l	d0,PCounter-x(a5)
 	rts
 
-d_dc.l:	addq.l	#1,PCounter-x(a5)
+d_dc_l:	addq.l	#1,PCounter-x(a5)
 	bsr	NotPrintExternXX
 	subq.l	#1,PCounter-x(a5)
 
 	tst.b	LabelYes-x(a5)
 	beq.b	6$
-	bra	d_dc.b
+	bra	d_dc_b
 6$
 	addq.l	#2,PCounter-x(a5)
 	bsr	CheckOnReloc32
@@ -176,7 +176,7 @@ d_dc.l:	addq.l	#1,PCounter-x(a5)
 
 	tst.b	LabelYes-x(a5)
 	beq.b	5$
-	bra	d_dc.w
+	bra	d_dc_w
 5$
 	addq.l	#3,PCounter-x(a5)
 	bsr	NotPrintExternXX
@@ -184,9 +184,9 @@ d_dc.l:	addq.l	#1,PCounter-x(a5)
 
 	tst.b	LabelYes-x(a5)
 	beq.b	4$
-	bra	d_dc.w
+	bra	d_dc_w
 4$
-d_dc.l2
+d_dc_l2
 	move.l	#'dc.l',(a4)+
 	move.b	#9,(a4)+
 

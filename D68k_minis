@@ -417,7 +417,7 @@ LabelCalc3:
 	cmp.l	28(a0,d6.l),d5	;wenn der Sprung größer ODER gleich als der Hunk ist
 	bge.b	1$
 
-	bsr	SprungMemFüller
+	bsr	SprungMemFueller
 
 1$	rts
 
@@ -443,7 +443,7 @@ LabelCalcS:
 	bge.b	3$
 
 	movem.l	d2/d5,-(SP)
-	bsr	SprungMemFüller	;Label in der Sprungmemtabelle eintragen !!
+	bsr	SprungMemFueller	;Label in der Sprungmemtabelle eintragen !!
 	movem.l	(SP)+,d2/d5
 3$
 	move.l	16(a0,d6.l),d1	;wenn kein Symbol_Hunk dann kein Symbol
@@ -482,7 +482,7 @@ AddLabelPointer:
 
 ; Für die TRACE-Methode !!!
 
-SprungMemFüller:
+SprungMemFueller:
 
 ; in D2 muss die ???
 ; in D5 muss die Sprungadresse uebergeben werden
@@ -1230,48 +1230,48 @@ NotPrintExternXX:
 	move.l	HunkMem-x(a5),a0
 
 	tst.l	12(a0,d6.l)		;auf inhalt testen
-	beq	\NoExternXX		;wenn null dann ende
+	beq	xNoExternXX		;wenn null dann ende
 
 	move.l	12(a0,d6.l),a0		;inhalt holen
 	cmp.l	#$03ef,(a0)+		;auf extern testen
-	bne.b	\NoExternXX
+	bne.b	xNoExternXX
 
 	move.l	PCounter-x(a5),d6	;zu suchende Adresse einladen
 
-	bra.b	\ExXX_3
+	bra.b	xExXX_3
 
-\ExXX_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	\ExXX_2
+xExXX_1	btst	#31,d0		;testen ob > oder < als $80
+	beq.b	xExXX_2
 
 	rol.l	#8,d0
 
 	move.b	#4,ExternSize-x(a5)
 	cmp.b	#$81,d0
-	beq.b	\YesExternXX	;mit Extern_Ref32 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Ref32 vergleichen
 
 ;	move.b	#4,ExternSize-x(a5)
 	cmp.b	#$82,d0
-	beq.b	\YesExternXX	;mit Extern_common (32) vergleichen
+	beq.b	xYesExternXX	;mit Extern_common (32) vergleichen
 
 	move.b	#2,ExternSize-x(a5)
 	cmp.b	#$83,d0
-	beq.b	\YesExternXX	;mit Extern_Ref16 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Ref16 vergleichen
 
 	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$84,d0
-	beq.b	\YesExternXX	;mit Extern_Ref08 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Ref08 vergleichen
 
 	move.b	#4,ExternSize-x(a5)
 	cmp.b	#$85,d0
-	beq.b	\YesExternXX	;mit Extern_Dext32 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Dext32 vergleichen
 
 	move.b	#2,ExternSize-x(a5)
 	cmp.b	#$86,d0
-	beq.b	\YesExternXX	;mit Extern_Dext16 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Dext16 vergleichen
 
 	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$87,d0
-	beq.b	\YesExternXX	;mit Extern_Dext08 vergleichen
+	beq.b	xYesExternXX	;mit Extern_Dext08 vergleichen
 
 	ror.l	#8,d0
 
@@ -1282,32 +1282,32 @@ NotPrintExternXX:
 	lsl.l	#2,d0
 	add.l	d0,a0
 
-\ExXX_3	move.l	a0,a1
+xExXX_3	move.l	a0,a1
 	move.l	(a0)+,d0
-	bne.b	\ExXX_1
-\NoExternXX
+	bne.b	xExXX_1
+xNoExternXX
 	clr.b	LabelYes-x(a5)
 	rts
 
-\ExXX_2	and.l	#$ffffff,d0	;kleiner als $80
+xExXX_2	and.l	#$ffffff,d0	;kleiner als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	addq.l	#4,a0
-	bra.b	\ExXX_3
+	bra.b	xExXX_3
 
-\YesExternXX:
+xYesExternXX:
 	ror.l	#8,d0
 	and.l	#$ffffff,d0	;größer als $80
 	lsl.l	#2,d0
 	add.l	d0,a0		;Anzahl der Langwörter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
-	beq.b	\ExXX_3
+	beq.b	xExXX_3
 	subq.w	#1,d0
 
 1$	cmp.l	(a0)+,d6	;Adressen vergleichen
 	dbeq	d0,1$
-	bne.b	\ExXX_3
+	bne.b	xExXX_3
 
 3$	st	LabelYes-x(a5)
 	rts
@@ -1838,7 +1838,7 @@ Libbyspezial:
 	cmp.l	28(a0,d6.l),d5	;wenn der Sprung größer ODER gleich als der Hunk ist
 	bge.b	1$
 
-	bsr	SprungMemFüller
+	bsr	SprungMemFueller
 
 1$	lsr.l	#TabSize,d6
 	rts
