@@ -5,6 +5,10 @@
 ;
 ;	Assembliert mit A68k 2.71 ,SLink 6.58 und small.lib
 ;
+; vasm -nosym -Fhunkexe D68k.asm -o D68k
+
+ include 'exec/exec_lib.i'
+ include 'dos/dos_lib.i'
 
 D68k_Version	MACRO
 			dc.b	'2.0.9'
