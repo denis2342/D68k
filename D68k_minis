@@ -454,7 +454,7 @@ LabelCalcS:
 	bra.b	5$
 
 6$	lsl.l	#2,d1		;Anzahl der Langwörter
-	add.l	d1,a0 
+	add.l	d1,a0
 	cmp.l	(a0)+,d5	;testen ob Adresse übereinstimmt
 	beq.b	1$		;Symbol, also kein Label
 5$	move.l	(a0)+,d1	;testen ob Label folgt
