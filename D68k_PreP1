@@ -109,8 +109,8 @@ NoCode2:
 	bra	Unknown_Hunk2
 
 HExt2:	bra	3$
-1$	btst	#31,d0
-	beq	2$
+1$	tst.l	d0		; war btst #31,d0 mit beq.b 2$
+	bpl	2$
 	and.l	#$ffffff,d0	;größer als $80
 	lsl.l	#2,d0
 	add.l	d0,a2

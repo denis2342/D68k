@@ -879,8 +879,8 @@ PrintExternXX:
 
 	bra.b	ExXX_3
 
-ExXX_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	ExXX_2
+ExXX_1	tst.l	d0		;testen ob > oder < als $80
+	bpl.b	ExXX_2
 
 	rol.l	#8,d0
 
@@ -976,8 +976,8 @@ PrintExtern32:
 
 	bra.b	Ex32_3
 
-Ex32_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	Ex32_2
+Ex32_1	tst.l	d0		;testen ob > oder < als $80
+	bpl.b	Ex32_2
 
 	rol.l	#8,d0
 	cmp.b	#$81,d0		;mit Extern_Ref32 vergleichen
@@ -1045,8 +1045,8 @@ PrintExtern16:
 
 	bra.b	Ex16_3
 
-Ex16_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	Ex16_2
+Ex16_1	tst.l	d0		;testen ob > oder < als $80
+	bpl.b	Ex16_2
 
 	rol.l	#8,d0
 	cmp.b	#$83,d0		;mit Extern_Ref16 vergleichen
@@ -1114,8 +1114,8 @@ PrintExtern08:
 					;3 anstatt 2 wegen ungerade
 	bra.b	Ex08_3
 
-Ex08_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	Ex08_2
+Ex08_1	tst.l	d0		;testen ob > oder < als $80
+	bpl.b	Ex08_2
 
 	rol.l	#8,d0
 	cmp.b	#$84,d0		;mit Extern_Ref08 vergleichen
@@ -1239,8 +1239,8 @@ NotPrintExternXX:
 
 	bra.b	xExXX_3
 
-xExXX_1	btst	#31,d0		;testen ob > oder < als $80
-	beq.b	xExXX_2
+xExXX_1	tst.l	d0		;testen ob > oder < als $80
+	bpl.b	xExXX_2
 
 	rol.l	#8,d0
 

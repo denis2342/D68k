@@ -241,8 +241,8 @@ HBreak4:
 	rts
 
 HExt4:	bra.b	3$
-1$	btst	#31,d0
-	beq.b	2$
+1$	tst.l	d0		; war btst #31,d0 mit beq.b 2$
+	bpl.b	2$
 
 	and.l	#$ffffff,d0	;größer als $80
 	lsl.l	#2,d0

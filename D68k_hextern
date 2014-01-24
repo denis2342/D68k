@@ -11,8 +11,8 @@ DisExt:	tst.l	(a2)
 	bra.b	4$		;und direkt reinspringen
 
 3$	lea	Befehl-x(a5),a1
-	btst	#31,d0
-	beq.b	2$
+	tst.l	d0		; war btst #31,d0 mit beq.b 2$
+	bpl.b	2$
 
 	and.l	#$ffffff,d0	;größer als $80
 	lsl.l	#2,d0

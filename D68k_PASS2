@@ -71,8 +71,8 @@ HCode1:	move.l	(a2)+,d0	;CodeSize in Longwords
 	move.b	#'P',HunkForm3-x(a5)
 	bra.b	3$
 
-2$	btst	#31,d0
-	beq.b	3$
+2$	tst.l	d0		; war btst #31,d0 mit beq.b 3$
+	bpl.b	3$
 	move.l	#',FAS',HunkForm2-x(a5)
 	move.b	#'T',HunkForm3-x(a5)
 
@@ -107,8 +107,8 @@ HData1:	addq.l	#4,a2
 	move.b	#'P',HunkForm3-x(a5)
 	bra.b	3$
 
-2$	btst	#31,d0
-	beq.b	3$
+2$	tst.l	d0		; war btst #31,d0 mit beq.b 3$
+	bpl.b	3$
 	move.l	#',FAS',HunkForm2-x(a5)
 	move.b	#'T',HunkForm3-x(a5)
 
@@ -143,8 +143,8 @@ HBSS1:	move.l	(a2)+,d0
 	move.b	#'P',HunkForm3-x(a5)
 	bra.b	3$
 
-2$	btst	#31,d0
-	beq.b	3$
+2$	tst.l	d0		; war btst #31,d0 mit beq.b 3$
+	bpl.b	3$
 	move.l	#',FAS',HunkForm2-x(a5)
 	move.b	#'T',HunkForm3-x(a5)
 
@@ -247,8 +247,8 @@ HBreak1:
 HExt1:	clr.l	CodeSize-x(a5)
 	move.l	a2,-(SP)
 	bra.b	3$
-1$	btst	#31,d0
-	beq.b	2$
+1$	tst.l	d0		; war btst #31,d0 mit beq.b 2$
+	bpl.b	2$
 
 	addq.l	#1,CodeSize-x(a5)
 	and.l	#$ffffff,d0	;größer als $80
