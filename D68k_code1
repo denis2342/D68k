@@ -1663,8 +1663,7 @@ KonsL2:	tst.b	Springer-x(a5)
 	add.l	ToAdd-x(a5),a0
 	move.w	4(a0),Jumps-x(a5)
 
-2$	addq.l	#4,ToAdd-x(a5)
-	rts
+2$
 
 KonsS2:	addq.l	#4,ToAdd-x(a5)
 	rts
