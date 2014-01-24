@@ -892,23 +892,23 @@ ExXX_1	tst.l	d0		;testen ob > oder < als $80
 	cmp.b	#$82,d0
 	beq.b	YesExternXX	;mit Extern_common (32) vergleichen
 
+;	move.b	#4,ExternSize-x(a5)
+	cmp.b	#$85,d0
+	beq.b	YesExternXX	;mit Extern_Dext32 vergleichen
+
 	move.b	#2,ExternSize-x(a5)
 	cmp.b	#$83,d0
 	beq.b	YesExternXX	;mit Extern_Ref16 vergleichen
+
+;	move.b	#2,ExternSize-x(a5)
+	cmp.b	#$86,d0
+	beq.b	YesExternXX	;mit Extern_Dext16 vergleichen
 
 	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$84,d0
 	beq.b	YesExternXX	;mit Extern_Ref08 vergleichen
 
-	move.b	#4,ExternSize-x(a5)
-	cmp.b	#$85,d0
-	beq.b	YesExternXX	;mit Extern_Dext32 vergleichen
-
-	move.b	#2,ExternSize-x(a5)
-	cmp.b	#$86,d0
-	beq.b	YesExternXX	;mit Extern_Dext16 vergleichen
-
-	move.b	#1,ExternSize-x(a5)
+;	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$87,d0
 	beq.b	YesExternXX	;mit Extern_Dext08 vergleichen
 
@@ -1252,23 +1252,23 @@ xExXX_1	tst.l	d0		;testen ob > oder < als $80
 	cmp.b	#$82,d0
 	beq.b	xYesExternXX	;mit Extern_common (32) vergleichen
 
+;	move.b	#4,ExternSize-x(a5)
+	cmp.b	#$85,d0
+	beq.b	xYesExternXX	;mit Extern_Dext32 vergleichen
+
 	move.b	#2,ExternSize-x(a5)
 	cmp.b	#$83,d0
 	beq.b	xYesExternXX	;mit Extern_Ref16 vergleichen
+
+;	move.b	#2,ExternSize-x(a5)
+	cmp.b	#$86,d0
+	beq.b	xYesExternXX	;mit Extern_Dext16 vergleichen
 
 	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$84,d0
 	beq.b	xYesExternXX	;mit Extern_Ref08 vergleichen
 
-	move.b	#4,ExternSize-x(a5)
-	cmp.b	#$85,d0
-	beq.b	xYesExternXX	;mit Extern_Dext32 vergleichen
-
-	move.b	#2,ExternSize-x(a5)
-	cmp.b	#$86,d0
-	beq.b	xYesExternXX	;mit Extern_Dext16 vergleichen
-
-	move.b	#1,ExternSize-x(a5)
+;	move.b	#1,ExternSize-x(a5)
 	cmp.b	#$87,d0
 	beq.b	xYesExternXX	;mit Extern_Dext08 vergleichen
 
