@@ -217,28 +217,28 @@ b_cas	move.w	d7,d0
 
 c_gr0100
 	move.w	(a0),d7
-	move.w	d7,d0
+;	move.w	d7,d0
 
-	cmp.w	#$4e75,d0	;RTS
+	cmp.w	#$4e75,d7	;RTS
 	beq	c_rts
-	cmp.w	#$4afc,d0	;ILLEGAL
+	cmp.w	#$4afc,d7	;ILLEGAL
 	beq	c_illegal
-	cmp.w	#$4e70,d0	;RESET
+	cmp.w	#$4e70,d7	;RESET
 	beq	c_reset
-	cmp.w	#$4e71,d0	;NOP
+	cmp.w	#$4e71,d7	;NOP
 	beq	c_nop
-	cmp.w	#$4e72,d0	;STOP
+	cmp.w	#$4e72,d7	;STOP
 	beq	c_stop
-	cmp.w	#$4e73,d0	;RTE
+	cmp.w	#$4e73,d7	;RTE
 	beq	c_rte
-	cmp.w	#$4e74,d0	;RTD 68010...
+	cmp.w	#$4e74,d7	;RTD 68010...
 	beq	c_rtd
-	cmp.w	#$4e76,d0	;TRAPV
+	cmp.w	#$4e76,d7	;TRAPV
 	beq	c_trapv
-	cmp.w	#$4e77,d0	;RTR
+	cmp.w	#$4e77,d7	;RTR
 	beq	c_rtr
 
-;	move.w	d7,d0
+	move.w	d7,d0
 	andi.w	#%1111111111111110,d0
 	cmp.w	#%0100111001111010,d0	;MOVEC 68010...
 	beq	c_movec
