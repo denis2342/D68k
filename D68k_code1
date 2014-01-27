@@ -103,7 +103,7 @@ LabelcodeSearch:
 
 	and.w	#$00f0,d7
 	lsr.b	#3,d7
-	cmp.w	#16,d7			;ist eigentlich unnötig!
+	cmp.w	#16,d7			;ist eigentlich unnoetig!
 	move.w	Liste2(PC,d7.w),d7
 	jmp	Liste2(PC,d7.w)
 
@@ -1640,7 +1640,7 @@ KonsB2:	move.l	Pointer-x(a5),a0
 
 KonsW2:	addq.l	#2,ToAdd-x(a5)
 
-	cmp.w	#3,CodeID-x(a5)
+	cmp.w	#3,CodeID-x(a5)		; war es ein cmp command?
 	bne.b	1$
 	move.l	Pointer-x(a5),a0
 	add.l	ToAdd-x(a5),a0
@@ -1657,7 +1657,7 @@ KonsL2:	tst.b	Springer-x(a5)
 
 	bsr	LabelCalcRelocX32
 
-1$	cmp.w	#3,CodeID-x(a5)
+1$	cmp.w	#3,CodeID-x(a5)		; war es ein cmp command?
 	bne.b	2$
 	move.l	Pointer-x(a5),a0
 	add.l	ToAdd-x(a5),a0
@@ -1738,7 +1738,7 @@ DochFalsch2:			;für falsche Aussortierungen
 	rts
 
 JumpTable2:
-	cmp.w	#2,CodeID-x(a5)		;war es ein move.w Befehl ???
+	cmp.w	#2,CodeID-x(a5)		;war es ein move.w Befehl?
 	bne.b	5$
 
 	move.l	PCounter-x(a5),LastMoveAdress-x(a5)	;JA!
@@ -1749,8 +1749,9 @@ JumpTable2:
 5$	cmp.w	#1,CodeID-x(a5)		;war es ein jmp Befehl ???
 	bne	1$
 
-	cmp.w	#2,LastCodeID-x(a5)	;JA!!
+	cmp.w	#2,LastCodeID-x(a5)	;ja, war der davor ein move.w?
 	bne	1$
+
 	move.l	PCounter-x(a5),d3
 	sub.l	LastMoveAdress-x(a5),d3
 	cmp.l	#4,d3			;wenn davor kein move.w war
