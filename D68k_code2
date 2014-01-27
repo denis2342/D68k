@@ -287,12 +287,16 @@ c_gr0100
 	beq	c_movetoccr
 	cmp.w	#%0100011011000000,d0	;MOVE TO SR
 	beq	c_movetosr
+
+	tst.b	ArguF-x(a5)		;68020 Option ??
+	beq.b	5$
+
 	cmp.w	#%0100110001000000,d0	;DIVxL 68020...
 	beq	c_divxl
-	cmp.w	#%0100110000000000,d0	;MULxL 68020...
+	cmp.w	#%0100110000000000,d0	;MULx 68020...
 	beq	c_mulxl
 
-	move.w	d7,d0
+5$	move.w	d7,d0
 	andi.w	#%1111111010111000,d0
 	cmp.w	#%0100100010000000,d0	;EXT & EXTB 68020...
 	beq	c_ext			;muss vor MOVEM stehen
