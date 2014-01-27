@@ -2383,34 +2383,28 @@ c_calclong
 	move.w	#%111111111101,Adressposs-x(a5)
 	move.b	#'L',SizeBWL-x(a5)
 ;	move.l	Pointer-x(a5),a0
-	move.w	2(a0),d2
+	move.b	3(a0),d2
 	add.b	#'0',d2
-	move.b	d2,RegArt-x(a5)
+	move.b	d2,RegArt-x(a5)		; register Di/Dr
 	move.b	2(a0),d2
 	bclr	#7,d2
 	lsr.b	#4,d2
 	add.b	#'0',d2
-	move.b	d2,RegArt+1-x(a5)
+	move.b	d2,RegArt+1-x(a5)	; register Dh/Dq
 
-	btst	#2,2(a0)
-	beq.b	1$
+	btst	#2,2(a0)	; test size bit
+	bne.b	1$
 
-	move.w	#'.L',(a4)+		;DIVS.L	#1234,D1:D2
-	move.b	#9,(a4)+
-	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	move.b	RegArt-x(a5),(a4)+
-	move.b	#':',(a4)+
-	move.b	#'D',(a4)+
-	move.b	RegArt+1-x(a5),(a4)+
-	bra	DoublePrint
+;	move.l  Pointer-x(a5),a0
+	btst    #6,1(a0)		; muls/mulu command?
+	beq	2$
 
-1$	move.b	RegArt-x(a5),d7
+	move.b	RegArt-x(a5),d7
 	cmp.b	RegArt+1-x(a5),d7	;xxxxl.l
 	beq.b	2$
 
-	move.w	#'L.',(a4)+		;DIVSL.L #1234,D1:D2
+	move.b	#'L',(a4)+		;DIVSL.L #1234,D1:D2
+1$	move.b	#'.',(a4)+		;DIVS.L #1234,D1:D2
 	move.b	#'L',(a4)+
 	move.b	#9,(a4)+
 	bsr	GetSEA
@@ -2422,7 +2416,7 @@ c_calclong
 	move.b	RegArt+1-x(a5),(a4)+
 	bra	DoublePrint
 
-2$	move.w	#'.L',(a4)+
+2$	move.w	#'.L',(a4)+		;DIVS.L #1234,D1
 	move.b	#9,(a4)+
 	bsr	GetSEA
 	move.b	#',',(a4)+
