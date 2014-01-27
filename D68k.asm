@@ -27,6 +27,12 @@ JumpTablePointerListSize	equ	1024
 	SECTION "D68k_Main",CODE
 
 _main:	lea	x,a5
+
+	move.l	#"0123",HexDigits-x(a5)
+	move.l	#"4567",HexDigits+4-x(a5)
+	move.l	#"89AB",HexDigits+8-x(a5)
+	move.l	#"CDEF",HexDigits+12-x(a5)
+
 	move.l	SP,GoBack-x(a5)	;Stack für Rücksprung retten
 	move.b	#10,Buffer+10-x(a5)
 
@@ -453,6 +459,7 @@ FileIDText2:
  BSS
 
 x:
+HexDigits:	ds.b	16	; speicher fuer 0-F hexdigits
 DosBase:	dc.l	0	;Zeiger auf DosBase
 
 FileHD:		dc.l	0	;FileHD auf File zum einladen

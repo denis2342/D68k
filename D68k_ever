@@ -97,27 +97,19 @@ TAB2:	moveq	#2,d2
 
 HexL:	lea	HexBufferL-x(a5),a0	;Wandelt #$24 in D2
 	moveq	#7,d0			;nach "24" in HexPuffer um
-HEXloop	rol.l	#4,d2
+1$	rol.l	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	HEXok
-	addq.b	#7,d1
-HEXok:	move.b	d1,(a0)+
-	dbra	d0,HEXloop
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a0)+
+	dbra	d0,1$
 	rts
 
 HexW:	lea	HexBufferW-x(a5),a0	;Wandelt #$24 in D2
 	moveq	#3,d0			;nach "24" in HexPuffer um
 1$	rol.w	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	2$
-	addq.b	#7,d1
-2$	move.b	d1,(a0)+
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a0)+
 	dbra	d0,1$
 	rts
 
@@ -125,12 +117,8 @@ HexB:	lea	HexBufferB-x(a5),a0	;Wandelt #$24 in D2
 	moveq	#1,d0			;nach "24" in HexPuffer um
 1$	rol.b	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	2$
-	addq.b	#7,d1
-2$	move.b	d1,(a0)+
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a0)+
 	dbra	d0,1$
 	rts
 
@@ -160,12 +148,8 @@ HexLDi:	move.b	#'$',(a4)+
 HexDD:	moveq	#7,d0
 1$	rol.l	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	2$
-	addq.b	#7,d1
-2$	move.b	d1,(a4)+
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
@@ -177,12 +161,8 @@ HexWDi:	move.b	#'$',(a4)+
 HexWDip	moveq	#3,d0
 1$	rol.w	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	2$
-	addq.b	#7,d1
-2$	move.b	d1,(a4)+
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
@@ -194,12 +174,8 @@ HexBDi:	move.b	#'$',(a4)+
 HexBDip	moveq	#1,d0
 1$	rol.b	#4,d2
 	move.b	d2,d1
-	and.b	#$0f,d1
-	add.b	#$30,d1
-	cmp.b	#$3a,d1
-	bcs.b	2$
-	addq.b	#7,d1
-2$	move.b	d1,(a4)+
+	and.w	#$0f,d1
+	move.b	HexDigits-x(a5,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
