@@ -730,7 +730,6 @@ LabelPrintReloc16:
 
 	move.l	Pointer-x(a5),a3
 	add.l	RelocXAdress-x(a5),a3
-	moveq	#0,d2
 	move.w	(a3),d2		; W wegen Reloc16
 	ext.l	d2
 
@@ -772,7 +771,6 @@ LabelPrintReloc08:
 
 	move.l	Pointer-x(a5),a3
 	add.l	RelocXAdress-x(a5),a3
-	moveq	#0,d2
 	move.b	(a3),d2		; B wegen Reloc08
 	ext.w	d2
 	ext.l	d2
