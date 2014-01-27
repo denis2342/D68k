@@ -1768,7 +1768,7 @@ JumpTable2:
 	beq.b	1$
 	bmi.b	1$
 
-	cmp.l	#64,d4
+	cmp.w	#64,d4
 	bgt	1$
 
 	move.l	d4,DD3		;<---- Das 3. Langwort !!!
