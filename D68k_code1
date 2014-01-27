@@ -1261,8 +1261,8 @@ c2_bfins
 
 c2_bitfield2:
 ;	move.l	Pointer-x(a5),a0
-	btst	#7,2(a0)
-	bne	c2_iNULL
+	tst.b	2(a0)		; war btst #7,2(a0) mit bne
+	bmi	c2_iNULL
 
 	addq.l	#2,ToAdd-x(a5)
 	bsr	GetSEA2
@@ -1423,8 +1423,8 @@ NoBaseDisplacement2:
 3$	rts
 
 AbsoShort2:				;111 000
-	btst	#7,d0		;$1234 (Adresse)
-	beq	AdressIll2
+	tst.b	d0		;$1234 (Adresse) (war btst #7,d0 mit beq)
+	bpl	AdressIll2
 
 	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
@@ -1557,8 +1557,8 @@ PCIndexBaseDis2				;111 011
 	ext.l	d2
 	beq.b	NoPCBaseDisplacement2	;wenn NULL dann kein Label
 
-	btst	#7,AdMode+1-x(a5)	;ZeroPC erkennen
-	bne.b	1$
+	tst.b	AdMode+1-x(a5)		;ZeroPC erkennen (war btst #7,AdMode+1-x(a5) mit bne)
+	bmi.b	1$
 
 	move.l	Label-x(a5),d3		;relative Adresse umrechnen
 	sub.l	Pointer-x(a5),d3
@@ -1576,8 +1576,8 @@ PXD2:	addq.l	#4,ToAdd-x(a5)
 	move.l	(a0),d2
 	beq.b	NoPCBaseDisplacement2	;wenn NULL dann kein Label
 
-	btst	#7,AdMode+1-x(a5)	;ZeroPC erkennen
-	bne.b	1$
+	tst.b   AdMode+1-x(a5)          ;ZeroPC erkennen (war btst #7,AdMode+1-x(a5) mit bne)
+	bmi.b	1$
 
 	move.l	Label-x(a5),d3		;relative Adresse umrechnen
 	sub.l	Pointer-x(a5),d3

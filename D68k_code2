@@ -1326,8 +1326,8 @@ c_movep	move.l	#'MOVE',(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 
-	btst	#7,d2
-	beq.b	1$
+	tst.b	d2		;war btst #7,d2 mit beq.b $1
+	bpl.b	1$
 
 3$	btst	#6,d2
 	bne.b	4$
@@ -1525,8 +1525,8 @@ c_moves	move.w	#%000111111100,Adressposs-x(a5)
 	move.b	d2,Mnemonic-x(a5)
 	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
-	btst	#7,d2
-	bne.b	1$
+	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+	bmi.b	1$
 	move.b	#'D',RegArt-x(a5)
 
 1$	btst	#3,d2
@@ -2104,8 +2104,8 @@ c_cas2x	move.b	#9,(a4)+
 	move.b	#'A',(a4)+
 	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
-	btst	#7,d2
-	bne	1$
+	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+	bmi	1$
 	move.b	#'D',-1(a4)
 1$	and.b	#%1110000,d2
 	lsr.b	#4,d2
@@ -2119,8 +2119,8 @@ c_cas2x	move.b	#9,(a4)+
 	move.b	#'A',(a4)+
 	move.l	Pointer-x(a5),a0
 	move.b	4(a0),d2
-	btst	#7,d2
-	bne	2$
+	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+	bmi	2$
 	move.b	#'D',-1(a4)
 2$	and.b	#%1110000,d2
 	lsr.b	#4,d2
@@ -2162,8 +2162,8 @@ c_chk2x	move.b	#9,(a4)+
 	bne	1$
 	move.b	#'M',Befehl+1-x(a5)
 	move.b	#'P',Befehl+2-x(a5)
-1$	btst	#7,d2
-	bne	2$
+1$	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+	bmi	2$
 	move.b	#'D',-1(a4)
 2$	bclr	#7,d2
 	lsr.b	#4,d2
@@ -2607,8 +2607,8 @@ c_bfins:			;SPEZIAL
 	move.w	#$5309,(a4)+	;'S' + TAB
 
 ;	move.l	Pointer-x(a5),a0
-	btst	#7,2(a0)
-	bne	OpCodeError
+	tst.b	2(a0)		; war btst #7,2(a0) mit bne
+	bmi	OpCodeError
 
 	bsr.b	c_bfreg
 	move.b	#',',(a4)+
@@ -2633,8 +2633,8 @@ c_bfffo:
 
 c_bfrxx:
 ;	move.l	Pointer-x(a5),a0
-	btst	#7,2(a0)
-	bne	OpCodeError
+	tst.b	2(a0)		; war btst #7,2(a0) mit bne
+	bmi	OpCodeError
 	move.b	#9,(a4)+
 	addq.l	#2,ToAdd-x(a5)
 	move.w	#%011111100101,Adressposs-x(a5)
@@ -2813,8 +2813,8 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 ;	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
 	move.b	#'D',RegArt-x(a5)
-	btst	#7,d2
-	beq.b	1$
+	tst.b	d2		; war btst #7,d2 mit beq
+	bpl.b	1$
 	move.b	#'A',RegArt-x(a5)
 1$	lsr.w	#4,d2
 	andi.b	#%111,d2
@@ -3148,8 +3148,8 @@ AdreInDirektDisIndex:			;110rrr
 	move.b	#',',(a4)+
 
 	move.b	#'D',(a4)+	;erstmal
-	btst	#7,AdMode-x(a5)
-	beq.b	1$
+	tst.b	AdMode-x(a5)	; war btst #7,AdMode-x(a5) mit beq
+	bpl.b	1$
 	move.b	#'A',-1(a4)	;na denn eben doch nicht D, sondern A
 
 1$	move.b	AdMode-x(a5),d2
@@ -3218,8 +3218,8 @@ ACD:	move.b	#',',(a4)+
 
 NoBaseDisplacement:
 	move.b	AdMode+1-x(a5),d2	;NoReg erkennen
-	btst	#7,d2
-	bne.b	2$
+	tst.b	d2		; war btst #7,d2 mit bne
+	bmi.b	2$
 
 	move.b	#'A',(a4)+
 	add.b	#"0",d7
@@ -3244,8 +3244,8 @@ NoBaseDisplacement:
 	btst	#6,d2		;Index ?
 	bne.b	NoIndex
 
-	btst	#7,d2		;xReg ? (wegen dem Komma)
-	beq.b	6$
+	tst.b	d2		;xReg ? (wegen dem Komma)
+	bpl.b	6$
 	btst	#5,d2			;Base ? (wegen dem Komma)
 	beq.b	3$
 
@@ -3256,8 +3256,8 @@ NoBaseDisplacement:
 
 3$	move.b	#'D',(a4)+
 	move.b	AdMode-x(a5),d2		;PC Index und Scale
-	btst	#7,d2
-	beq.b	1$
+	tst.b	d2		; war btst #7,d2 mit beq
+	bpl.b	1$
 	move.b	#'A',-1(a4)
 
 1$	andi.b	#%01110000,d2
@@ -3322,8 +3322,8 @@ NoIndex:
 	rts
 
 AbsoShort:				;111 000
-	btst	#7,d0
-	beq	AdressIll
+	tst.b	d0		; war btst #7,d0 mit beq
+	bpl	AdressIll
 
 	move.l	Pointer-x(a5),a0		;$1234 (Adresse)
 	add.l	ToAdd-x(a5),a0
@@ -3413,8 +3413,8 @@ PCIndexDis				;111 011
 
 	move.b	AdMode-x(a5),d2
 	move.b	#'D',(a4)+	;erstmal D
-	btst	#7,d2
-	beq.b	1$
+	tst.b	d2		; war btst #7,d0 mit beq
+	bpl.b	1$
 	move.b	#'A',-1(a4)	;na denn eben doch A
 
 1$	andi.b	#%01110000,d2
@@ -3475,8 +3475,8 @@ PCIndexBaseDis				;111 011
 	ext.l	d2
 	move.w	d2,d5
 
-	btst	#7,AdMode+1-x(a5)	;ZeroPC erkennen
-	bne.b	7$
+	tst.b	AdMode+1-x(a5)	;ZeroPC erkennen (war btst #7,d0 mit beq)
+	bmi.b	7$
 
 	move.l	Label-x(a5),d3		;relative Adresse umrechnen
 	sub.l	Pointer-x(a5),d3
@@ -3494,8 +3494,8 @@ PCIndexBaseDis				;111 011
 	move.l	(a0),d2
 	move.l	d2,d5
 
-	btst	#7,AdMode+1-x(a5)	;ZeroPC erkennen
-	bne.b	8$
+	tst.b   AdMode+1-x(a5)  ;ZeroPC erkennen (war btst #7,d0 mit beq)
+	bmi.b	8$
 
 	move.l	Label-x(a5),d3		;relative Adresse umrechnen
 	sub.l	Pointer-x(a5),d3
@@ -3517,8 +3517,8 @@ PCIndexBaseDis				;111 011
 
 NoPCBaseDisplacement:
 	move.b	AdMode+1-x(a5),d2	;ZeroPC erkennen
-	btst	#7,d2
-	beq.b	2$
+	tst.b	d2		; war btst #7,d2 mit beq
+	bpl.b	2$
 	move.b	#'Z',(a4)+	;wenn nicht dann eben kein -Z-
 
 2$	move.b	#'P',(a4)+
@@ -3538,8 +3538,8 @@ NoPCBaseDisplacement:
 
 	move.b	AdMode-x(a5),d2		;PC Index and Scale
 	move.b	#'D',(a4)+
-	btst	#7,d2
-	beq.b	1$
+	tst.b	d2		; war btst #7,d2 mit beq
+	bpl.b	1$
 	move.b	#'A',-1(a4)
 
 1$	andi.b	#%01110000,d2
