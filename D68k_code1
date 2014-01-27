@@ -1644,7 +1644,7 @@ KonsW2:	addq.l	#2,ToAdd-x(a5)
 	bne.b	1$
 	move.l	Pointer-x(a5),a0
 	add.l	ToAdd-x(a5),a0
-	move.w	2(a0),Jumps-x(a5)
+	move.w	(a0),Jumps-x(a5)
 
 1$	rts
 
