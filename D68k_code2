@@ -2789,7 +2789,6 @@ mdepreg	movem.l	D0/D1,-(SP)
 	cmp.b	#'-',D2
 	beq.b	md1
 	move.b	#'/',(a4)+
-	addq.b	#1,D3
 md1:	moveq	#'D',d0
 	cmp.b	#8,D1
 	blt.b	md2
@@ -2799,7 +2798,6 @@ md2:	move.b	d0,(a4)+
 	and.b	#%0111,D1
 	add.b	#"0",d1
 	move.b	d1,(a4)+
-	addq.b	#1,D3
 	movem.l	(SP)+,D0/D1
 	rts
 
