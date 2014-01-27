@@ -480,6 +480,11 @@ b2_addx	move.w	(a0),d0
 
 c2_gr1110
 	move.w	(a0),d0
+	andi.w	#%1111100011000000,d0
+	cmp.w	#%1110000011000000,d0	;ASL, ROL, LSL, ROXL mit _EA_
+	beq	c2_shift_ea
+
+;	move.w	(a0),d0
 	andi.w	#%1111000011000000,d0
 	cmp.w	#%1110000000000000,d0	;ASL, ROL, LSL, ROXL
 	beq	QWERTYUIOPA
@@ -487,11 +492,6 @@ c2_gr1110
 	beq	QWERTYUIOPA
 	cmp.w	#%1110000010000000,d0	;ASL, ROL, LSL, ROXL
 	beq	QWERTYUIOPA
-
-	move.w	(a0),d0
-	andi.w	#%1111100011000000,d0
-	cmp.w	#%1110000011000000,d0	;ASL, ROL, LSL, ROXL mit _EA_
-	beq	c2_shift_ea
 
 	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	8$
