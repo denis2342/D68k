@@ -3015,12 +3015,12 @@ GetSEA:	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	move.w	d2,d7
 GetDEA2:
+	move.w	Adressposs-x(a5),d0
+
 	andi.w	#%00000111,d7		;111 xxx
 	andi.w	#%00111000,d2
 
-	move.w	Adressposs-x(a5),d0
-
-	tst.b	d2			;000 rrr
+;	tst.b	d2			;000 rrr
 	beq	DataDirekt
 	cmp.b	#%001000,d2		;001 rrr
 	beq	AdreDirekt
