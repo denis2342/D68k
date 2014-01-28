@@ -349,21 +349,21 @@ DoubleOdd:
 	bsr	HexBDip		;auf jeden Fall ein WORD für Mnemonic
 	bra	JO2
 
- include 'D68k_PreP1'
- include 'D68k_PreP2'
- include 'D68k_PASS1'
- include 'D68k_PASS2'
- include 'D68k_ever'
- include 'D68k_minis'
- include 'D68k_init'
- include 'D68k_code2'
- include 'D68k_code1'
- include 'D68k_fline'
- include 'D68k_hdata'
- include 'D68k_hbss'
- include 'D68k_hsymb'
- include 'D68k_hextern'
- include 'D68k_hrel32'
+ include 'D68k_PreP1.asm'
+ include 'D68k_PreP2.asm'
+ include 'D68k_PASS1.asm'
+ include 'D68k_PASS2.asm'
+ include 'D68k_ever.asm'
+ include 'D68k_minis.asm'
+ include 'D68k_init.asm'
+ include 'D68k_code2.asm'
+ include 'D68k_code1.asm'
+ include 'D68k_fline.asm'
+ include 'D68k_hdata.asm'
+ include 'D68k_hbss.asm'
+ include 'D68k_hsymb.asm'
+ include 'D68k_hextern.asm'
+ include 'D68k_hrel32.asm'
 
  DATA
 
