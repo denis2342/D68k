@@ -911,9 +911,7 @@ c_moveq
 	move.b	#'#',(a4)+
 	move.w	(a0),d2
 	bsr	HexBs
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 ;**********************************
@@ -995,8 +993,7 @@ c_move_usp
 	bsr	PrUSP
 	move.b	#',',(a4)+
 
-1$	move.b	#'A',(a4)+
-	bsr	RegNumD
+1$	bsr	RegNumD_A
 
 	move.l	Pointer-x(a5),a0
 	btst	#3,1(a0)
@@ -1201,8 +1198,7 @@ c_bcdx:	bsr	GetBWL
 	beq.b	addxd
 
 	move.b	#'-',(a4)+
-	move.w	#'(A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
 	move.w	#',-',(a4)+
 	move.b	#'(',(a4)+
@@ -1213,9 +1209,7 @@ c_bcdx:	bsr	GetBWL
 
 addxd:	move.b	#'D',(a4)+
 	bsr	RegNumD
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 ;**********************************
@@ -1257,8 +1251,7 @@ LinksRechts2:
 	addq.b	#8,-1(a4)		;Dann wird "8" draus
 	bra.b	4$
 
-3$	move.b	#'D',(a4)+		;DataReg
-	bsr	RegNumD2
+3$	bsr	RegNumD2_D		;DataReg
 4$	move.b	#',',(a4)+
 	move.b	#'D',(a4)+
 	bsr	RegNumD
@@ -1310,9 +1303,7 @@ c_cmpm_l:
 
 c_cmpm_x
 	move.b	#9,(a4)+
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.l	#')+,(',(a4)+
 	move.b	#'A',(a4)+
 	bsr	RegNumD2
@@ -1339,14 +1330,11 @@ c_movep	move.l	#'MOVE',(a4)+
 	move.b	#'W',-1(a4)
 
 4$	move.b	#9,(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_D
 	move.b	#',',(a4)+
 	move.w	2(a0),d2
 	bsr	HexWDi
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
 	bra	DoublePrint
 
@@ -1358,13 +1346,9 @@ c_movep	move.l	#'MOVE',(a4)+
 2$	move.b	#9,(a4)+
 	move.w	2(a0),d2
 	bsr	HexWDi
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 ;**********************************
@@ -1469,9 +1453,7 @@ c_cmp_b	move.l	#'CMP.',(a4)+		;CMP.B
 	move.b	-2(a4),SizeBWL-x(a5)
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 c_cmp_w	move.l	#'CMP.',(a4)+
@@ -1654,9 +1636,7 @@ c_AddSub
 	move.b	#9,(a4)+	;ADD.?	EA,D0
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 2$	move.b	#'W',(a4)+	;ADD.W	EA,D0
@@ -1675,15 +1655,12 @@ c_AddSub
 	move.b	#9,(a4)+	;ADD.?	EA,D0
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 8$	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#9,(a4)+	;ADD.?	D0,EA
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_D
 	move.b	#',',(a4)+
 	move.w	#%000111111100,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1818,8 +1795,7 @@ c_eor_l	move.l	#'EOR.',(a4)+
 
 c_eor_x	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#9,(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_D
 	move.b	#',',(a4)+
 	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1869,9 +1845,7 @@ c_OrAnd
 	move.b	#9,(a4)+
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 4$	moveq	#'B',d2
@@ -1883,8 +1857,7 @@ c_OrAnd
 
 8$	move.b	d2,(a4)+
 	move.b	#9,(a4)+		;xxx.x	D0,EA
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_D
 	move.b	#',',(a4)+
 	move.w	#%000111111100,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1943,9 +1916,7 @@ c_chkl	move.l	#'CHK.',(a4)+
 
 c_chkx	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 ;**********************************
@@ -2195,9 +2166,7 @@ c_packets
 
 	move.b	#'D',(a4)+	;(UN)PACK	d1,d2,#1234
 	bsr	RegNumD
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 
 	move.b	#',',(a4)+
 	move.b	#'#',(a4)+
@@ -2208,9 +2177,7 @@ c_packets
 	bra	DoublePrint
 
 1$	move.b	#'-',(a4)+	(UN)PACK	-(a1),-(a2),#1234
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
 	move.b	#',',(a4)+
 	move.b	#'-',(a4)+
@@ -2343,9 +2310,7 @@ c_pure
 	move.b	#9,(a4)+	;Punktrechnung
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
-	move.b	#',',(a4)+
-	move.b	#'D',(a4)+
-	bsr	RegNumD2
+	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
 ;**********************************
@@ -2975,6 +2940,10 @@ PrPCR:
 ;	Umrechnen der RegNum		Bits -2.1.0-
 ;**********************************
 
+RegNumD_Bracket_A:
+	move.b	#'(',(a4)+
+RegNumD_A:
+	move.b	#'A',(a4)+
 RegNumD:
 	move.l	Pointer-x(a5),a0
 	move.w	(a0),d7
@@ -2987,6 +2956,10 @@ RegNumD:
 ;	Umrechnen der RegNumD2
 ;**********************************
 
+RegNumD2_K_D:
+	move.b	#',',(a4)+
+RegNumD2_D:
+	move.b	#'D',(a4)+
 RegNumD2:
 	move.l	Pointer-x(a5),a0
 	move.b	(a0),d7
