@@ -1857,21 +1857,15 @@ c_OrAnd
 
 	bra	OpCodeError
 
-1$	move.b	#'B',(a4)+
+1$	moveq	#'B',d2
 	bra	7$
-2$	move.b	#'W',(a4)+
+2$	moveq	#'W',d2
 	bra	7$
-3$	move.b	#'L',(a4)+
-	bra	7$
+3$	moveq	#'L',d2
+;	bra	7$
 
-4$	move.b	#'B',(a4)+
-	bra	8$
-5$	move.b	#'W',(a4)+
-	bra	8$
-6$	move.b	#'L',(a4)+
-	bra	8$
-
-7$	move.b	-1(a4),SizeBWL-x(a5)	;xxx.x	EA,D0
+7$	move.b	d2,(a4)+
+	move.b	d2,SizeBWL-x(a5)	;xxx.x	EA,D0
 	move.b	#9,(a4)+
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1880,7 +1874,15 @@ c_OrAnd
 	bsr	RegNumD2
 	bra	DoublePrint
 
-8$	move.b	#9,(a4)+		;xxx.x	D0,EA
+4$	moveq	#'B',d2
+	bra	8$
+5$	moveq	#'W',d2
+	bra	8$
+6$	moveq	#'L',d2
+;	bra	8$
+
+8$	move.b	d2,(a4)+
+	move.b	#9,(a4)+		;xxx.x	D0,EA
 	move.b	#'D',(a4)+
 	bsr	RegNumD2
 	move.b	#',',(a4)+
