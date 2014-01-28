@@ -938,11 +938,7 @@ c2_move_w
 	add.l	d0,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 
-2$	cmp.l	#"0123",(a0)	;0123456789abcdef
-	bne.b	3$
-	cmp.l	#"4567",4(a0)
-	bne.b	3$
-	cmp.l	#"89AB",8(a0)
+2$	cmp.l	#"89AB",8(a0)	;0123456789abcdef
 	bne.b	3$
 	cmp.l	#"CDEF",12(a0)
 	bne.b	3$
