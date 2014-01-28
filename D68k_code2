@@ -1221,9 +1221,8 @@ addxd:	move.b	#'D',(a4)+
 ;**********************************
 
 c_roxlr:
-	move.w	#'RO',(a4)+
-	move.b	#'X',(a4)+
-	bra	LinksRechts
+	move.l	#'ROXL',(a4)+
+	bra	LinksRechts2
 c_rolr:	move.w	#'RO',(a4)+
 	bra	LinksRechts
 c_lslr:	move.w	#'LS',(a4)+
@@ -1233,6 +1232,7 @@ c_aslr:	move.w	#'AS',(a4)+
 
 LinksRechts:
 	move.b	#"L",(a4)+
+LinksRechts2:
 	bsr	GetBWL
 	cmp.b	#'?',SizeBWL-x(a5)
 	beq	OpCodeError
@@ -1246,7 +1246,7 @@ LinksRechts:
 	move.b	SizeBWL-x(a5),(a4)+
 	move.b	#9,(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#5,1(a0)
 	bne.b	3$
 
