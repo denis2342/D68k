@@ -1022,6 +1022,8 @@ c2_ori:
 c2_andi:
 	bsr	GetBWL
 
+	move.w	#%000111111101,Adressposs-x(a5)
+
 	cmp.b	#'L',SizeBWL-x(a5)
 	beq.b	immL2
 
@@ -1029,27 +1031,20 @@ c2_andi:
 	beq.b	immW2
 
 	cmp.b	#'B',SizeBWL-x(a5)
-	beq.b	immB2
+	bne	c2_iNULL
 
-	bra	c2_iNULL
-
-immB2:	move.l	Pointer-x(a5),a0
+	move.l	Pointer-x(a5),a0
 	tst.b	2(a0)
 	beq.b	1$
 	cmp.b	#$ff,2(a0)
 	bne	c2_iNULL
-1$	addq.l	#2,ToAdd-x(a5)
-	move.w	#%000111111101,Adressposs-x(a5)
-	bsr	GetSEA2
-	bra	QWERTYUIOPA
 
+1$
 immW2:	addq.l	#2,ToAdd-x(a5)
-	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
 immL2:	addq.l	#4,ToAdd-x(a5)
-	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
