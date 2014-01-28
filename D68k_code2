@@ -2521,28 +2521,27 @@ c_bitk2	move.w	#$0923,(a4)+		;TAB + '#'
 
 ;**********************************
 
-c_bfchg:
-	move.l	#'BFCH',(a4)+
-	move.b	#'G',(a4)+
-	move.w	#%000111100101,Adressposs-x(a5)
-	bra	c_bfxx
-c_bfclr:
-	move.l	#'BFCL',(a4)+
-	move.b	#'R',(a4)+
-	move.w	#%000111100101,Adressposs-x(a5)
-	bra	c_bfxx
-c_bfset:
-	move.l	#'BFSE',(a4)+
-	move.b	#'T',(a4)+
-	move.w	#%000111100101,Adressposs-x(a5)
-	bra	c_bfxx
 c_bftst:
 	move.l	#'BFTS',(a4)+
 	move.b	#'T',(a4)+
 	move.w	#%011111100101,Adressposs-x(a5)
+	bra	c_bfxx2
+c_bfchg:
+	move.l	#'BFCH',(a4)+
+	move.b	#'G',(a4)+
+	bra	c_bfxx
+c_bfclr:
+	move.l	#'BFCL',(a4)+
+	move.b	#'R',(a4)+
+	bra	c_bfxx
+c_bfset:
+	move.l	#'BFSE',(a4)+
+	move.b	#'T',(a4)+
 ;	bra	c_bfxx
 
 c_bfxx:
+	move.w	#%000111100101,Adressposs-x(a5)
+c_bfxx2:
 ;	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
 	andi.b	#%11110000,d2
