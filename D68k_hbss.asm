@@ -33,119 +33,56 @@ DissaBSS:
 	moveq	#7,d2
 	bsr	Print
 
-1$	move.l	NextLabel-x(a5),d3
+1$	move.l	NextLabel-x(a5),d2
+	add.l	d2,PCounter-x(a5)
 
-	btst.l	#0,d3
+	btst	#0,d2
 	bne	b_dc_b
 
-	btst.l	#1,d3
+	btst	#1,d2
 	bne	b_dc_w
 
-b_dc_l:	move.l	d3,d7
-	lsr.l	#2,d7
+b_dc_l:
+	lsr.l	#2,d2
+	moveq	#"l",d4
+	bra		subr
+;	rts
+
+b_dc_w:
+	lsr.l	#1,d2
+	moveq	#"w",d4
+	bra		subr
+;	rts
+
+b_dc_b:
+	moveq	#"b",d4
+;	bra		subr
+;	rts
+
+subr:
+	moveq	#9,d7		; TAB
 	tst.b	Argu3-x(a5)	;NOPC/S
 	bne.b	1$
 
-	moveq	#9,d2
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
+	move.b	d7,(a4)+	; TAB
+	move.b	d7,(a4)+	; TAB
+	move.b	d7,(a4)+	; TAB
 
-1$	move.b	#$9,(a4)+
+1$	move.b	d7,(a4)+	; TAB
 	move.b	#'d',(a4)+
 	move.b	#'s',(a4)+
 	move.b	#'.',(a4)+
-	move.b	#'l',(a4)+
-	move.b	#9,(a4)+
-	move.l	d7,d2
+	move.b	d4,(a4)+	; size (b,w,l)
+	move.b	d7,(a4)+	; TAB
 	bsr	DecL
 
 	lea	Buffer+3-x(a5),a0
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
+	moveq	#7-1,d1
+2$	move.b	(a0)+,(a4)+
+	dbf		d1,2$
 
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
+	move.b	#10,(a4)+	;RETURN hinten ranhaengen
 	move.l	#Befehl,d1	;und ausgeben
 	move.l	a4,d2
 	sub.l	d1,d2
-	bsr	Print
-	lsl.l	#2,d7
-	add.l	d7,PCounter-x(a5)
-	rts
-
-b_dc_w:	move.l	d3,d7
-	lsr.l	#1,d7
-	tst.b	Argu3-x(a5)	;NOPC/S
-	bne.b	1$
-
-	moveq	#9,d2
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
-
-1$	move.b	#$9,(a4)+
-	move.b	#'d',(a4)+
-	move.b	#'s',(a4)+
-	move.b	#'.',(a4)+
-	move.b	#'w',(a4)+
-	move.b	#9,(a4)+
-	move.l	d7,d2
-	bsr	DecL
-
-	lea	Buffer+3-x(a5),a0
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
-	move.l	#Befehl,d1	;und ausgeben
-	move.l	a4,d2
-	sub.l	d1,d2
-	bsr	Print
-	lsl.l	#1,d7
-	add.l	d7,PCounter-x(a5)
-	rts
-
-b_dc_b:	move.l	d3,d7
-	tst.b	Argu3-x(a5)	;NOPC/S
-	bne.b	1$
-
-	moveq	#9,d2
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
-	move.b	d2,(a4)+
-
-1$	move.b	#9,(a4)+
-	move.b	#'d',(a4)+
-	move.b	#'s',(a4)+
-	move.b	#'.',(a4)+
-	move.b	#'b',(a4)+
-	move.b	#9,(a4)+
-	move.l	d7,d2
-	bsr	DecL
-
-	lea	Buffer+3-x(a5),a0
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-	move.b	(a0)+,(a4)+
-
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
-	move.l	#Befehl,d1	;und ausgeben
-	move.l	a4,d2
-	sub.l	d1,d2
-	bsr	Print
-	add.l	d7,PCounter-x(a5)
-	rts
+	bra	Print			; AUTO RTS
