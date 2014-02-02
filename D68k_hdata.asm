@@ -256,7 +256,7 @@ PrintLongData:
 	move.b	Mnemonic+2-x(a5),(a4)+
 	move.b	Mnemonic+3-x(a5),(a4)+
 	move.b	#'"',(a4)+
-	bra	2$
+	rts
 
 4$	move.l	d5,d2
 	bsr	HexLDi
@@ -300,7 +300,7 @@ PrintWordData:
 	move.b	Mnemonic+0-x(a5),(a4)+
 	move.b	Mnemonic+1-x(a5),(a4)+
 	move.b	#'"',(a4)+
-	bra	2$
+	rts
 
 4$	move.w	d5,d2
 	bsr	HexWDi
@@ -336,7 +336,7 @@ PrintByteData:
 	bsr	TextSort
 	move.b	Mnemonic+0-x(a5),(a4)+
 	move.b	#'"',(a4)+
-	bra	2$
+	rts
 
 4$	move.b	d5,d2
 	bsr	HexBDi
