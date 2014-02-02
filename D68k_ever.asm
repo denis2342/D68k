@@ -13,28 +13,6 @@ WriteInfoText:
 ;	rts
 
 ;**********************************
-;	.L$ Zahl ausgeben
-;**********************************
-
-HexOutPutL:
-	bsr	HexL
-	move.l	#HexBufferL,d1
-	moveq	#8,d2
-	bra	Print		;RTS AUTO
-
-HexOutPutW:
-	bsr	HexW
-	move.l	#HexBufferW,d1
-	moveq	#4,d2
-	bra	Print		;RTS AUTO
-
-HexOutPutB:
-	bsr	HexB
-	move.l	#HexBufferB,d1
-	moveq	#2,d2
-	bra	Print		;RTS AUTO
-
-;**********************************
 ;	D2 Registerwert in ASCII umw.
 ;**********************************
 
@@ -90,6 +68,28 @@ TAB3:	moveq	#3,d2
 	bra.b	TABX
 TAB2:	moveq	#2,d2
 	bra.b	TABX
+
+;**********************************
+;	.L$ Zahl ausgeben
+;**********************************
+
+HexOutPutL:
+	bsr	HexL
+	move.l	#HexBufferL,d1
+	moveq	#8,d2
+	bra	Print		;RTS AUTO
+
+HexOutPutW:
+	bsr	HexW
+	move.l	#HexBufferW,d1
+	moveq	#4,d2
+	bra	Print		;RTS AUTO
+
+HexOutPutB:
+	bsr	HexB
+	move.l	#HexBufferB,d1
+	moveq	#2,d2
+	bra	Print		;RTS AUTO
 
 ;**********************************
 ;	$ Reg. in ASCII umw.
