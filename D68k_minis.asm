@@ -1760,9 +1760,9 @@ BigTable:
 ;	bsr	Return
 ;	movem.l	(SP)+,d2/a0
 
-	movem.l	a0/d2,-(SP)
+	move.l	a0,-(SP)
 	bsr	LabelCalcRelocX32
-	movem.l	(SP)+,a0/d2
+	move.l	(SP)+,a0
 
 	addq.l	#4,Pointer-x(a5)
 	addq.l	#4,PCounter-x(a5)
@@ -1845,7 +1845,6 @@ Libbyspezial:
 ; BinSearch von Arno Eigenwillig
 
 BinSearch:
-	movem.l	d2/d3,-(sp)
 	lsl.l	#2,d0
 	moveq	#-4,d3
 .loop	move.l	d0,d2
@@ -1860,9 +1859,8 @@ BinSearch:
 	tst.l	d2
 	bne	.loop
 	moveq	#0,d0
-	bra	.exit
+	rts
 
 .found	add.l	d2,a0
 	move.l	a0,d0
-.exit	movem.l	(sp)+,d2/d3
 	rts
