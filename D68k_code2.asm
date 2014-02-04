@@ -1982,26 +1982,26 @@ c_cas:	move.l	#'CAS.',(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.b	(a0),d2
 	andi.b	#%00000110,d2
-	move.b	#'?',SizeBWL-x(a5)
+	moveq	#'?',d4
 	cmp.b	#%00000010,d2
 	bne.b	1$
-	move.b	#'B',SizeBWL-x(a5)
+	moveq	#'B',d4
 1$	cmp.b	#%00000100,d2
 	bne.b	2$
-	move.b	#'W',SizeBWL-x(a5)
+	moveq	#'W',d4
 2$	cmp.b	#%00000110,d2
 	bne.b	3$
-	move.b	#'L',SizeBWL-x(a5)
+	moveq	#'L',d4
 3$
-	cmp.b	#'?',SizeBWL-x(a5)
+	cmp.b	#'?',d4
 	bne.b	4$
 	bsr	DochFalsch
 	bra	b_cas
 
-4$	move.b	SizeBWL-x(a5),(a4)+
+4$	move.b	d4,(a4)+
 	move.b	#9,(a4)+
 	move.b	#'D',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	and.b	#%00000111,d2
 	add.b	#'0',d2
@@ -2010,7 +2010,7 @@ c_cas:	move.l	#'CAS.',(a4)+
 	move.b	#',',(a4)+
 
 	move.b	#'D',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	and.w	#%111000000,d2
 	lsr.w	#6,d2
