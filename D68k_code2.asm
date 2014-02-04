@@ -2785,7 +2785,9 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 	add.b	#'0',d2
 	move.b	d2,Mnemonic-x(a5)
 
-	move.l	Pointer-x(a5),a0
+	addq.l	#2,ToAdd-x(a5)
+
+;	move.l	Pointer-x(a5),a0
 	btst	#0,1(a0)
 	beq.b	2$
 
@@ -2793,14 +2795,12 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 	move.b	Mnemonic-x(a5),(a4)+
 	move.b	#',',(a4)+
 	bsr	GetKoRe
-	addq.l	#2,ToAdd-x(a5)
 	bra	DoublePrint
 
 2$	bsr	GetKoRe
 	move.b	#',',(a4)+
 	move.b	RegArt-x(a5),(a4)+
 	move.b	Mnemonic-x(a5),(a4)+
-	addq.l	#2,ToAdd-x(a5)
 	bra	DoublePrint
 
 ;**********************************
