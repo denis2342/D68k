@@ -2809,133 +2809,86 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 
 GetKoRe	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
-	and.w	#%0000111111111111,d2
-;	tst.w	d2		;000  68010...
-	beq	PrSFC
-	cmp.w	#$001,d2	;001  68010...
-	beq	PrDFC
-	cmp.w	#$002,d2	;002  68020...
-	beq	PrCACR
-	cmp.w	#$800,d2	;800  68000...
-	beq	PrUSP
-	cmp.w	#$801,d2	;801  68010...
-	beq	PrVBR
 
-	cmp.w	#$802,d2	;802  68020... (not 040)
-	beq	PrCAAR
-	cmp.w	#$803,d2	;803  68020...
-	beq	PrMSP
-	cmp.w	#$804,d2	;804  68020...
-	beq	PrISP
+	move.w	d2,d7
+	and.w	#%0000000000001111,d7
 
-	cmp.w	#$805,d2	;805  68040...
-	beq	PrPSR
-	cmp.w	#$806,d2	;806  68040...
-	beq	PrURP
-	cmp.w	#$807,d2	;807  68040...
-	beq	PrSRP
+	btst	#11,d2			; ist es $80x ?
+	bne	1$
 
-	cmp.w	#$003,d2	;003  68040...
-	beq	PrTC
-	cmp.w	#$004,d2	;004  68040...
-	beq	PrITT0
-	cmp.w	#$005,d2	;005  68040...
-	beq	PrITT1
-	cmp.w	#$006,d2	;006  68040...
-	beq	PrDTT0
-	cmp.w	#$007,d2	;007  68040...
-	beq	PrDTT1
+	cmp.w	#8,d7			;eigentlich unnoetig !!!
+	beq	5$
+	bgt	4$
+	lsl.b	#1,d7
+	move.w	KoReListe1(PC,d7.w),d7
+	lea	KoReListe1(PC,d7.w),a0
+	bra	2$
 
-	cmp.w	#$808,d2	;808  68060...
-	beq	PrPCR
-	cmp.w	#$008,d2	;008  68060...
-	beq	PrBUSCR
+3$:	lea	PrPCR,a0	;808  68060...
+	bra	2$
 
-PrFra:	move.b	#'?',(a4)+	;???
-	move.b	#'?',(a4)+
-	move.b	#'?',(a4)+
+5$	lea	PrBUSCR,a0	;008  68060...
+	bra	2$
+
+4$	lea	unknown_kore,a0
+	bra	2$
+
+1$	cmp.w	#8,d7			;eigentlich unnoetig !!!
+	beq	3$
+	bgt	4$
+	lsl.b	#1,d7
+	move.w	KoReListe2(PC,d7.w),d7
+	lea	KoReListe2(PC,d7.w),a0
+
+2$	move.b	(a0)+,(a4)+
+	bne	2$
+	subq	#1,a4		; we don't need the ending zero
 	rts
-PrSFC:	move.b	#'S',(a4)+	;68010
-	move.b	#'F',(a4)+
-	move.b	#'C',(a4)+
-	rts
-PrDFC:	move.b	#'D',(a4)+	;68010
-	move.b	#'F',(a4)+
-	move.b	#'C',(a4)+
-	rts
-PrCACR:	move.b	#'C',(a4)+	;68020
-	move.b	#'A',(a4)+
-	move.b	#'C',(a4)+
-	move.b	#'R',(a4)+
-	rts
-PrUSP:	move.b	#'U',(a4)+	;68000
-	move.b	#'S',(a4)+
-	move.b	#'P',(a4)+
-	rts
-PrVBR:	move.b	#'V',(a4)+	;68010
-	move.b	#'B',(a4)+
-	move.b	#'R',(a4)+
-	rts
-PrCAAR:	move.b	#'C',(a4)+	;68020 not for 68040 (?)
-	move.b	#'A',(a4)+
-	move.b	#'A',(a4)+
-	move.b	#'R',(a4)+
-	rts
-PrMSP:	move.b	#'M',(a4)+	;68020
-	move.b	#'S',(a4)+
-	move.b	#'P',(a4)+
-	rts
-PrISP:	move.b	#'I',(a4)+	;68020
-	move.b	#'S',(a4)+
-	move.b	#'P',(a4)+
-	rts
-PrTC:	move.b	#'T',(a4)+	;68040
-	move.b	#'C',(a4)+
-	rts
-PrITT0:	move.b	#'I',(a4)+	;68040
-	move.b	#'T',(a4)+
-	move.b	#'T',(a4)+
-	move.b	#'0',(a4)+
-	rts
-PrITT1:	move.b	#'I',(a4)+	;68040
-	move.b	#'T',(a4)+
-	move.b	#'T',(a4)+
-	move.b	#'1',(a4)+
-	rts
-PrDTT0:	move.b	#'D',(a4)+	;68040
-	move.b	#'T',(a4)+
-	move.b	#'T',(a4)+
-	move.b	#'0',(a4)+
-	rts
-PrDTT1:	move.b	#'D',(a4)+	;68040
-	move.b	#'T',(a4)+
-	move.b	#'T',(a4)+
-	move.b	#'1',(a4)+
-	rts
-PrPSR	move.b	#'P',(a4)+	;68040
-	move.b	#'S',(a4)+
-	move.b	#'R',(a4)+
-	rts
-PrURP:	move.b	#'U',(a4)+	;68040
-	move.b	#'R',(a4)+
-	move.b	#'P',(a4)+
-	rts
-PrSRP:	move.b	#'S',(a4)+	;68040
-	move.b	#'R',(a4)+
-	move.b	#'P',(a4)+
-	rts
+
+KoReListe1:
+	dc.w	PrSFC-KoReListe1	;000 68010
+	dc.w	PrDFC-KoReListe1	;001 68010
+	dc.w	PrCACR-KoReListe1	;002 68020
+	dc.w	PrTC-KoReListe1		;003 68040
+	dc.w	PrITT0-KoReListe1	;004 68040
+	dc.w	PrITT1-KoReListe1	;005 68040
+	dc.w	PrDTT0-KoReListe1	;006 68040
+	dc.w	PrDTT1-KoReListe1	;007 68040
+
+KoReListe2:
+	dc.w	PrUSP-KoReListe2	;800 68000
+	dc.w	PrVBR-KoReListe2	;801 68010
+	dc.w	PrCAAR-KoReListe2	;802 68020 (not 68040)
+	dc.w	PrMSP-KoReListe2	;803 68020
+	dc.w	PrISP-KoReListe2	;804 68020
+	dc.w	PrPSR-KoReListe2	;805 68040
+	dc.w	PrURP-KoReListe2	;806 68040
+	dc.w	PrSRP-KoReListe2	;807 68040
+
+unknown_kore:
+	dc.b	'???',0
+
+PrSFC:	dc.b	'SFC',0		;68010
+PrDFC:	dc.b	'DFC',0		;68010
+PrCACR:	dc.b	'CACR',0	;68020
+PrUSP:	dc.b	'USP',0		;68000
+PrVBR:	dc.b	'VBR',0		;68010
+PrCAAR:	dc.b	'CAAR',0	;68020 not for 68040 (?)
+PrMSP:	dc.b	'MSP',0		;68020
+PrISP:	dc.b	'ISP',0		;68020
+PrTC:	dc.b	'TC',0		;68040
+PrITT0:	dc.b	'ITT0',0	;68040
+PrITT1:	dc.b	'ITT1',0	;68040
+PrDTT0:	dc.b	'DTT0',0	;68040
+PrDTT1:	dc.b	'DTT1',0	;68040
+PrPSR	dc.b	'PSR',0		;68040
+PrURP:	dc.b	'URP',0		;68040
+PrSRP:	dc.b	'SRP',0		;68040
+
 PrBUSCR:
-	move.b	#'B',(a4)+	;68060
-	move.b	#'U',(a4)+
-	move.b	#'S',(a4)+
-	move.b	#'C',(a4)+
-	move.b	#'R',(a4)+
-	rts
+	dc.b	'BUSCR',0	;68060
 PrPCR:
-	move.b	#'P',(a4)+	;68060
-	move.b	#'C',(a4)+
-	move.b	#'R',(a4)+
-	rts
+	dc.b	'PCR',0		;68060
 
 ;**********************************
 ;	Umrechnen der RegNum		Bits -2.1.0-
