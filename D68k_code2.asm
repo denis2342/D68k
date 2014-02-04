@@ -2049,7 +2049,7 @@ c_cas2x	move.b	#9,(a4)+
 
 	move.b	#':',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	4(a0),d2
 	and.b	#%00000111,d2
 	add.b	#'0',d2
@@ -2058,7 +2058,7 @@ c_cas2x	move.b	#9,(a4)+
 
 	move.b	#',',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	and.w	#%111000000,d2
 	lsr.w	#6,d2
@@ -2068,7 +2068,7 @@ c_cas2x	move.b	#9,(a4)+
 
 	move.b	#':',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	4(a0),d2
 	and.w	#%111000000,d2
 	lsr.w	#6,d2
@@ -2080,9 +2080,9 @@ c_cas2x	move.b	#9,(a4)+
 
 	move.b	#'(',(a4)+
 	move.b	#'A',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
-	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+;	tst.b	d2		; war btst #7,d2 mit bne.b 1$
 	bmi	1$
 	move.b	#'D',-1(a4)
 1$	and.b	#%1110000,d2
@@ -2095,9 +2095,9 @@ c_cas2x	move.b	#9,(a4)+
 
 	move.b	#'(',(a4)+
 	move.b	#'A',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.b	4(a0),d2
-	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+;	tst.b	d2		; war btst #7,d2 mit bne.b 1$
 	bmi	2$
 	move.b	#'D',-1(a4)
 2$	and.b	#%1110000,d2
