@@ -3702,12 +3702,11 @@ GetCoCo2
 	lea	0(a1,d2.w),a1
 	move.b	(a1)+,(a4)+
 	move.b	(a1),d2
-	cmp.b	#'x',d2
 	beq.b	1$
 	move.b	d2,(a4)+
 1$	rts
 
-DBCCx:	dc.b	"TxFxHILSCCCSNEEQVCVSPLMIGELTGTLE"
+DBCCx:	dc.b	"T",0,"F",0,"HILSCCCSNEEQVCVSPLMIGELTGTLE"
 
 ;**********************************
 ;	Zurücksetzen der Werte PASS2
