@@ -1782,18 +1782,19 @@ CmpiEnd	addq.l	#2,ToAdd-x(a5)
 ;**********************************
 
 c_eor_b	move.l	#'EOR.',(a4)+
-	move.b	#'B',(a4)+
+	moveq	#'B',d4
 	bra	c_eor_x
 
 c_eor_w	move.l	#'EOR.',(a4)+
-	move.b	#'W',(a4)+
+	moveq	#'W',d4
 	bra	c_eor_x
 
 c_eor_l	move.l	#'EOR.',(a4)+
-	move.b	#'L',(a4)+
+	moveq	#'L',d4
 ;	bra	c_eor_x
 
-c_eor_x	move.b	-1(a4),SizeBWL-x(a5)
+c_eor_x	move.b	d4,(a4)+
+	move.b	d4,SizeBWL-x(a5)
 	move.b	#9,(a4)+
 	bsr	RegNumD2_D
 	move.b	#',',(a4)+
