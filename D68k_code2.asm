@@ -2516,53 +2516,7 @@ c_bfxx2:
 	move.b	#9,(a4)+
 	addq.l	#2,ToAdd-x(a5)
 	bsr	GetSEA
-	move.b	#'{',(a4)+
-
-	move.l	Pointer-x(a5),a0	;Offset of Bit-Field
-	move.w	2(a0),d2
-	btst	#11,d2
-	beq.b	1$
-
-	and.w	#%0000000111000000,d2	;Offset = Register Nr.
-	lsr.w	#6,d2
-	add.b	#'0',d2
-	move.b	#'D',(a4)+
-	move.b	d2,(a4)+
-	bra.b	2$
-
-1$	and.w	#%0000011111000000,d2	;Offset = five-bit Value
-	lsr.w	#6,d2
-	bsr	DecL
-	move.b	Buffer+8-x(a5),(a4)+
-	cmp.b	#'0',-1(a4)
-	bne.b	11$
-	subq	#1,a4
-11$	move.b	Buffer+9-x(a5),(a4)+
-
-2$	move.b	#':',(a4)+
-
-	move.l	Pointer-x(a5),a0	;Width of Bit-Field
-	move.w	2(a0),d2
-	btst	#5,d2
-	beq.b	3$
-
-	and.w	#%00000111,d2	;Width = Register Nr.
-	add.b	#'0',d2
-	move.b	#'D',(a4)+
-	move.b	d2,(a4)+
-	bra.b	4$
-
-3$	and.w	#%00011111,d2	;Width = five-bit Value
-	bne.b	31$
-	moveq	#32,d2
-31$	bsr	DecL
-	move.b	Buffer+8-x(a5),(a4)+
-	cmp.b	#'0',-1(a4)
-	bne.b	32$
-	subq.l	#1,a4
-32$	move.b	Buffer+9-x(a5),(a4)+
-
-4$	move.b	#'}',(a4)+
+	bsr	c_bfea
 	bra	DoublePrint
 
 ;**********************************
