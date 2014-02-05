@@ -3250,25 +3250,28 @@ PCIndexDis				;111 011
 	move.b	#'C',(a4)+
 	move.b	#',',(a4)+
 
+	moveq	#'D',d5		;erstmal D
 	move.b	AdMode-x(a5),d2
-	move.b	#'D',(a4)+	;erstmal D
-	tst.b	d2		; war btst #7,d0 mit beq
-	bpl.b	1$
-	move.b	#'A',-1(a4)	;na denn eben doch A
+	bpl.b	1$		; war btst #7,d0 mit beq
+	moveq	#'A',d5		;na denn eben doch A
 
-1$	andi.b	#%01110000,d2
+1$	move.b	d5,(a4)+
+
+	andi.b	#%01110000,d2
 	lsr.b	#4,d2
 	add.b	#'0',d2
 	move.b	d2,(a4)+
 	move.b	#'.',(a4)+
 
+	moveq	#'W',d5		;erstmal W
 	move.b	AdMode-x(a5),d2
-	move.b	#'W',(a4)+	;erstmal W
 	btst	#3,d2
 	beq.b	4$
-	move.b	#'L',-1(a4)	;na denn eben doch L
+	moveq	#'L',d5		;na denn eben doch L
 
-4$	move.b	AdMode-x(a5),d2
+4$	move.b	d5,(a4)+
+
+	move.b	AdMode-x(a5),d2
 	and.b	#%00000110,d2		;Skalierung
 	lsr.b	#1,d2
 	beq.b	3$		;1 als Skalierung weglassen
