@@ -3602,20 +3602,25 @@ AdressIll:
 ;	LONG, WORD oder Byte
 ;**********************************
 
-GetBWL:	move.l	Pointer-x(a5),a0
+GetBWL:	moveq	#'?',d3		;falls nichts stimmmt
+	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	andi.b	#%11000000,d2
-	moveq	#'?',d3		;falls nichts stimmmt
-	cmp.b	#%10000000,d2	;wenn ja dann Long nach Size
-	bne.b	notl
-	moveq	#'L',d3
-notl:	cmp.b	#%01000000,d2	;wenn ja dann Wort nach Size
-	bne.b	notw
-	moveq	#'W',d3
-notw:	tst.b	d2		;wenn ja dann Byte nach Size
-	bne.b	notb
+
+	bne.b	1$
 	moveq	#'B',d3
-notb:	move.b	d3,SizeBWL-x(a5)	;jetzt Size (d3) abspeichern
+	bra	3$
+
+1$	cmp.b	#%10000000,d2	;wenn ja dann Long nach Size
+	bne.b	2$
+	moveq	#'L',d3
+	bra	3$
+
+2$	cmp.b	#%01000000,d2	;wenn ja dann Wort nach Size
+	bne.b	3$
+	moveq	#'W',d3
+
+3$	move.b	d3,SizeBWL-x(a5)	;jetzt Size (d3) abspeichern
 	rts
 
 ;**********************************
