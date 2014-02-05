@@ -2841,8 +2841,7 @@ GetmmuCoCo
 
 	add.b	d2,d2
 
-	lea	FBCCx(PC),a1
-	lea	0(a1,d2.w),a1
+	lea	FBCCx(PC,d2.w),a1
 	move.b	(a1)+,(a4)+
 	move.b	(a1),(a4)+
 	rts
