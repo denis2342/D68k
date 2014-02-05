@@ -3628,17 +3628,15 @@ GetCoCo	move.l	Pointer-x(a5),a0
 
 	add.b	d2,d2
 
-	lea	BCCx(PC),a1
-	lea	0(a1,d2.w),a1
-	move.b	(a1)+,(a4)+
-	move.b	(a1),(a4)+
-
-	tst.b	d2
 	bne.b	1$
 	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 
-1$	rts
+1$	lea	BCCx(PC),a1
+	lea	0(a1,d2.w),a1
+	move.b	(a1)+,(a4)+
+	move.b	(a1),(a4)+
+	rts
 
 BCCx:	dc.b	"RASRHILSCCCSNEEQVCVSPLMIGELTGTLE"
 
