@@ -1458,35 +1458,31 @@ c_cmp_b	move.l	#'CMP.',(a4)+		;CMP.B
 
 c_cmp_w	move.l	#'CMP.',(a4)+
 	move.b	#'W',(a4)+		;CMP.W
-	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#'D',RegArt-x(a5)
-	bra	c_cmp_x
+	moveq	#'D',d4
+	bra	c_cmp_y
 
 c_cmp_l	move.l	#'CMP.',(a4)+
 	move.b	#'L',(a4)+		;CMP.L
-	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#'D',RegArt-x(a5)
-	bra	c_cmp_x
+	moveq	#'D',d4
+	bra	c_cmp_y
 
 c_cmpa_w
 	move.l	#'CMPA',(a4)+
 	move.w	#'.W',(a4)+
-	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#'A',RegArt-x(a5)
-	bra	c_cmp_x
+	bra	c_cmp_z
 
 c_cmpa_l
 	move.l	#'CMPA',(a4)+
 	move.w	#'.L',(a4)+
-	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#'A',RegArt-x(a5)
-;	bra	c_cmp_x
 
-c_cmp_x	move.b	#9,(a4)+
+c_cmp_z	moveq	#'A',d4
+c_cmp_y	move.b	-1(a4),SizeBWL-x(a5)
+
+	move.b	#9,(a4)+
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
 	move.b	#',',(a4)+
-	move.b	RegArt-x(a5),(a4)+
+	move.b	d4,(a4)+
 	bsr	RegNumD2
 	bra	DoublePrint
 
