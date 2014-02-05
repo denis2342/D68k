@@ -103,6 +103,11 @@ p_pcom
 	beq	p_pload
 
 	move.w	2(a0),d0
+	and.w	#%1111100111111111,d0
+	cmp.w	#%0110000000000000,d0	;PMOVE 68851
+	beq	p_pmove3_851
+
+;	move.w	2(a0),d0
 	and.w	#%1111000111111111,d0
 	cmp.w	#%0100000100000000,d0	;PMOVEFD 68030
 	beq	p_pmove1_030
@@ -121,11 +126,6 @@ p_pcom
 	and.w	#%1111100111100011,d0
 	cmp.w	#%0111000000000000,d0	;PMOVE 68851
 	beq	p_pmove2_851
-
-	move.w	2(a0),d0
-	and.w	#%1111100111111111,d0
-	cmp.w	#%0110000000000000,d0	;PMOVE 68851
-	beq	p_pmove3_851
 
 	move.w	2(a0),d0
 	and.w	#%1110001000000000,d0
