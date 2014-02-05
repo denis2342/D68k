@@ -1478,10 +1478,11 @@ p_pmove2_030:
 
 0$	move.b	#9,(a4)+
 
+	move.w	#%000111100100,Adressposs-x(a5)
+
 	btst	#9,d2		;TO or FROM register ?
 	beq.b	2$
 
-	move.w	#%000111100100,Adressposs-x(a5)
 	move.b	#'T',(a4)+
 	move.b	#'T',(a4)+
 	move.b	#'0',(a4)+
@@ -1492,8 +1493,7 @@ p_pmove2_030:
 	bsr	GetSEA
 	bra	DoublePrint
 
-2$	move.w	#%000111100100,Adressposs-x(a5)
-	bsr	GetSEA
+2$	bsr	GetSEA
 	move.b	#',',(a4)+
 	move.b	#'T',(a4)+
 	move.b	#'T',(a4)+
