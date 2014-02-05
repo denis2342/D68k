@@ -1525,7 +1525,7 @@ p_pmove1_851:
 2$	move.w	#%111111111111,Adressposs-x(a5)
 
 	move.l	a4,d7		;retten
-	bsr	p_getmmureg	;SizeBLW holen
+	bsr	p_getmmureg	;SizeBWL holen
 	move.l	d7,a4		;und zurückholen
 
 	bsr	GetSEA
@@ -1906,7 +1906,7 @@ x_lpstop:
 	cmp.w	#%0000000111000000,2(a0)
 	bne	OpCodeError
 	move.l	#"LPST",(a4)+
-	move.l	#$4f500923,(a4)+	;'OP' + TAB + '#'
+	move.l	#$4f500923,(a4)+	;'OP' + TAB + '#'
 
 	move.w	4(a0),d2
 	bsr	HexWDi
@@ -1917,7 +1917,7 @@ x_lpstop:
 ;****************************************************************************
 ;****************************************************************************
 
-; F-Line für Labelberechnung
+; F-Line fuer Labelberechnung
 
 c2_fline
 
