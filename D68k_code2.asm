@@ -1692,11 +1692,17 @@ c_eori:	move.l	#'EORI',(a4)+
 	bra	c_eori2
 
 c_andi:	move.l	#'ANDI',(a4)+
-;	bra	c_andi2
+	bra	c_andi2
+
+c_cmpi:	move.l	#'CMPI',(a4)+
+	move.w	#%011111111101,Adressposs-x(a5)
+	bra	c_cmpi2
 
 c_eori2
 c_ori2
 c_andi2
+	move.w	#%000111111101,Adressposs-x(a5)
+c_cmpi2
 	bsr	GetBWL
 	move.b	#'.',(a4)+
 	move.b	SizeBWL-x(a5),(a4)+
@@ -1732,50 +1738,6 @@ immL:	addq.l	#2,ToAdd-x(a5)
 
 immEnd	addq.l	#2,ToAdd-x(a5)
 	move.b	#',',(a4)+
-	move.w	#%000111111101,Adressposs-x(a5)
-	bsr	GetSEA
-	bra	DoublePrint
-
-;**********************************
-
-c_cmpi:	move.l	#'CMPI',(a4)+
-
-	bsr	GetBWL
-	move.b	#'.',(a4)+
-	move.b	SizeBWL-x(a5),(a4)+
-
-	move.b	#9,(a4)+
-	move.b	#'#',(a4)+
-
-	move.l	Pointer-x(a5),a0
-
-	cmp.b	#'L',SizeBWL-x(a5)
-	beq.b	CmpiL
-	cmp.b	#'W',SizeBWL-x(a5)
-	beq.b	CmpiW
-	cmp.b	#'B',SizeBWL-x(a5)
-	bne	OpCodeError
-
-CmpiB:	tst.b	2(a0)
-	beq.b	1$
-	cmp.b	#$ff,2(a0)
-	bne	OpCodeError
-1$	move.w	2(a0),d2
-	bsr	HexBDi
-	bra.b	CmpiEnd
-
-CmpiW:	move.w	2(a0),d2
-	bsr	HexWDi
-	bra.b	CmpiEnd
-
-CmpiL:	addq.l	#2,ToAdd-x(a5)
-	move.l	2(a0),d2
-	bsr	HexLDi
-;	bra.b	CmpiEnd
-
-CmpiEnd	addq.l	#2,ToAdd-x(a5)
-	move.b	#',',(a4)+
-	move.w	#%011111111101,Adressposs-x(a5)
 	bsr	GetSEA
 	bra	DoublePrint
 
