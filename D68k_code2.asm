@@ -3514,26 +3514,15 @@ AdressIll:
 ;	LONG, WORD oder Byte
 ;**********************************
 
-GetBWL:	moveq	#'?',d3		;falls nichts stimmmt
-	move.l	Pointer-x(a5),a0
+GetBWL:	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
-	andi.b	#%11000000,d2
+	andi.w	#%11000000,d2
 
-	bne.b	1$
-	moveq	#'B',d3
-	bra	3$
-
-1$	cmp.b	#%10000000,d2	;wenn ja dann Long nach Size
-	bne.b	2$
-	moveq	#'L',d3
-	bra	3$
-
-2$	cmp.b	#%01000000,d2	;wenn ja dann Wort nach Size
-	bne.b	3$
-	moveq	#'W',d3
-
-3$	move.b	d3,SizeBWL-x(a5)	;jetzt Size (d3) abspeichern
+	lsr.b	#6,d2
+	move.b	Size(PC,d2.w),SizeBWL-x(a5)
 	rts
+
+Size:	dc.b	"BWL?"
 
 ;**********************************
 ;	Speichert die Co. Codes
