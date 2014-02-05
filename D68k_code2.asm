@@ -3549,8 +3549,7 @@ GetCoCo	move.l	Pointer-x(a5),a0
 	tst.b	Argu6-x(a5)
 	seq	DataRem-x(a5)	;Data-Logic ON/OFF
 
-1$	lea	BCCx(PC),a1
-	lea	0(a1,d2.w),a1
+1$	lea	BCCx(PC,d2.w),a1
 	move.b	(a1)+,(a4)+
 	move.b	(a1),(a4)+
 	rts
@@ -3568,8 +3567,7 @@ GetCoCo2
 
 	add.b	d2,d2
 
-	lea	DBCCx(PC),a1
-	lea	0(a1,d2.w),a1
+	lea	DBCCx(PC,d2.w),a1
 	move.b	(a1)+,(a4)+
 	move.b	(a1),d2
 	beq.b	1$
