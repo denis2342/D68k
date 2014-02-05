@@ -632,7 +632,6 @@ f_fsincos
 
 2$	move.w	d0,Adressposs-x(a5)
 	bsr	GetSEA		;<ea> to register
-	move.b	#',',(a4)+
 	bsr	GetFD2reg
 	move.b	#':',(a4)+
 	bsr	GetFDreg
@@ -640,7 +639,6 @@ f_fsincos
 
 1$	move.b	#"X",-2(a4)				;R/M=0
 	bsr	GetFSreg
-	move.b	#',',(a4)+
 	bsr	GetFD2reg
 	move.b	#':',(a4)+
 	bsr	GetFDreg
@@ -2566,6 +2564,7 @@ GetFDreg:
 	rts
 
 GetFD2reg:
+	move.b	#',',(a4)+
 	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d0
 	andi.b	#%00000111,d0
