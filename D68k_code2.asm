@@ -2775,9 +2775,9 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 	move.w	#$4309,(a4)+	;'C' + TAB
 
 ;	move.l	Pointer-x(a5),a0
-	move.b	2(a0),d2
 	move.b	#'D',RegArt-x(a5)
-	tst.b	d2		; war btst #7,d2 mit beq
+	move.b	2(a0),d2
+;	tst.b	d2		; war btst #7,d2 mit beq
 	bpl.b	1$
 	move.b	#'A',RegArt-x(a5)
 1$	lsr.w	#4,d2
