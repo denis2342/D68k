@@ -2585,189 +2585,64 @@ SSPlist:
 ;**********************************
 
 GetcpCoCo
-	andi.b	#%00111111,d2
+	andi.w	#%00111111,d2
 
-;	tst.b	d2		;000000	False
-	bne.b	2$
-	move.b	#'F',(a4)+
+	cmp.w	#32,d2
+	blt	2$
 
-2$	cmp.b	#1,d2		;000001	Equal
-	bne.b	3$
-	move.b	#'E',(a4)+
-	move.b	#'Q',(a4)+
+	moveq	#32,d2
 
-3$	cmp.b	#2,d2		;000010	Ordered Greater Than
-	bne.b	4$
-	move.b	#'O',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'T',(a4)+
+2$	lsl.w	#2,d2
+	lea	FCoCo(PC,d2.w),a0
 
-4$	cmp.b	#3,d2		;000011	Ordered Greater Than or Equal
-	bne.b	5$
-	move.b	#'O',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'E',(a4)+
+	moveq	#3,d2
 
-5$	cmp.b	#4,d2		;000100	Ordered Less Than
-	bne.b	6$
-	move.b	#'O',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'T',(a4)+
+1$	move.b	(a0)+,(a4)+
+	dbeq	d2,1$
 
-6$	cmp.b	#5,d2		;000101	Ordered Less Than or Equal
-	bne.b	7$
-	move.b	#'O',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
+	bne	3$
+	subq	#1,a4
 
-7$	cmp.b	#6,d2		;000110 Ordered Greater Than or Less Than
-	bne.b	8$
-	move.b	#'O',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'L',(a4)+
+3$	rts
 
-8$	cmp.b	#7,d2		;000111	Ordered
-	bne.b	9$
-	move.b	#'O',(a4)+
-	move.b	#'R',(a4)+
+FCoCo:
+	dc.b	"F",0,0,0	; 0
+	dc.b	"EQ",0,0	; 1
+	dc.b	"OGT",0		; 2
+	dc.b	"OGE",0		; 3
+	dc.b	"OLT",0		; 4
+	dc.b	"OLE",0		; 5
+	dc.b	"OGL",0		; 6
+	dc.b	"OR",0,0	; 7
 
-9$	cmp.b	#8,d2		;001000	Unordered
-	bne.b	10$
-	move.b	#'U',(a4)+
-	move.b	#'N',(a4)+
+	dc.b	"UN",0,0	; 8
+	dc.b	"UEQ",0		; 9
+	dc.b	"UGT",0		; 10
+	dc.b	"UGE",0		; 11
+	dc.b	"ULT",0		; 12
+	dc.b	"ULE",0		; 13
+	dc.b	"NE",0,0	; 14
+	dc.b	"T",0,0,0	; 15
 
-10$	cmp.b	#9,d2		;001001	Unordered or Equal
-	bne.b	11$
-	move.b	#'U',(a4)+
-	move.b	#'E',(a4)+
-	move.b	#'Q',(a4)+
+	dc.b	"SF",0,0	; 16
+	dc.b	"SEQ",0		; 17
+	dc.b	"GT",0,0	; 18
+	dc.b	"GE",0,0	; 19
+	dc.b	"LT",0,0	; 20
+	dc.b	"LE",0,0	; 21
+	dc.b	"GL",0,0	; 22
+	dc.b	"GLE",0		; 23
 
-11$	cmp.b	#10,d2		;001010	Unordered or Greater Than
-	bne.b	12$
-	move.b	#'U',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'T',(a4)+
+	dc.b	"NGLE"		; 24
+	dc.b	"NGL",0		; 25
+	dc.b	"NLE",0		; 26
+	dc.b	"NLT",0		; 27
+	dc.b	"NGE",0		; 28
+	dc.b	"NGT",0		; 29
+	dc.b	"SNE",0		; 30
+	dc.b	"ST",0,0	; 31
 
-12$	cmp.b	#11,d2		;001011	Unordered or Greater Than or Equal
-	bne.b	13$
-	move.b	#'U',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'E',(a4)+
-
-13$	cmp.b	#12,d2		;001100	Unordered or Less Than
-	bne.b	14$
-	move.b	#'U',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'T',(a4)+
-
-14$	cmp.b	#13,d2		;001101	Unordered or Less Than or Equal
-	bne.b	15$
-	move.b	#'U',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
-
-15$	cmp.b	#14,d2		;001110 Not Equal
-	bne.b	16$
-	move.b	#'N',(a4)+
-	move.b	#'E',(a4)+
-
-16$	cmp.b	#15,d2		;001111 True
-	bne.b	17$
-	move.b	#'T',(a4)+
-
-;---------
-
-17$	cmp.b	#16,d2		;010000 Signaling False
-	bne.b	18$
-	move.b	#'S',(a4)+
-	move.b	#'F',(a4)+
-
-18$	cmp.b	#17,d2		;010001	Signaling Equal
-	bne.b	19$
-	move.b	#'S',(a4)+
-	move.b	#'E',(a4)+
-	move.b	#'Q',(a4)+
-
-19$	cmp.b	#18,d2		;010010	Greater Than
-	bne.b	20$
-	move.b	#'G',(a4)+
-	move.b	#'T',(a4)+
-
-20$	cmp.b	#19,d2		;010011	Greater Than or Equal
-	bne.b	21$
-	move.b	#'G',(a4)+
-	move.b	#'E',(a4)+
-
-21$	cmp.b	#20,d2		;010100	Less Than
-	bne.b	22$
-	move.b	#'L',(a4)+
-	move.b	#'T',(a4)+
-
-22$	cmp.b	#21,d2		;010101	Less Than or Equal
-	bne.b	23$
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
-
-23$	cmp.b	#22,d2		;010110 Greater Than or Less Than
-	bne.b	24$
-	move.b	#'G',(a4)+
-	move.b	#'L',(a4)+
-
-24$	cmp.b	#23,d2		;010111	Greater Than oOr Less Than or Equal
-	bne.b	25$
-	move.b	#'G',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
-
-25$	cmp.b	#24,d2		;011000	Not (Greater Than or Less Than or Equal)
-	bne.b	26$
-	move.b	#'N',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
-
-26$	cmp.b	#25,d2		;011001	Not (Greater or Less Than)
-	bne.b	27$
-	move.b	#'N',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'L',(a4)+
-
-27$	cmp.b	#26,d2		;011010	Not (Less Than or Equal)
-	bne.b	28$
-	move.b	#'N',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'E',(a4)+
-
-28$	cmp.b	#27,d2		;011011	Not (Less Than)
-	bne.b	29$
-	move.b	#'N',(a4)+
-	move.b	#'L',(a4)+
-	move.b	#'T',(a4)+
-
-29$	cmp.b	#28,d2		;011100	Not (Greater Than or Equal)
-	bne.b	30$
-	move.b	#'N',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'E',(a4)+
-
-30$	cmp.b	#29,d2		;011101	Not (Greater Than)
-	bne.b	31$
-	move.b	#'N',(a4)+
-	move.b	#'G',(a4)+
-	move.b	#'T',(a4)+
-
-31$	cmp.b	#30,d2		;011110 Signaling Not Equal
-	bne.b	32$
-	move.b	#'S',(a4)+
-	move.b	#'N',(a4)+
-	move.b	#'E',(a4)+
-
-32$	cmp.b	#31,d2		;011111 Signaling True
-	bne.b	33$
-	move.b	#'S',(a4)+
-	move.b	#'T',(a4)+
-
-33$	rts
+	dc.b	"???",0		; 32
 
 ;**********************************
 ;	Speichert die Co. Codes vom 68851 PMMU
