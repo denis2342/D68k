@@ -2559,56 +2559,26 @@ GetFSreg:
 GetFSSP:
 	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d0
-	andi.b	#%00011100,d0
+	andi.w	#%00011100,d0
 	lsr.b	#2,d0
-;	tst.b	d0		;long-word integer
-	beq	Flong
-	cmp.b	#%001,d0	;single-precision real
-	beq	Fsing
-	cmp.b	#%010,d0	;extended-precision real
-	beq	Fexte
-	cmp.b	#%011,d0	;packed-decimal real
-	beq	Fpack
-	cmp.b	#%100,d0	;word integer
-	beq	Fword
-	cmp.b	#%101,d0	;double-precision real
-	beq	Fdoub
-	cmp.b	#%110,d0	;byte integer
-	beq	Fbyte
 
-	moveq	#"?",d0
-	move.b	d0,SizeBWL-x(a5)
+	lea	SSPlist(PC,d0.w),a0
+	move.b	(a0),d0
 	move.b	d0,(a4)+
+	move.b	d0,SizeBWL-x(a5)
 	rts
 
-Flong:	moveq	#"L",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fsing:	moveq	#"S",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fexte:	moveq	#"X",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fpack:	moveq	#"P",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fword:	moveq	#"W",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fdoub:	moveq	#"D",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
-Fbyte:	moveq	#"B",d0
-	move.b	d0,SizeBWL-x(a5)
-	move.b	d0,(a4)+
-	rts
+; 000 long-word integer
+; 001 single-precision real
+; 010 extended-precision real
+; 011 packed-decimal real
+; 100 word integer
+; 101 double-precision real
+; 110 byte integer
+; 111 ?
+
+SSPlist:
+	dc.b	"LSXPWDB?"
 
 ;**********************************
 ;	Speichert die Co. Codes vom CoProzessor
