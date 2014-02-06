@@ -193,7 +193,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	addq.l	#2,a0
 
 	tst.l	ToAdd-x(a5)
-	beq	9$
+	beq	JO2
 
 0$	bsr	PCHexWord0	;einmal für alle
 
@@ -229,40 +229,15 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 
 4$	bsr	PCHexWord4	;einmal für alle
 
-	moveq	#10,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
+	move.l	ToAdd-x(a5),d7
+	lsr.l	#1,d7
+	subq	#5,d7
+	bra	loopd
 
-5$	bsr	PCHexWord5	;einmal für alle
+loop	bsr	PCHexWord5
+loopd	dbra	d7,loop
+	bra	JO
 
-	moveq	#12,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
-
-6$	bsr	PCHexWord6	;einmal für alle
-
-	moveq	#14,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
-
-7$	bsr	PCHexWord7	;einmal für alle
-
-	moveq	#16,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
-
-8$	bsr	PCHexWord8	;einmal für alle
-
-	moveq	#18,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
-
-	bsr	PCHexWord9      ;einmal für alle
-
-	moveq	#20,d2
-	cmp.l	ToAdd-x(a5),d2
-	beq	JO
-9$
 JO2:	moveq	#9,d1
 	move.b	d1,(a4)+		;drei TAB's ausgeben
 	move.b	d1,(a4)+
@@ -292,7 +267,18 @@ MarkNotOK:
 
 PCHexWord0:
 	move.b	Relocmarke+0-x(a5),(a4)+	;erstmal ein Space
-	bra	PCHexWordx
+
+PCHexWordx:
+	addq.l	#2,d4
+	cmp.l	(a1),d4			;Label mit PCounter+2 vergleichen
+	bne.b	1$
+	move.b	#'~',-1(a4)		;anstelle von Space
+	addq.l	#4,LabelPointer-x(a5)
+	addq.l	#4,a1
+
+1$	move.w	(a0)+,d2
+	bra	HexWDip
+;	rts		;AUTO RTS
 
 PCHexWord1:
 	move.b	Relocmarke+1-x(a5),(a4)+	;erstmal ein Space
@@ -308,18 +294,7 @@ PCHexWord3:
 
 PCHexWord4:
 	move.b	Relocmarke+4-x(a5),(a4)+	;erstmal ein Space
-
-PCHexWordx:
-	addq.l	#2,d4
-	cmp.l	(a1),d4			;Label mit PCounter+2 vergleichen
-	bne.b	1$
-	move.b	#'~',-1(a4)		;anstelle von Space
-	addq.l	#4,LabelPointer-x(a5)
-	addq.l	#4,a1
-
-1$	move.w	(a0)+,d2
-	bra	HexWDip
-;	rts		;AUTO RTS
+	bra	PCHexWordx
 
 PCHexWord5:
 PCHexWord6:
