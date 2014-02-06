@@ -1623,63 +1623,30 @@ p_pmove3_851:
 p_getmmureg:
 	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
-	andi.b	#%00011100,d2
-	lsr.b	#2,d2
+	andi.w	#%00011100,d2
 
-;	tst.b	d2
-	beq.b	1$
-	cmp.b	#1,d2
-	beq.b	2$
-	cmp.b	#2,d2
-	beq.b	3$
-	cmp.b	#3,d2
-	beq.b	4$
-	cmp.b	#4,d2
-	beq.b	5$
-	cmp.b	#5,d2
-	beq.b	6$
-	cmp.b	#6,d2
-	beq.b	7$
-	bra	8$
+	lea	MMUREG(PC,d2.w),a0
 
-1$	move.b	#"T",(a4)+
-	move.b	#"C",(a4)+
-	move.b	#"L",SizeBWL-x(a5)
-	rts
-2$	move.b	#"D",(a4)+	;Dx and Ax Mode not allowed
-	move.b	#"R",(a4)+
-	move.b	#"P",(a4)+
-	move.b	#"D",SizeBWL-x(a5)
-	rts
-3$	move.b	#"S",(a4)+	;Dx and Ax Mode not allowed
-	move.b	#"R",(a4)+
-	move.b	#"P",(a4)+
-	move.b	#"D",SizeBWL-x(a5)
-	rts
-4$	move.b	#"C",(a4)+	;Dx and Ax Mode not allowed
-	move.b	#"R",(a4)+
-	move.b	#"P",(a4)+
-	move.b	#"D",SizeBWL-x(a5)
-	rts
-5$	move.b	#"C",(a4)+
-	move.b	#"A",(a4)+
-	move.b	#"L",(a4)+
-	move.b	#"B",SizeBWL-x(a5)
-	rts
-6$	move.b	#"V",(a4)+
-	move.b	#"A",(a4)+
-	move.b	#"L",(a4)+
-	move.b	#"B",SizeBWL-x(a5)
-	rts
-7$	move.b	#"S",(a4)+
-	move.b	#"C",(a4)+
-	move.b	#"C",(a4)+
-	move.b	#"B",SizeBWL-x(a5)
-	rts
-8$	move.b	#"A",(a4)+
-	move.b	#"C",(a4)+
-	move.b	#"W",SizeBWL-x(a5)
-	rts
+	move.b	(a0)+,SizeBWL-x(a5)
+
+	moveq	#2,d2
+
+1$	move.b	(a0)+,(a4)+
+	dbeq	d2,1$
+
+	bne	2$
+	subq	#1,a4
+
+2$	rts
+
+MMUREG:	dc.b	"L","TC",0
+	dc.b	"D","DRP"
+	dc.b	"D","SRP"
+	dc.b	"D","CRP"
+	dc.b	"B","CAL"
+	dc.b	"B","VAL"
+	dc.b	"B","SCC"
+	dc.b	"W","AC",0
 
 ;**********************************
 ;	PVALID VAL	68851
