@@ -1,5 +1,5 @@
 ;
-;	D68k - Disassembler von Denis Ahrens (C) 2000
+;	D68k - Disassembler von Denis Ahrens (C) 2014
 ;
 ;	Only for OS 2.0 and higher
 ;
@@ -18,9 +18,9 @@ D68k_Datum	MACRO
 			dc.b	'11.12.2000'
 		ENDM
 
-TabSize		equ	6	;2^6 (#64 or $40)= größe der Tabelle pro Hunk
-LabelMemSize	equ	256*1024	;Speicher für Labeltabelle
-SprungMemSize	equ	064*1024	;Speicher für Sprungmerker
+TabSize		equ	6	;2^6 (#64 or $40)= groesse der Tabelle pro Hunk
+LabelMemSize	equ	256*1024	;Speicher fuer Labeltabelle
+SprungMemSize	equ	064*1024	;Speicher fuer Sprungmerker
 
 JumpTablePointerListSize	equ	1024
 
@@ -33,10 +33,10 @@ _main:	lea	x,a5
 	move.l	#"89AB",HexDigits+8-x(a5)
 	move.l	#"CDEF",HexDigits+12-x(a5)
 
-	move.l	SP,GoBack-x(a5)	;Stack für Rücksprung retten
+	move.l	SP,GoBack-x(a5)	;Stack fuer Ruecksprung retten
 	move.b	#10,Buffer+10-x(a5)
 
-	move.l	(4).w,a6		;DosLib öffnen
+	move.l	(4).w,a6		;DosLib oeffnen
 	lea	DosName,a1
 	moveq	#37,d0		;Version 37
 	jsr	_LVOOpenLibrary(a6)
@@ -51,17 +51,17 @@ _main:	lea	x,a5
 
 ;--------------------------------
 
-	bsr	DateiO1		;Datei1 öffnen
-	bsr	Speicher	;Speicher für File
+	bsr	DateiO1		;Datei1 oeffnen
+	bsr	Speicher	;Speicher fuer File
 	bsr	Einladen	;File wird in den Speicher geladen
-	bsr	DateiC1		;Datei1 schließen
+	bsr	DateiC1		;Datei1 schliessen
 	bsr	MakeIDFile	;Nur wenn Trace an ist, ID-File erstellen
 
-	bsr	PrePASS1	;Hunks zählen
-	bsr	PrePASS2	;Hunktabelle mit den Werten füllen
+	bsr	PrePASS1	;Hunks zaehlen
+	bsr	PrePASS2	;Hunktabelle mit den Werten fuellen
 	bsr	PASS1		;Erstmal die Adressen aller Labels speichern
 
-	bsr	DateiO2		;Datei2 für Ausgabe öffnen (eventuell)
+	bsr	DateiO2		;Datei2 fuer Ausgabe oeffnen (eventuell)
 	bsr	PASS2		;Disassembler mit Ausgabe
 
 ;--------------------------------
@@ -72,20 +72,20 @@ Error2:	move.l	#IntroE-1,d1	;Cursor setzen
 	moveq	#4,d2
 	bsr	PrintText
 
-	bsr	DateiC2		;SaveFile schließen
+	bsr	DateiC2		;SaveFile schliessen
 
 4$	move.l	DosBase-x(a5),a6
 	move.l	ArgsBack-x(a5),d1
 	jsr	_LVOFreeArgs(a6)
 
 	move.l	DosBase-x(a5),a6
-	move.l	Output_fh-x(a5),d1	;ev. Output schließen
+	move.l	Output_fh-x(a5),d1	;ev. Output schliessen
 	beq.b	2$
 	jsr	_LVOClose(a6)
 
 2$	move.l	4,a6
 
-	move.l	DosBase-x(a5),a1		;DosLib schließen
+	move.l	DosBase-x(a5),a1		;DosLib schliessen
 	jsr	_LVOCloseLibrary(a6)
 
 Error:	move.l	GoBack-x(a5),SP
@@ -105,13 +105,13 @@ PASS2:	move.l	HunkAnzahl-x(a5),d2	;Anzahl der Hunks
 	bsr	HexOutPutL
 	bsr	Space
 
-	move.l	HunkMemLen-x(a5),d2	;HunkTab Länge
+	move.l	HunkMemLen-x(a5),d2	;HunkTab Laenge
 	bsr	HexOutPutL
 	bsr	Space
 
 	move.l	HunkAnzahl-x(a5),d3
 	lsl.l	#2,d3
-	move.l	HunkAdd-x(a5),d2	;Länge von HunkAdd
+	move.l	HunkAdd-x(a5),d2	;Laenge von HunkAdd
 	sub.l	d3,d2
 	bsr	HexOutPutL
 	bsr	Space
@@ -120,11 +120,11 @@ PASS2:	move.l	HunkAnzahl-x(a5),d2	;Anzahl der Hunks
 	bsr	HexOutPutL
 	bsr	Space
 
-	move.l	LabelMax-x(a5),d2	;LabelTabellen Max Einträge
+	move.l	LabelMax-x(a5),d2	;LabelTabellen Max Eintraege
 	bsr	HexOutPutL
 	bsr	Space
 
-	move.l	LabelMin-x(a5),d2	;LabelTabellen Min Einträge
+	move.l	LabelMin-x(a5),d2	;LabelTabellen Min Eintraege
 	bsr	HexOutPutL
 	bsr	Space
 
@@ -134,7 +134,7 @@ PASS2:	move.l	HunkAnzahl-x(a5),d2	;Anzahl der Hunks
 	bsr	Return
 
 	move.l	Memory-x(a5),a2
-	clr.l	CurrHunk-x(a5)		;Erster Hunk fängt jetzt an
+	clr.l	CurrHunk-x(a5)		;Erster Hunk faengt jetzt an
 	clr.l	LabelPointer-x(a5)
 
 NextHunk
@@ -153,7 +153,7 @@ EndCode	rts
 ;**********************************
 
 DoublePrint:
-	clr.b	Vorzeichen-x(a5)	;erstmal löschen
+	clr.b	Vorzeichen-x(a5)	;erstmal loeschen
 	move.b	#10,(a4)+
 	move.l	a4,ErrorNumber-x(a5)
 	lea	Befehl2-x(a5),a4
@@ -161,7 +161,7 @@ DoublePrint:
 	tst.b	Argu3-x(a5)		;NOPC/S
 	bne.b	1$
 
-	addq.l	#7,a4
+	addq.l	#7,a4	; platz fuer den PC schaffen
 
 	moveq	#-1,d1
 	cmp.l	ToAdd-x(a5),d1
@@ -169,13 +169,13 @@ DoublePrint:
 
 	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
-	bsr	HexWDip		;auf jeden Fall ein WORD für Mnemonic
+	bsr	HexWDip		;auf jeden Fall ein WORD fuer Mnemonic
 
-1$	move.l	PCounter-x(a5),d1	;Befehl(ToAdd+2) darf nicht größer
+1$	move.l	PCounter-x(a5),d1	;Befehl(ToAdd+2) darf nicht groesser
 	addq.l	#2,d1			;sein als der Rest des Programs
 	add.l	ToAdd-x(a5),d1
 	cmp.l	CodeSize-x(a5),d1
-	bgt	EndMark		;Routine für letztes Füllbyte
+	bgt	EndMark		;Routine fuer letztes Fuellbyte
 
 MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	bne	MarkNotOK
@@ -195,7 +195,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	tst.l	ToAdd-x(a5)
 	beq	JO2
 
-0$	bsr	PCHexWord0	;einmal für alle
+0$	bsr	PCHexWord0	;einmal fuer alle
 
 	moveq	#2,d2
 	cmp.l	ToAdd-x(a5),d2	;testen wieviel daten dazukommen
@@ -204,7 +204,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	move.b	#9,(a4)+
 	bra	JO
 
-1$	bsr	PCHexWord1	;einmal für alle
+1$	bsr	PCHexWord1	;einmal fuer alle
 
 	moveq	#4,d2
 	cmp.l	ToAdd-x(a5),d2
@@ -213,7 +213,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	move.b	#9,(a4)+
 	bra	JO
 
-2$	bsr	PCHexWord2	;einmal für alle
+2$	bsr	PCHexWord2	;einmal fuer alle
 
 	moveq	#6,d2
 	cmp.l	ToAdd-x(a5),d2
@@ -221,13 +221,13 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	move.b	#9,(a4)+
 	bra	JO
 
-3$	bsr	PCHexWord3	;einmal für alle
+3$	bsr	PCHexWord3	;einmal fuer alle
 
 	moveq	#8,d2
 	cmp.l	ToAdd-x(a5),d2
 	beq	JO
 
-4$	bsr	PCHexWord4	;einmal für alle
+4$	bsr	PCHexWord4	;einmal fuer alle
 
 	move.l	ToAdd-x(a5),d7
 	lsr.l	#1,d7
@@ -260,7 +260,7 @@ MarkNotOK:
 	sub.l	d1,d2
 	bsr	Print
 
-	moveq	#2,d2		;nächsten Befehlsanfang ausrechnen
+	moveq	#2,d2		;naechsten Befehlsanfang ausrechnen
 	add.l	ToAdd-x(a5),d2
 	add.l	d2,PCounter-x(a5)
 	rts
@@ -321,7 +321,7 @@ EndMark:
 DoubleOdd:
 	move.l	Pointer-x(a5),a0
 	move.b	(a0),d2
-	bsr	HexBDip		;auf jeden Fall ein WORD für Mnemonic
+	bsr	HexBDip		;auf jeden Fall ein WORD fuer Mnemonic
 	bra	JO2
 
  include 'D68k_PreP1.asm'
@@ -342,14 +342,14 @@ DoubleOdd:
 
  DATA
 
-pwrof10	dc.l	1000000000	;10   Es dürfen nur soviele
+pwrof10	dc.l	1000000000	;10   Es duerfen nur soviele
 	dc.l	100000000	;09   Zeilen hier sein
 	dc.l	10000000	;08   wie ausgegeben werden
 	dc.l	1000000		;07   sollen.
 	dc.l	100000		;06
 	dc.l	10000		;05   Den Rest mit einem
 	dc.l	1000		;04   Semikolon wegstreichen
-	dc.l	100		;03   und nicht löschen.
+	dc.l	100		;03   und nicht loeschen.
 	dc.l	10		;02
 	dc.l	1		;01
 
@@ -440,10 +440,10 @@ DosBase:	dc.l	0	;Zeiger auf DosBase
 FileHD:		dc.l	0	;FileHD auf File zum einladen
 FileHD2:	dc.l	0	;FileHD auf File zum saven
 FileHD3:	dc.l	0	;FileHD auf Jumplist-File
-FileID:		dc.l	0	;ID des Files für Jumplist-File
+FileID:		dc.l	0	;ID des Files fuer Jumplist-File
 Memory:		dc.l	0	;Speicher in den das File geladen wird
-JLMem:		dc.l	0	;Speicher für das Jumplist-File
-FileSize:	dc.l	0	;FileLänge
+JLMem:		dc.l	0	;Speicher fuer das Jumplist-File
+FileSize:	dc.l	0	;FileLaenge
 
 Output_fh:	dc.l	0
 PRGName:	dc.l	0	;Zeiger auf Programmname
@@ -466,39 +466,39 @@ ArguE:		dc.l	0	;JL=JUMPLIST/S
 ArguF:		dc.l	0	;68020/S
 ArguG:		dc.l	0	;HEXDATA/S
 
-ArgsBack:	dc.l	0	;Zeiger für FreeArgs()
+ArgsBack:	dc.l	0	;Zeiger fuer FreeArgs()
 
-LabelMem:	dc.l	0	;Speicher für die Labeltabelle
-SprungMem:	dc.l	0	;Speicher für die Sprungtabelle
+LabelMem:	dc.l	0	;Speicher fuer die Labeltabelle
+SprungMem:	dc.l	0	;Speicher fuer die Sprungtabelle
 LabelPointer:	dc.l	0	;Zeiger auf freien Platz in der Labeltabelle
 SprungPointer:	dc.l	0	;Zeiger auf freien Platz in der Sprungtabelle
 LabelMin:	dc.l	0	;sortierte Anzahl der Label
 LabelMax:	dc.l	0	;unsortierte Anzahl der Label
-NextLabel:	dc.l	0	;Länge in Bytes bis zum nächsten Label/HunkEnde
+NextLabel:	dc.l	0	;Laenge in Bytes bis zum naechsten Label/HunkEnde
 LastLabel:	dc.l	0	;Label der Jumptabelle
 
 HunkAnzahl:	dc.l	0	;Anzahl der Hunks
-HunkMem:	dc.l	0	;Speicher für HunkTabelle
-HunkMemLen:	dc.l	0	;Länge der HunkTabelle
+HunkMem:	dc.l	0	;Speicher fuer HunkTabelle
+HunkMemLen:	dc.l	0	;Laenge der HunkTabelle
 HunkAdd:	dc.l	0
 
-CurrHunk:	dc.l	0	;Aktueller Hunk (Für Ausgabe)
-HunkForm1:	dc.l	0	;Speicher1 für HunkNamenausgabe
-HunkForm2:	dc.l	0	;Speicher2 für HunkNamenausgabe
-HunkForm3:	dc.l	0	;Speicher3 für HunkNamenausgabe
+CurrHunk:	dc.l	0	;Aktueller Hunk (fuer Ausgabe)
+HunkForm1:	dc.l	0	;Speicher1 fuer HunkNamenausgabe
+HunkForm2:	dc.l	0	;Speicher2 fuer HunkNamenausgabe
+HunkForm3:	dc.l	0	;Speicher3 fuer HunkNamenausgabe
 
-CodeSize:	dc.l	0	;CodeLänge
+CodeSize:	dc.l	0	;CodeLaenge
 CodeAnfang:	dc.l	0	;Zeiger auf CodeAnfang
 
 PCounter:	dc.l	0	;Zeiger auf (PC)
 Pointer:	dc.l	0	;CodeAnfang+PCounter
-ToAdd:		dc.l	0	;Zwischenspeicher für Befehlslänge
+ToAdd:		dc.l	0	;Zwischenspeicher fuer Befehlslaenge
 
 RelocXAdress:	dc.l	0	;Adresse des Relocs im Hunk
 
-Mnemonic:	dc.l	0	;Zwischenspeicher für Befehlstext
-ErrorNumber:	dc.l	0	;Speicher für ReturnCode
-GoBack:		dc.l	0	;A7 {SP} für Rücksprung von überall
+Mnemonic:	dc.l	0	;Zwischenspeicher fuer Befehlstext
+ErrorNumber:	dc.l	0	;Speicher fuer ReturnCode
+GoBack:		dc.l	0	;A7 {SP} fuer Ruecksprung von ueberall
 
 ICodesP1:	dc.l	0	;Anzahl der illeg. Befehle im ersten LOOP
 IllPC:		dc.l	0	;Adresse des letzten illegalen Befehls
@@ -520,7 +520,7 @@ AdMode:		dc.w	0	;AdressingModeWORD Zwischenspeicher
 
 CodeID:		dc.w	0	;Zahlen zur internen schnellen Befehlserkennung
 LastCodeID:	dc.w	0	;Vorheriger Befehl war: LastCodeID
-Jumps:		dc.w	0	;Die für die Länge der Jumptables (hoffentlich)
+Jumps:		dc.w	0	;Die fuer die Laenge der Jumptables (hoffentlich)
 		dc.w	0
 
 LastMove:	dc.l	0	;
@@ -528,20 +528,20 @@ LastMoveAdress:	dc.l	0	;Adresse des letzten Movebefehls
 
 Hexminus2:	dc.b	0
 Hexminus:	dc.b	0
-HexBufferL:	dc.b	0,0,0,0	;muß immer gerade sein
+HexBufferL:	dc.b	0,0,0,0	;muss immer gerade sein
 HexBufferW:	dc.b	0,0
 HexBufferB:	dc.b	0,0
 Hexplus:	dc.b	0
 Hexplus2:	dc.b	0
 
-	dc.b	0,0			;eins muß vor Buffer sein
-Buffer:	dc.b	0,0,0,0,0,0,0,0,0,0	;muß immer gerade sein
+	dc.b	0,0			;eins muss vor Buffer sein
+Buffer:	dc.b	0,0,0,0,0,0,0,0,0,0	;muss immer gerade sein
 	dc.b	0
 
  CNOP 0,4
 		ds.b	3
 Befehltab:	dc.b	0
-Befehl:		ds.b	200	;muß immer gerade sein
+Befehl:		ds.b	200	;muss immer gerade sein
 Befehl2:	ds.b	200
 SizeBWL:	dc.b	0
 RegArt:		ds.b	2
