@@ -990,7 +990,9 @@ c_move_usp
 	btst	#3,1(a0)
 	beq.b	1$
 
-	bsr	PrUSP
+	move.b	#'U',(a4)+
+	move.b	#'S',(a4)+
+	move.b	#'P',(a4)+
 	move.b	#',',(a4)+
 
 1$	bsr	RegNumD_A
@@ -1000,7 +1002,9 @@ c_move_usp
 	bne	DoublePrint
 
 	move.b	#',',(a4)+
-	bsr	PrUSP
+	move.b	#'U',(a4)+
+	move.b	#'S',(a4)+
+	move.b	#'P',(a4)+
 	bra	DoublePrint
 
 ;**********************************
