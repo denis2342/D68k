@@ -997,7 +997,7 @@ c_move_usp
 
 1$	bsr	RegNumD_A
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#3,1(a0)
 	bne	DoublePrint
 
@@ -1017,7 +1017,7 @@ c_link_w:
 	move.b	#'#',(a4)+	;'#'
 	move.b	#'-',(a4)+	;'-'
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	neg.w	d2
 	bsr	HexWDi
@@ -1033,7 +1033,7 @@ c_link_l:
 	move.b	#'#',(a4)+	;'#'
 	move.b	#'-',(a4)+	;'-'
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.l	2(a0),d2
 	neg.l	d2
 	bsr	HexLDi
@@ -2133,7 +2133,7 @@ c_packets
 
 	move.b	#',',(a4)+
 	move.b	#'#',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	HexWDi
 	addq.l	#2,ToAdd-x(a5)
@@ -2151,7 +2151,7 @@ c_packets
 
 	move.b	#',',(a4)+
 	move.b	#'#',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	HexWDi
 	addq.l	#2,ToAdd-x(a5)
