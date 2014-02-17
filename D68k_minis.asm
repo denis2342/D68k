@@ -226,7 +226,7 @@ Quick:	cmp.l	(a2)+,d2
 Quick2:	cmp.l	-(a3),d2
 	bcs.b	Quick2
 
-Quick3:	cmp.l	a3,a2
+	cmp.l	a3,a2
 	bhi.b	Quick4
 
 	move.l	(a3),d5
@@ -234,10 +234,10 @@ Quick3:	cmp.l	a3,a2
 	move.l	d5,(a2)+
 	subq.l	#4,a3
 
-Quick4:	cmp.l	a3,a2
+	cmp.l	a3,a2
 	bls.b	Quick
 
-	cmp.l	a3,a1
+Quick4:	cmp.l	a3,a1
 	bcc.b	Quick5
 
 	move.l	a0,-(SP)
