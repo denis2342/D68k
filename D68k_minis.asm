@@ -235,7 +235,7 @@ Quick2:	cmp.l	-(a3),d2
 	subq.l	#4,a3
 
 	cmp.l	a3,a2
-	bls.b	Quick
+	blo.b	Quick
 
 Quick4:	cmp.l	a3,a1
 	bcc.b	Quick5
