@@ -360,10 +360,16 @@ HHeader3:
 
 	rts
 
+KickStart3:
+	subq.l	#4,a2
+	move.l	#$80000,d0
+	bra	rawCode3
+
 Bootblock3:
 	addq.l	#8,a2		;CheckSumme und Rootblock überspringen
 	move.l	#1012,d0
 
+rawCode3:
 	move.l	HunkMem-x(a5),a3	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d7
 	lsl.l	#TabSize,d7
@@ -373,44 +379,6 @@ Bootblock3:
 
 	addq.l	#4,d0			;wegen HunkEndLabel
 	move.l	d0,HunkAdd-x(a5)
-	move.l	a2,36(a3,d7.l)			;Anfang des Hunks
-
-	add.l	d0,a2
-
-	tst.b	ArguD-x(a5)	;TRACE/S
-	beq.b	1$
-
-	lsr.l	#4,d0		;d0 geteilt durch 16
-	addq.l	#1,d0
-	move.l	#$10000,d1
-	move.l	4,a6
-	jsr	_LVOAllocVec(a6)
-	move.l	d0,32(a3,d7.l)	;Adresse von BitMem sichern
-	beq	ErrorMemory
-
-	move.l	#JumpTablePointerListSize,d0
-	move.l	#$10000,d1
-	jsr	_LVOAllocVec(a6)
-	move.l	d0,52(a3,d7.l)	;Zeiger auf JumpTableMemory eintragen
-	beq	ErrorMemory
-
-1$	move.l	#1,CurrHunk-x(a5)
-	rts
-
-KickStart3:
-	subq.l	#4,a2
-	move.l	#$80000,d0
-
-	move.l	HunkMem-x(a5),a3	;Anfangsadresse der Hunktabelle
-	move.l	CurrHunk-x(a5),d7
-	lsl.l	#TabSize,d7
-	move.l	d0,4(a3,d7.l)
-	move.l	d0,28(a3,d7.l)
-	move.l	HunkAdd-x(a5),8(a3,d7.l)	;Anfang des Hunk-Inhalts als 2. Longword
-
-	addq.l	#4,d0			;wegen HunkEndLabel
-	move.l	d0,HunkAdd-x(a5)
-
 	move.l	a2,36(a3,d7.l)			;Anfang des Hunks
 
 	add.l	d0,a2
