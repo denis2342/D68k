@@ -442,7 +442,7 @@ Bootblock1:
 KickStart1:
 	sub.l	#4,a2
 
-	move.l	#$80000,d0		;KickstartSize
+	move.l	FileSize-x(a5),d0	;KickstartSize
 	move.l	d0,CodeSize-x(a5)
 	move.l	a2,CodeAnfang-x(a5)
 

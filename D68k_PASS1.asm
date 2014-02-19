@@ -331,7 +331,7 @@ Bootblock4:
 KickStart4:
 
 	subq.l	#4,a0			;Anfangen
-	move.l	#$80000,d0		;Länge
+	move.l	FileSize-x(a5),d0	;Laenge
 	move.l	d0,CodeSize-x(a5)
 	move.l	a0,CodeAnfang-x(a5)
 

@@ -230,7 +230,7 @@ Bootblock2:
 	rts
 
 KickStart2:
-	add.l	#$80000-4,a2
+	add.l	FileSize-x(a5),a2	; kickstart filesize
 	move.l	#1,CurrHunk-x(a5)
 
 	st	KICK-x(a5)
