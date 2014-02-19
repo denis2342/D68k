@@ -3,9 +3,9 @@
 ;**********************************
 
 PASS1:	bsr	LoadJumplist	;JumpList einlesen und checken (wenn vorhanden)
-	clr.l	CurrHunk-x(a5)	;Erster Hunk fängt jetzt an
+	clr.l	CurrHunk-x(a5)	;Erster Hunk faengt jetzt an
 
-	bsr	LibraryInit	;wenn nötig ev. ein paar Adressen einfügen
+	bsr	LibraryInit	;wenn noetig ev. ein paar Adressen einfuegen
 
 	tst.b	Argu4-x(a5)	;INFO/S
 	beq	1$
@@ -109,7 +109,7 @@ NextHunk4:
 
 3$	bsr	SortLabel
 
-	move.l	LabelPointer-x(a5),d2	;sort. LabelTabellen Einträge
+	move.l	LabelPointer-x(a5),d2	;sort. LabelTabellen Eintraege
 	lsr.l	#2,d2
 	move.l	d2,LabelMin-x(a5)
 
@@ -244,7 +244,7 @@ HExt4:	bra.b	3$
 1$	tst.l	d0		; war btst #31,d0 mit beq.b 2$
 	bpl.b	2$
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -276,7 +276,7 @@ Hdrel084:
 	add.l	d0,d0
 	add.l	d0,a0
 2$	clr.l	d0
-	move.w	(a0)+,d0	;Länge des Labels in LONGWORDS
+	move.w	(a0)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
 	move.l	a0,d0
@@ -292,7 +292,7 @@ HSymbol4:
 1$	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d2	;Location of the Label (Symbol)
-2$	move.l	(a0)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a0)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 	rts
 
@@ -309,13 +309,13 @@ HHeader4:
 	addq.l	#1,d7
 	sub.l	d0,d7
 	lsl.l	#2,d7
-	add.l	d7,a0		;Einzelnen Hunknummern überspringen
+	add.l	d7,a0		;Einzelnen Hunknummern ueberspringen
 	rts
 
 Bootblock4:
 
 	addq.l	#8,a0			;Anfangen
-	move.l	#1012,d0		;Länge
+	move.l	#1012,d0		;Laenge
 	move.l	d0,CodeSize-x(a5)
 	move.l	a0,CodeAnfang-x(a5)
 

@@ -123,7 +123,7 @@ HData1:	addq.l	#4,a2
 	move.l	HunkMem-x(a5),a1	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d0
 	lsl.l	#TabSize,d0
-	move.l	4(a1,d0.l),d0			;Größe des Hunks
+	move.l	4(a1,d0.l),d0			;Groesse des Hunks
 
 	add.l	d0,a2
 	rts
@@ -178,7 +178,7 @@ HUnit1:
 ;	move.w	#'  ',HunkForm3-x(a5)
 ;	bsr	PrintHunkName3
 
-;	move.l	-4(a2),d1	;Anzahl der Langwörter des Textes
+;	move.l	-4(a2),d1	;Anzahl der Langwoerter des Textes
 ;	move.l	a2,a1		;Anfang des Textes
 
 ;	move.l	a2,-(SP)
@@ -222,7 +222,7 @@ HName1:
 ;	move.w	#'  ',HunkForm3-x(a5)
 ;	bsr	PrintHunkName3
 
-;	move.l	(a2)+,d1	;Anzahl der Langwörter des Textes
+;	move.l	(a2)+,d1	;Anzahl der Langwoerter des Textes
 ;	move.l	a2,a1		;Anfang des Textes
 
 ;	move.l	a2,-(SP)
@@ -251,7 +251,7 @@ HExt1:	clr.l	CodeSize-x(a5)
 	bpl.b	2$
 
 	addq.l	#1,CodeSize-x(a5)
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a2
 	move.l	(a2)+,d0
@@ -282,35 +282,35 @@ HExt1:	clr.l	CodeSize-x(a5)
 	bra.b	3$
 
 HReloc32_1:
-	clr.l	CodeSize-x(a5)	;Anzahl der Einräge wird ausgegeben
+	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
 	bra.b	2$
 1$	add.l	d0,CodeSize-x(a5)
 	lsl.l	#2,d0
 	add.l	d0,a2
 	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 	rts
 
 HReloc16_1:
-	clr.l	CodeSize-x(a5)	;Anzahl der Einräge wird ausgegeben
+	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
 	bra.b	2$
 1$	add.l	d0,CodeSize-x(a5)
 	lsl.l	#2,d0
 	add.l	d0,a2
 	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 	rts
 
 HReloc08_1:
-	clr.l	CodeSize-x(a5)	;Anzahl der Einräge wird ausgegeben
+	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
 	bra.b	2$
 1$	add.l	d0,CodeSize-x(a5)
 	lsl.l	#2,d0
 	add.l	d0,a2
 	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 ;	move.l	#'RELO',HunkForm1-x(a5)
 ;	move.l	#'C08 ',HunkForm2-x(a5)
@@ -326,7 +326,7 @@ Hdrel081:
 	add.l	d0,d0
 	add.l	d0,a2
 2$	clr.l	d0
-	move.w	(a2)+,d0	;Länge des Labels in LONGWORDS
+	move.w	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
 	move.l	a2,d0
@@ -341,7 +341,7 @@ Hdrel161:
 1$	lsl.l	#2,d0
 	addq.l	#4,d0
 	add.l	d0,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 	rts
 
@@ -353,7 +353,7 @@ HSymbol1:
 	lsl.l	#2,d0
 	add.l	d0,a2
 	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
 	tst.b	Argu5-x(a5)	;HUNKLAB/S
@@ -378,7 +378,7 @@ HHeader1:
 	addq.l	#1,d7
 	sub.l	d0,d7
 	lsl.l	#2,d7
-	add.l	d7,a2		;Einzelnen Hunknummern überspringen
+	add.l	d7,a2		;Einzelnen Hunknummern ueberspringen
 	rts
 
 Bootblock1:
@@ -519,7 +519,7 @@ PrintHunkName:
 
 	move.b	#' ',(a4)+
 
-	move.l	CodeSize-x(a5),d2	;und Angabe der Länge in Dez.
+	move.l	CodeSize-x(a5),d2	;und Angabe der Laenge in Dez.
 	bsr	DecL
 	lea	Buffer+4-x(a5),a1
 	move.l	#6,d1

@@ -3,11 +3,11 @@
 ;**********************************
 
 ;
-;	Ist dafür da um die HunkTabelle anzulegen
+;	Ist dafuer da um die HunkTabelle anzulegen
 ;
 
 ; 1(00) = *Anfang des Reloc32 Hunks	NULL=KEINER
-; 2(04) =  Größe des Hunks selbst
+; 2(04) =  Groesse des Hunks selbst
 ; 3(08) =  Addierter Anfang des Hunks (Alle vorherigen zusammen)
 ; 4(12) = *Anfang des Extern Hunks	NULL=KEINER
 ; 5(16) = *Anfang des Symbol Hunks	NULL=KEINER
@@ -24,7 +24,7 @@
 
 PrePASS2:
 ;NoCode3:
-	clr.l	CurrHunk-x(a5)	;Erster Hunk fängt jetzt an
+	clr.l	CurrHunk-x(a5)	;Erster Hunk faengt jetzt an
 	move.l	Memory-x(a5),a2
 1$	bsr.b	NoCode3Main
 	move.l	FileSize-x(a5),d0
@@ -84,12 +84,12 @@ NoCode3Main
 
 	bra	Unknown_Hunk3
 
-HBSS3:	move.l	(a2)+,d0	;Größe des BSS-Hunks addieren
+HBSS3:	move.l	(a2)+,d0	;Groesse des BSS-Hunks addieren
 	lsl.l	#2,d0		;soviele Langworte ist BSS lang
 	move.l	HunkMem-x(a5),a1	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d7
 	lsl.l	#TabSize,d7
-	move.l	d0,4(a1,d7.l)			;Größe des Hunks
+	move.l	d0,4(a1,d7.l)			;Groesse des Hunks
 
 	tst.l	28(a1,d7.l)	;Wenn kein HEADER-Eintrag da ist, dann sorgen
 	bne.b	1$		;wir eben selbst dafuer !!!
@@ -106,7 +106,7 @@ HData3:	move.l	(a2)+,d0
 	move.l	HunkMem-x(a5),a1	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d7
 	lsl.l	#TabSize,d7
-	move.l	d0,4(a1,d7.l)			;Größe des Hunks
+	move.l	d0,4(a1,d7.l)			;Groesse des Hunks
 
 	move.l	a2,36(a1,d7.l)			;Anfang des Hunks
 	add.l	d0,a2
@@ -121,7 +121,7 @@ HData3:	move.l	(a2)+,d0
 3$
 	move.l	HunkAdd-x(a5),8(a1,d7.l)	;Anfang des Hunk-Inhalts als 2. Longword
 	addq.l	#4,d0			;wegen HunkEndLabel
-	add.l	d0,HunkAdd-x(a5)	;Größe des DataHunks addieren
+	add.l	d0,HunkAdd-x(a5)	;Groesse des DataHunks addieren
 
 	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
@@ -152,7 +152,7 @@ HCode3:	move.l	(a2)+,d0
 	add.l	d0,a2
 	move.l	HunkAdd-x(a5),8(a3,d7.l)	;Anfang des Hunk-Inhalts als 2. Longword
 	addq.l	#4,d0			;wegen HunkEndLabel
-	add.l	d0,HunkAdd-x(a5)	;Größe des CodeHunks addieren
+	add.l	d0,HunkAdd-x(a5)	;Groesse des CodeHunks addieren
 
 	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
@@ -212,7 +212,7 @@ HExt3:	move.l	HunkMem-x(a5),a1	;Anfangsadresse nach Hunktabelle
 	bra.b	3$
 1$	tst.l	d0		; war btst #31,d0 mit beq.b 2$
 	bpl.b	2$
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a2
 	move.l	(a2)+,d0
@@ -272,7 +272,7 @@ Hdrel323:
 	add.l	d0,d0
 	add.l	d0,a2
 2$	clr.l	d0
-	move.w	(a2)+,d0	;Länge des Labels in LONGWORDS
+	move.w	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
 	move.l	a2,d0
@@ -300,7 +300,7 @@ Hdrel083:
 	add.l	d0,d0
 	add.l	d0,a2
 2$	clr.l	d0
-	move.w	(a2)+,d0	;Länge des Labels in LONGWORDS
+	move.w	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 
 	move.l	a2,d0
@@ -329,7 +329,7 @@ HunkJumpOver:
 	add.l	d0,d6
 	lsl.l	#2,d0
 	add.l	d0,a2
-2$	move.l	(a2)+,d0	;Länge des Labels in LONGWORDS
+2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
 	rts
 
@@ -337,7 +337,7 @@ HHeader3:
 	bra.b	2$
 
 1$	lsl.l	#2,d0		;wenn HunkName vorhanden, dann
-	add.l	d0,a2		;länge des HunkNamens überspringen
+	add.l	d0,a2		;laenge des HunkNamens ueberspringen
 2$	move.l	(a2)+,d0
 	bne.b	1$		;testen ob HunkName vorhanden
 
@@ -366,15 +366,15 @@ KickStart3:
 	bra	rawCode3
 
 Bootblock3:
-	addq.l	#8,a2		;CheckSumme und Rootblock überspringen
+	addq.l	#8,a2		;CheckSumme und Rootblock ueberspringen
 	move.l	#1012,d0
 
 rawCode3:
 	move.l	HunkMem-x(a5),a3	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d7
 	lsl.l	#TabSize,d7
-	move.l	d0,4(a3,d7.l)		;Größe des Bootblocks
-	move.l	d0,28(a3,d7.l)		;Größe des Bootblocks
+	move.l	d0,4(a3,d7.l)		;Groesse des Bootblocks
+	move.l	d0,28(a3,d7.l)		;Groesse des Bootblocks
 	move.l	HunkAdd-x(a5),8(a3,d7.l)	;Anfang des Hunk-Inhalts als 2. Longword
 
 	addq.l	#4,d0			;wegen HunkEndLabel
