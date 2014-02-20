@@ -18,7 +18,7 @@ PLine:	movem.l	d0-d3/a0-a1,-(SP)
 	move.l	HunkMem-x(a5),a0
 	add.l	8(a0,d6.l),d2		;theo. Labeladresse
 
-	move.l	LabelMem-x(a5),a1	;LabelTab. fängt hier an
+	move.l	LabelMem-x(a5),a1	;LabelTab. faengt hier an
 	move.l	LabelPointer-x(a5),d3
 	bra.b	PCheck
 
@@ -32,10 +32,10 @@ PCheck:	cmp.l	0(a1,d3.l),d2		;gibt es ein Label?
 		move.l	8(a0,d6.l),d1	;Ende des aktuellen Hunks in D1
 		add.l	28(a0,d6.l),d1	;sichern
 
-		cmp.l	0(a1,d3.l),d1	;ist das Ende näher als das nächste Label?
+		cmp.l	0(a1,d3.l),d1	;ist das Ende naeher als das naechste Label?
 		bcs.b	1$		;wenn ja dann springen
 
-		move.l	0(a1,d3.l),d1	;Abstand bis zum nächsten Label
+		move.l	0(a1,d3.l),d1	;Abstand bis zum naechsten Label
 1$		sub.l	d2,d1		;abspeichern
 		cmp.l	NextLabel-x(a5),d1
 		bge.b	Pline2
@@ -70,10 +70,10 @@ Pline2:	move.l	d3,LabelPointer-x(a5)
 PLabel:		move.l	8(a0,d6.l),d1	;Ende des aktuellen Hunks in D1
 		add.l	28(a0,d6.l),d1	;sichern
 
-		cmp.l	4(a1,d3.l),d1	;ist das Ende näher als das nächste Label?
+		cmp.l	4(a1,d3.l),d1	;ist das Ende naeher als das naechste Label?
 		bcs.b	1$		;wenn ja dann springen
 
-		move.l	4(a1,d3.l),d1	;Abstand bis zum nächsten Label
+		move.l	4(a1,d3.l),d1	;Abstand bis zum naechsten Label
 1$		sub.l	d2,d1		;abspeichern
 		cmp.l	NextLabel-x(a5),d1
 		bge.b	3$
@@ -113,7 +113,7 @@ SymbolLabel:
 
 	bra.b	2$
 
-3$	lsl.l	#2,d0		;anzahl der Langwörter
+3$	lsl.l	#2,d0		;anzahl der Langwoerter
 	add.l	d0,a0
 
 		move.l	(a0),d1		;NextLabel berechnen
@@ -121,11 +121,11 @@ SymbolLabel:
 		ble.b	4$
 		cmp.l	d4,d1
 		bge.b	4$
-		move.l	d1,d4		;und wenn nötig sichern
+		move.l	d1,d4		;und wenn noetig sichern
 
-4$	cmp.l	(a0)+,d2	;testen ob Adresse übereinstimmt
+4$	cmp.l	(a0)+,d2	;testen ob Adresse uebereinstimmt
 	beq.b	5$
-2$	move.l	a0,d3		;retten (nach d3) für PrintSymbolLabel
+2$	move.l	a0,d3		;retten (nach d3) fuer PrintSymbolLabel
 	move.l	(a0)+,d0	;testen ob Label folgt
 	bne.b	3$
 
@@ -298,7 +298,7 @@ LabelCalcRelocX32:
 	tst.l	0(a0,d6.l)	;Wenn kein Reloc32 dann auch nicht testen
 	beq	LabelCalcS
 	move.l	0(a0,d6.l),a1
-	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und überspringen
+	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und ueberspringen
 	bne	LabelCalcS
 
 	move.l	PCounter-x(a5),a3	;Adresse
@@ -314,7 +314,7 @@ LabelCalcRelocX32:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -332,7 +332,7 @@ LabelCalcRelocX16:
 	move.l	20(a0,d6.l),d7	;Wenn kein Reloc16 dann auch nicht testen
 	beq	LabelCalcS
 	move.l	d7,a1
-	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und überspringen
+	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und ueberspringen
 	bne	LabelCalcS
 
 	move.l	PCounter-x(a5),a3
@@ -348,7 +348,7 @@ LabelCalcRelocX16:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -368,7 +368,7 @@ LabelCalcRelocX08:
 	move.l	24(a0,d6.l),d7	;Wenn kein Reloc08 dann auch nicht testen
 	beq	LabelCalcS
 	move.l	d7,a1
-	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und überspringen
+	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und ueberspringen
 	bne	LabelCalcS
 
 	move.l	PCounter-x(a5),a3
@@ -384,7 +384,7 @@ LabelCalcRelocX08:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -397,7 +397,7 @@ LabelCalcRelocX08:
 
 ;	bra	LabelCalc3
 
-; LabelCalc3 ist nur für PASS1 !!!!
+; LabelCalc3 ist nur fuer PASS1 !!!!
 
 LabelCalc3:
 	tst.b	ArguD-x(a5)	;TRACE/S
@@ -407,27 +407,27 @@ LabelCalc3:
 
 	lsl.l	#TabSize,d6
 	move.l	HunkMem-x(a5),a0
-	cmp.l	28(a0,d6.l),d2	;wenn das Label größer als der Hunk ist
+	cmp.l	28(a0,d6.l),d2	;wenn das Label groesser als der Hunk ist
 	bhi.b	1$		;dann KEIN Label
 
 	move.l	d2,d5
 	add.l	8(a0,d6.l),d2	;Pos. des Hunks addieren
 
-	cmp.l	28(a0,d6.l),d5	;wenn der Sprung größer ODER gleich als der Hunk ist
+	cmp.l	28(a0,d6.l),d5	;wenn der Sprung groesser ODER gleich als der Hunk ist
 	bge.b	1$
 
 	bsr	SprungMemFueller
 
 1$	rts
 
-; LabelCalc2 ist nur für PASS1 !!!!!
+; LabelCalc2 ist nur fuer PASS1 !!!!!
 
 LabelCalc2:
 	move.l	CurrHunk-x(a5),d6
 	lsl.l	#TabSize,d6
 	move.l	HunkMem-x(a5),a0
 LabelCalcS:
-	cmp.l	28(a0,d6.l),d2	;wenn das Label größer als der Hunk ist
+	cmp.l	28(a0,d6.l),d2	;wenn das Label groesser als der Hunk ist
 	bhi.b	1$		;dann KEIN Label
 
 	move.l	d2,d5
@@ -438,7 +438,7 @@ LabelCalcS:
 	tst.b	Springer-x(a5)	;ist es ein Sprungbefehl gewesen ???
 	beq.b	3$
 
-	cmp.l	28(a0,d6.l),d5	;wenn der Sprung größer ODER gleich als der Hunk ist
+	cmp.l	28(a0,d6.l),d5	;wenn der Sprung groesser ODER gleich als der Hunk ist
 	bge.b	3$
 
 	movem.l	d2/d5,-(SP)
@@ -453,9 +453,9 @@ LabelCalcS:
 	
 	bra.b	5$
 
-6$	lsl.l	#2,d1		;Anzahl der Langwörter
+6$	lsl.l	#2,d1		;Anzahl der Langwoerter
 	add.l	d1,a0
-	cmp.l	(a0)+,d5	;testen ob Adresse übereinstimmt
+	cmp.l	(a0)+,d5	;testen ob Adresse uebereinstimmt
 	beq.b	1$		;Symbol, also kein Label
 5$	move.l	(a0)+,d1	;testen ob Label folgt
 	bne.b	6$
@@ -479,7 +479,7 @@ AddLabelPointer:
 	movem.l	(SP)+,a0/d2
 	rts
 
-; Für die TRACE-Methode !!!
+; Fuer die TRACE-Methode !!!
 
 SprungMemFueller:
 
@@ -508,7 +508,7 @@ SprungMemFueller:
 	subq.w	#1,d7
 
 1$	cmp.l	(a2)+,d2	;Testen ob Adresse in Liste schon vorhanden
-	dbeq	d7,1$		;ist. Wenn ja dann ist der Eintrag unnötig
+	dbeq	d7,1$		;ist. Wenn ja dann ist der Eintrag unnoetig
 	beq.b	2$
 
 ;	movem.l	d2/a3,-(SP)
@@ -543,12 +543,12 @@ LabelPrint32:
 	move.l	0(a0,d6.l),d7	;Wenn kein Reloc32 dann auch nicht testen
 	beq	4$
 	move.l	d7,a1
-	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und überspringen
+	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und ueberspringen
 	bne	4$
 
 	move.l	PCounter-x(a5),d0	;richtige Adresse
-	add.l	ToAdd-x(a5),d0		;für andere sachen
-	addq.l	#2,d0			;für den Mnemonic
+	add.l	ToAdd-x(a5),d0		;fuer andere sachen
+	addq.l	#2,d0			;fuer den Mnemonic
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
 	beq	4$
@@ -560,11 +560,11 @@ LabelPrint32:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,d0	;Einträge '(a2)' mit richtiger Adresse 'd0'
+3$	cmp.l	(a2)+,d0	;Eintraege '(a2)' mit richtiger Adresse 'd0'
 	dbls	d7,3$
 	bne.b	2$
 
-	move.l	ToAdd-x(a5),d0		;für andere sachen
+	move.l	ToAdd-x(a5),d0		;fuer andere sachen
 	asr.l	#1,d0
 	lea	Relocmarke-x(a5),a3
 	move.b	#'_',1(a3,d0.l)
@@ -586,12 +586,12 @@ LabelPrint16:
 	move.l	20(a0,d6.l),d0	;Wenn kein Reloc16 dann auch nicht testen
 	beq	4$
 	move.l	d0,a1
-	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und überspringen
+	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und ueberspringen
 	bne	4$
 
 	move.l	PCounter-x(a5),d0	;richtige Adresse
-	add.l	ToAdd-x(a5),d0		;für andere sachen
-	addq.l	#2,d0			;für den Mnemonic
+	add.l	ToAdd-x(a5),d0		;fuer andere sachen
+	addq.l	#2,d0			;fuer den Mnemonic
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
 	beq	4$
@@ -603,7 +603,7 @@ LabelPrint16:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,d0	;Einträge '(a2)' mit richtiger Adresse 'd0'
+3$	cmp.l	(a2)+,d0	;Eintraege '(a2)' mit richtiger Adresse 'd0'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -624,12 +624,12 @@ LabelPrint08:
 	move.l	24(a0,d6.l),d0	;Wenn kein Reloc08 dann auch nicht testen
 	beq	4$
 	move.l	d0,a1
-	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und überspringen
+	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und ueberspringen
 	bne	4$
 
 	move.l	PCounter-x(a5),d0	;richtige Adresse
-	add.l	ToAdd-x(a5),d0		;für andere sachen
-	addq.l	#2,d0			;für den Mnemonic
+	add.l	ToAdd-x(a5),d0		;fuer andere sachen
+	addq.l	#2,d0			;fuer den Mnemonic
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
 	beq	4$
@@ -641,7 +641,7 @@ LabelPrint08:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,d0	;Einträge '(a1)' mit richtiger Adresse 'd0'
+3$	cmp.l	(a2)+,d0	;Eintraege '(a1)' mit richtiger Adresse 'd0'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -663,7 +663,7 @@ LabelPrintReloc32:
 	beq	PrintLabelNormal
 
 	move.l	0(a0,d6.l),a1
-	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und überspringen
+	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und ueberspringen
 	bne	PrintLabelNormal
 
 	move.l	PCounter-x(a5),a3
@@ -679,7 +679,7 @@ LabelPrintReloc32:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -708,7 +708,7 @@ LabelPrintReloc16:
 	beq	PrintLabelNormal
 
 	move.l	20(a0,d6.l),a1
-	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und überspringen
+	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und ueberspringen
 	bne	PrintLabelNormal
 
 	move.l	PCounter-x(a5),a3
@@ -724,7 +724,7 @@ LabelPrintReloc16:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -749,7 +749,7 @@ LabelPrintReloc08:
 	beq	PrintLabelNormal
 
 	move.l	24(a0,d6.l),a1
-	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und überspringen
+	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und ueberspringen
 	bne	PrintLabelNormal
 
 	move.l	PCounter-x(a5),a3
@@ -765,7 +765,7 @@ LabelPrintReloc08:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -811,7 +811,7 @@ PrintRelocXLabel:
 	st	LabelYes-x(a5)
 1$	rts
 
-LabelPrintSymbol:			;in D6 wird der Hunk übergeben
+LabelPrintSymbol:			;in D6 wird der Hunk uebergeben
 	tst.l	16(a0,d6.l)	;wenn kein Symbol-Hunk dann auch nicht testen
 	beq.b	1$
 
@@ -827,9 +827,9 @@ LabelPrintSymbol:			;in D6 wird der Hunk übergeben
 
 	bra.b	2$
 
-3$	lsl.l	#2,d1		;Anzahl der Langwörter
+3$	lsl.l	#2,d1		;Anzahl der Langwoerter
 	add.l	d1,a2
-	cmp.l	(a2)+,d2	;testen ob Adresse übereinstimmt
+	cmp.l	(a2)+,d2	;testen ob Adresse uebereinstimmt
 	beq.b	PrintSymbolLabela4
 2$	move.l	a2,a1
 	move.l	(a2)+,d1	;testen ob Symbol folgt
@@ -838,7 +838,7 @@ LabelPrintSymbol:			;in D6 wird der Hunk übergeben
 1$	rts
 
 PrintSymbolLabela4:
-	move.l	(a1)+,d1		;Anzahl der Langwörter
+	move.l	(a1)+,d1		;Anzahl der Langwoerter
 	lsl.l	#2,d1
 	subq.l	#1,d1
 
@@ -848,7 +848,7 @@ PrintSymbolLabela4:
 
 	subq.l	#1,a4
 
-2$	addq.l	#4,SP			;vier für RTS
+2$	addq.l	#4,SP			;vier fuer RTS
 	move.b	#4,ExternSize-x(a5)	;vier wegen reloc32
 	st	LabelYes-x(a5)
 	rts
@@ -912,7 +912,7 @@ ExXX_1	tst.l	d0		;testen ob > oder < als $80
 
 	ror.l	#8,d0
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -935,9 +935,9 @@ ExXX_2	and.l	#$ffffff,d0	;kleiner als $80
 
 YesExternXX:
 	ror.l	#8,d0
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
-	add.l	d0,a0		;Anzahl der Langwörter
+	add.l	d0,a0		;Anzahl der Langwoerter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
 	beq.b	ExXX_3
@@ -984,7 +984,7 @@ Ex32_1	tst.l	d0		;testen ob > oder < als $80
 	beq.b	YesExtern32
 	ror.l	#8,d0
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -1007,9 +1007,9 @@ Ex32_2	and.l	#$ffffff,d0	;kleiner als $80
 
 YesExtern32:
 	ror.l	#8,d0
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
-	add.l	d0,a0		;Anzahl der Langwörter
+	add.l	d0,a0		;Anzahl der Langwoerter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
 	beq.b	Ex32_3
@@ -1053,7 +1053,7 @@ Ex16_1	tst.l	d0		;testen ob > oder < als $80
 	beq.b	YesExtern16
 	ror.l	#8,d0
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -1076,9 +1076,9 @@ Ex16_2	and.l	#$ffffff,d0	;kleiner als $80
 
 YesExtern16:
 	ror.l	#8,d0
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
-	add.l	d0,a0		;Anzahl der Langwörter
+	add.l	d0,a0		;Anzahl der Langwoerter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
 	beq.b	Ex16_3
@@ -1122,7 +1122,7 @@ Ex08_1	tst.l	d0		;testen ob > oder < als $80
 	beq.b	YesExtern16
 	ror.l	#8,d0
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -1145,9 +1145,9 @@ Ex08_2	and.l	#$ffffff,d0	;kleiner als $80
 
 YesExtern08:
 	ror.l	#8,d0
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
-	add.l	d0,a0		;Anzahl der Langwörter
+	add.l	d0,a0		;Anzahl der Langwoerter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
 	beq.b	Ex08_3		;Wenn NULL dann nicht checken
@@ -1163,14 +1163,14 @@ YesExtern08:
 
 FoundExternxx:
 	move.l	d1,-(SP)
-	move.l	(a1)+,d1		;Anzahl der Langwörter
+	move.l	(a1)+,d1		;Anzahl der Langwoerter
 	lsl.l	#2,d1
 	subq.l	#1,d1
 
 1$	move.b	(a1)+,(a4)+	;Text kopieren stoppen wenn NULL
 	dbeq	d1,1$
 	bne.b	2$
-	subq.l	#1,a4		;Wenn NULL dann eins vom zähler abziehen
+	subq.l	#1,a4		;Wenn NULL dann eins vom zaehler abziehen
 2$	move.l	(SP)+,d1
 	rts
 
@@ -1192,7 +1192,7 @@ CheckOnReloc32:
 	beq	5$
 
 	move.l	0(a0,d6.l),a1
-	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und überspringen
+	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und ueberspringen
 	bne	5$
 
 	move.l	PCounter-x(a5),d0		;richtige Adresse
@@ -1209,7 +1209,7 @@ CheckOnReloc32:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,d0	;Einträge '(a2)' mit richtiger Adresse 'd0'
+3$	cmp.l	(a2)+,d0	;Eintraege '(a2)' mit richtiger Adresse 'd0'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -1272,7 +1272,7 @@ xExXX_1	tst.l	d0		;testen ob > oder < als $80
 
 	ror.l	#8,d0
 
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
 	add.l	d0,a0
 	move.l	(a0)+,d0
@@ -1294,9 +1294,9 @@ xExXX_2	and.l	#$ffffff,d0	;kleiner als $80
 
 xYesExternXX:
 	ror.l	#8,d0
-	and.l	#$ffffff,d0	;größer als $80
+	and.l	#$ffffff,d0	;groesser als $80
 	lsl.l	#2,d0
-	add.l	d0,a0		;Anzahl der Langwörter
+	add.l	d0,a0		;Anzahl der Langwoerter
 
 	move.l	(a0)+,d0	;Anzahl der Adressen
 	beq.b	xExXX_3
@@ -1324,7 +1324,7 @@ LoadJumplist:
 	move.l	DosBase-x(a5),a6
 
 	lea	Buffer-x(a5),a2
-	move.l	a2,d1			;FileName für unten
+	move.l	a2,d1			;FileName fuer unten
 
 	move.l	#'PROG',(a2)+
 	move.l	#'DIR:',(a2)+
@@ -1361,7 +1361,7 @@ LoadJumplist:
 	beq	ErrorMemory
 
 ;	lea	FIB2-x(a5),a0
-;	move.l	124(a0),d3		;mit dieser Länge
+;	move.l	124(a0),d3		;mit dieser Laenge
 ;	move.l	JLMem-x(a5),a0
 ;	clr.b	0(a0,d3.l)		;END-kennung setzen !!!
 
@@ -1370,7 +1370,7 @@ LoadJumplist:
 	move.l	FileHD3-x(a5),d1	;Dieses File
 	move.l	JLMem-x(a5),d2	;in diesen Speicher
 	lea	FIB2-x(a5),a0
-	move.l	124(a0),d3		;mit dieser Länge
+	move.l	124(a0),d3		;mit dieser Laenge
 	jsr	_LVORead(a6)		;und los geht's
 	moveq	#-1,d3
 	cmp.l	d3,d0
@@ -1404,15 +1404,15 @@ LoadJumplist:
 	tst.b	KICK-x(a5)
 	beq	7$
 
-	sub.l	#$f80000,d6	;wegen Kickstart abziehen
+	sub.l	ROMaddress-x(a5),d6	;wegen Kickstart abziehen
 
-7$	cmp.l	HunkAnzahl-x(a5),d7	;größer als HunkAnzahl
+7$	cmp.l	HunkAnzahl-x(a5),d7	;groesser als HunkAnzahl
 	bge.b	4$
 
 	lsl.l	#TabSize,d7
 	move.l	HunkMem-x(a5),a0
 
-	cmp.l	28(a0,d7.l),d6		;mit Hunkgröße vergleichen
+	cmp.l	28(a0,d7.l),d6		;mit Hunkgroesse vergleichen
 	bge.b	4$
 
 	add.l	8(a0,d7.l),d6		;Anfang des Hunks addieren
@@ -1432,14 +1432,14 @@ LoadJumplist:
 4$	move.l	(SP)+,a2
 	bra.b	3$
 
-2$	move.l	JLMem-x(a5),a1		;Für das Jumplist-File
+2$	move.l	JLMem-x(a5),a1		;Fuer das Jumplist-File
 	move.l	4,a6
 	jsr	_LVOFreeVec(a6)
 
 	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	1$
 
-		move.l	#Status7T,d1		;Dateilänge ausgeben
+		move.l	#Status7T,d1		;Dateilaenge ausgeben
 		moveq	#Status8T-Status7T,d2
 		bsr	PrintText
 
@@ -1505,7 +1505,7 @@ GetHexDatas:
 	beq	1$
 	bra.b	4$
 
-EOF2:	addq.l	#8,SP		;Für zwei rts-back
+EOF2:	addq.l	#8,SP		;Fuer zwei rts-back
 EOF:	moveq	#-1,d7		;End of File indentifier
 	rts
 
@@ -1573,7 +1573,7 @@ MakeIDFile:
 
 	lea	Buffer-x(a5),a2
 	move.l	a2,d1		;File
-	moveq	#2,d2			;Maske = 1 Bit für 'Not Executable'
+	moveq	#2,d2			;Maske = 1 Bit fuer 'Not Executable'
 	jsr	_LVOSetProtection(a6)
 
 	move.l	d7,d1
@@ -1656,19 +1656,19 @@ LibraryInit:
 	move.l	HunkMem-x(a5),a0
 	move.l	36(a0),a3		;Anfang (pure Daten!) des (NUR) ersten Hunks
 	move.l	a3,a1
-	move.l	04(a0),d7		;größe des (NUR) ersten Hunks
+	move.l	04(a0),d7		;groesse des (NUR) ersten Hunks
 
 	lsr.l	#1,d7		;durch 2 teilen !!! (weil WORD-Suche!)
 	subq.l	#1,d7
 	bmi	LibEnd
 
-	move.w	#$4afc,d0	;das ist der resident-erkenner (ILLEGAL!) den wir suchen müssen !!
+	move.w	#$4afc,d0	;das ist der resident-erkenner (ILLEGAL!) den wir suchen muessen !!
 
 1$	cmp.w	(a1)+,d0	;ILLEGAL Befehl suchen !!! (resident-erkenner!)
 	dbeq	d7,1$
 	bne	LibEnd
 
-	move.l	a1,d7	;zusätzlicher Sicherheitscheck !!!
+	move.l	a1,d7	;zusaetzlicher Sicherheitscheck !!!
 	sub.l	a3,d7
 	subq.l	#2,d7	;Nach dem ILLEGAL muss ein Zeiger auf das Illegal kommen !!
 	cmp.l	(a1),d7
@@ -1679,7 +1679,7 @@ LibraryInit:
 	lsr.l	#1,d7		;d7/2
 	move.w	d7,d6
 	lsr.l	#3,d7		;d7/8
-	bset	d6,0(a2,d7.w)	;und nun Bit setzen !!! (für ILLEGAL!)
+	bset	d6,0(a2,d7.w)	;und nun Bit setzen !!! (fuer ILLEGAL!)
 
 	;	nun Funktionstabelle eintragen
 
@@ -1725,7 +1725,7 @@ LibraryInit:
 	lsl.l	#TabSize,d6
 	move.l	36(a0,d6),a3
 
-	cmp.l	28(a0,d6.l),d5	;wenn das Label größer als der Hunk ist
+	cmp.l	28(a0,d6.l),d5	;wenn das Label groesser als der Hunk ist
 	bhi.b	LibEnd		;dann KEIN Label
 
 	move.l	a3,a0
@@ -1800,7 +1800,7 @@ Libbyspezial:
 	move.l	0(a0,d6.l),d7	;Wenn kein Reloc32 dann auch nicht testen
 	beq	4$
 	move.l	d7,a1
-	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und überspringen
+	cmp.l	#$03ec,(a1)+	;Reloc32-kennung testen und ueberspringen
 	bne	4$
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
@@ -1813,7 +1813,7 @@ Libbyspezial:
 	lsl.l	#2,d3
 	add.l	d3,a1
 
-3$	cmp.l	(a2)+,a3	;Einträge '(a2)' mit richtiger Adresse 'a3'
+3$	cmp.l	(a2)+,a3	;Eintraege '(a2)' mit richtiger Adresse 'a3'
 	dbls	d7,3$
 	bne.b	2$
 
@@ -1823,7 +1823,7 @@ Libbyspezial:
 
 	lsl.l	#TabSize,d6
 	move.l	HunkMem-x(a5),a0
-	cmp.l	28(a0,d6.l),d2	;wenn das Label größer als der Hunk ist
+	cmp.l	28(a0,d6.l),d2	;wenn das Label groesser als der Hunk ist
 	bhi.b	1$		;dann KEIN Label
 
 	move.l	d2,d5
@@ -1832,7 +1832,7 @@ Libbyspezial:
 4$	tst.b	Springer-x(a5)	;ist es Sprungbefehl gewesen ??
 	beq.b	1$
 
-	cmp.l	28(a0,d6.l),d5	;wenn der Sprung größer ODER gleich als der Hunk ist
+	cmp.l	28(a0,d6.l),d5	;wenn der Sprung groesser ODER gleich als der Hunk ist
 	bge.b	1$
 
 	bsr	SprungMemFueller
