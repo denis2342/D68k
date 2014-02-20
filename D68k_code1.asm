@@ -1,5 +1,5 @@
 ;
-;	D68k.code2 von Denis Ahrens 1992
+;	D68k.code1 von Denis Ahrens 1992
 ;
 
 ;************************************
