@@ -162,19 +162,17 @@ SortLabel:
 	bsr.b	QuickLabel
 
 	move.l	LabelMem-x(a5),a0	;Anfang der LabelTabelle
-	addq.l	#4,a0
-	move.l	a0,a1
+	move.l	a0,d6
 
 	move.l	LabelPointer-x(a5),d7
-	beq.b	3$
-	add.l	a1,d7
-	subq.l	#4,d7
+	beq.b	2$
 
-	moveq	#4,d6
+	add.l	a0,d7
 
-	move.l	-4(a0),d1
-1$	move.l	d1,d0
-	move.l	(a0)+,d1
+	move.l	(a0)+,d0
+	move.l	a0,a1
+
+1$	move.l	(a0)+,d1
 
 	cmp.l	a0,d7
 	bcs.b	2$
@@ -183,19 +181,19 @@ SortLabel:
 	beq.b	1$
 
 	move.l	d1,(a1)+
-	addq.l	#4,d6
+	move.l  d1,d0
 	bra.b	1$
 
-2$	move.l	d6,LabelPointer-x(a5)
-4$	move.l	#$7fffffff,d0
+2$	move.l	a1,d7
+	sub.l	d6,d7
+	move.l	d7,LabelPointer-x(a5)
+
+	move.l	#$7fffffff,d0
 	move.l	d0,(a1)+
 	move.l	d0,(a1)+
 	move.l	d0,(a1)+
 	move.l	d0,(a1)
 	rts
-
-3$	subq.l	#4,a1
-	bra.b	4$
 
 QuickLabel:
 	move.l	LabelMem-x(a5),a1
