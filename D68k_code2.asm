@@ -32,10 +32,11 @@ DissaE:	bsr	PLine		;letztes (oder erstes) Label ohne Befehl
 	rts
 
 DissaCode:
+	lea	Relocmarke-x(a5),a4
 	move.l	#'    ',d0
-	move.l	d0,Relocmarke-x(a5)
-	move.l	d0,Relocmarke+4-x(a5)
-	move.w	d0,Relocmarke+8-x(a5)
+	move.l	d0,(a4)+
+	move.l	d0,(a4)+
+	move.w	d0,(a4)
 
 	lea	Befehl-x(a5),a4
 	clr.w	CodeID-x(a5)
