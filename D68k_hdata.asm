@@ -7,7 +7,7 @@ DisData:
 	bne	Dissa4_1
 
 	clr.l	PCounter-x(a5)
-	tst.l	CodeSize-x(a5)	;Check für DataLength = 0
+	tst.l	CodeSize-x(a5)	;Check fuer DataLength = 0
 	beq.b	DisDaE		;Wenn CodeSize = 0 dann RTS
 	bsr	Return		;Ein Return ausgeben
 
@@ -28,7 +28,7 @@ DissaData:
 	move.l	HunkMem-x(a5),a1	;Anfangsadresse der Hunktabelle
 	move.l	CurrHunk-x(a5),d0
 	lsl.l	#TabSize,d0
-	move.l	4(a1,d0.l),d0			;Größe des Hunks
+	move.l	4(a1,d0.l),d0			;Groesse des Hunks
 	cmp.l	PCounter-x(a5),d0
 	bhi.b	3$
 	lea	NULL-x(a5),a0
@@ -93,7 +93,7 @@ d_dc_b:	move.l	#'dc.b',(a4)+	;dann BYTE
 		bsr	TAB3
 
 1$	move.b	#9,Befehltab-x(a5)
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
+	move.b	#10,(a4)+	;RETURN hinten ranhaengen
 	move.l	#Befehl-1,d1	;und ausgeben
 	move.l	a4,d2
 	sub.l	d1,d2
@@ -141,11 +141,11 @@ d_dc_w2
 
 		move.l	Pointer-x(a5),a0
 		move.w	(a0),d2
-		bsr	HexOutPutW	;auf jeden Fall ein WORD für Mnemonic
+		bsr	HexOutPutW	;auf jeden Fall ein WORD fuer Mnemonic
 		bsr	TAB3		;am ende noch vier TAB
 
 1$	move.b	#9,Befehltab-x(a5)
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
+	move.b	#10,(a4)+	;RETURN hinten ranhaengen
 	move.l	#Befehl-1,d1	;und ausgeben
 	move.l	a4,d2
 	sub.l	d1,d2
@@ -216,7 +216,7 @@ d_dc_l2
 		bsr	TAB2
 
 1$	move.b	#9,Befehltab-x(a5)
-	move.b	#10,(a4)+	;RETURN hinten ranhängen
+	move.b	#10,(a4)+	;RETURN hinten ranhaengen
 	move.l	#Befehl-1,d1	;und ausgeben
 	move.l	a4,d2
 	sub.l	d1,d2

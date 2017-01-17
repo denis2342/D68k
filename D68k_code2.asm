@@ -1,7 +1,7 @@
 ;
 ; ***************************************
 ; *					*
-; *	Disassembler-Routine für D68k	*
+; *	Disassembler-Routine fuer D68k	*
 ; *					*
 ; *	Von Denis Ahrens (C) 1991-1994	*
 ; *					*
@@ -16,7 +16,7 @@ Dissa4_1:
 	clr.b	JumpTableOn-x(a5)	;Sicherheitshalber !!!
 
 	clr.l	PCounter-x(a5)
-	tst.l	CodeSize-x(a5)	;Check für CodeLength = 0
+	tst.l	CodeSize-x(a5)	;Check fuer CodeLength = 0
 	beq.b	DissaE		;Wenn CodeSize = 0 dann RTS
 	bsr	Return		;Ein Return ausgeben
 	clr.b	DataRem-x(a5)
@@ -93,7 +93,7 @@ DissaCode:
 
 	and.w	#$00f0,d7
 	lsr.b	#3,d7
-	cmp.w	#16,d7			;eigentlich unnötig !!!
+	cmp.w	#16,d7			;eigentlich unnoetig !!!
 	move.w	Liste(PC,d7.w),d7
 	jmp	Liste(PC,d7.w)
 
@@ -588,7 +588,7 @@ WordData2:
 	bne	LabelTab
 
 	st	DataRem-x(a5)	;Data-Logic ON/OFF
-	move.l	#'dc.w',(a4)+	;Ich kann nicht erkennen was das für
+	move.l	#'dc.w',(a4)+	;Ich kann nicht erkennen was das fuer
 	move.b	#9,(a4)+	;ein Befehl sein soll (also dc.w ...)
 
 	move.l	Pointer-x(a5),a0
@@ -2605,7 +2605,7 @@ c_movem	move.l	#'MOVE',(a4)+
 	beq.b	2$
 
 3$	move.w	#%011111101100,Adressposs-x(a5)
-	bsr	GetSEA		;für Quell-Operand
+	bsr	GetSEA		;fuer Quell-Operand
 	move.b	#',',(a4)+
 	bsr	mmask
 	bra	DoublePrint
@@ -2613,7 +2613,7 @@ c_movem	move.l	#'MOVE',(a4)+
 2$	bsr	mmask
 	move.b	#',',(a4)+
 	move.w	#%000111110100,Adressposs-x(a5)
-	bsr	GetSEA		;für Ziel-Operand
+	bsr	GetSEA		;fuer Ziel-Operand
 	bra	DoublePrint
 
 ;**********************************
@@ -3226,7 +3226,7 @@ PCIndexDis				;111 011
 
 	move.l	Pointer-x(a5),d2
 	add.l	ToAdd-x(a5),d2
-	addq.l	#4,d2		;zwei für Befehl und zwei für decoder-word
+	addq.l	#4,d2		;zwei fuer Befehl und zwei fuer decoder-word
 	move.l	d2,Label-x(a5)
 
 	move.l	Pointer-x(a5),a0
@@ -3574,10 +3574,10 @@ GetCoCo2
 DBCCx:	dc.b	"T",0,"F",0,"HILSCCCSNEEQVCVSPLMIGELTGTLE"
 
 ;**********************************
-;	Zurücksetzen der Werte PASS2
+;	Zuruecksetzen der Werte PASS2
 ;**********************************
 
-DochFalsch:			;für falsche Aussortierungen
+DochFalsch:			;fuer falsche Aussortierungen
 	move.l	#'    ',d0
 	move.l	d0,Relocmarke-x(a5)
 	move.l	d0,Relocmarke+4-x(a5)
