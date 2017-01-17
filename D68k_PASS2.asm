@@ -46,8 +46,8 @@ ExePASS2:
 	cmp.w	#$03fb,d7	;Hunk_Index
 	beq	HIndex1
 
-	cmp.l	#$11144ef9,d7	;Kickstartkennung
-	beq	KickStart1
+	tst.b	KICK-x(a5)	;Kickstartkennung
+	bne	KickStart1
 	clr.b	d7
 	cmp.l	#$444f5300,d7	;"DOS",0
 	beq	Bootblock1

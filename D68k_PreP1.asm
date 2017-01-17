@@ -102,6 +102,8 @@ NoCode2:
 
 	cmp.l	#$11144ef9,d7	;Kickstartkennung
 	beq	KickStart2
+	cmp.l	#$00008000,d7	;Zyxel Firmware 6.22
+	beq	Zyxel
 	clr.b	d7		;FileSystem ist egal
 	cmp.l	#$444f5300,d7	;"DOS",0
 	beq	Bootblock2
@@ -229,9 +231,25 @@ Bootblock2:
 	move.l	#1,CurrHunk-x(a5)
 	rts
 
+Zyxel:	add.l	FileSize-x(a5),a2
+	subq.l	#4,a2
+	move.l	#1,CurrHunk-x(a5)
+
+	move.l	#$80000,ROMaddress-x(a5)
+	subq.l	#4,ROMaddress-x(a5)
+	st	KICK-x(a5)
+	rts
+
 KickStart2:
 	add.l	FileSize-x(a5),a2	; kickstart filesize
+	subq.l	#4,a2
 	move.l	#1,CurrHunk-x(a5)
+
+	move.l	d0,-(SP)
+	move.l	#$1000000,d0		; ende des kickroms
+	sub.l	FileSize-x(a5),d0	; kicksize abziehen ($80000)
+	move.l	d0,ROMaddress-x(a5)	; macht dann $f80000 als adresse
+	move.l	(SP)+,d0
 
 	st	KICK-x(a5)
 ;	st	Libby-x(a5)		;muss noch mal gecheckt werden, ob kick wirklich libcode enthaelt !?!

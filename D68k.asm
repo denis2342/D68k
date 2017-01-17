@@ -514,6 +514,8 @@ DRelocs08:	dc.l	0	;Anzahl der DReloc08-Einträge
 
 NULL:		dc.l	0	;Da wird ev. ein Zeiger draufgelenkt!
 
+ROMaddress:	dc.l	0	;Adresse wo das ROM hingemappt wird (z.B. $F80000 fuer Kickroms)
+
 Label:		dc.l	0	;Label Zwischenspeicher
 Adressposs:	dc.w	0	;Erlaubte Adressierungsarten
 AdMode:		dc.w	0	;AdressingModeWORD Zwischenspeicher

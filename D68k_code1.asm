@@ -1457,7 +1457,7 @@ AbsoLong2:				;111 001
 	tst.b	KICK-x(a5)
 	beq	2$
 
-	sub.l	#$f80000,d2
+	sub.l	ROMaddress-x(a5),d2
 	bmi	1$
 	bsr	LabelCalc2
 	bra	1$

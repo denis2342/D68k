@@ -76,8 +76,8 @@ NoCode3Main
 	cmp.w	#$03fb,d7	;Hunk_Index
 	beq	HIndex3
 
-	cmp.l	#$11144ef9,d7	;Kickstartkennung
-	beq	KickStart3
+	tst.b	KICK-x(a5)	;Kickstartkennung
+	bne	KickStart3
 	clr.b	d7
 	cmp.l	#$444f5300,d7	;"DOS",0
 	beq	Bootblock3
@@ -362,7 +362,7 @@ HHeader3:
 
 KickStart3:
 	subq.l	#4,a2
-	move.l	#$80000,d0
+	move.l	FileSize-x(a5),d0
 	bra	rawCode3
 
 Bootblock3:

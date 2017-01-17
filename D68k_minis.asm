@@ -47,9 +47,9 @@ Pline2:	move.l	d3,LabelPointer-x(a5)
 
 	move.l	PCounter-x(a5),d2	;PC ausgeben
 
-	tst.b	KICK-x(a5)	;Für Kickanfang ausgleichen?
+	tst.b	KICK-x(a5)	;Fuer Kickanfang ausgleichen?
 	beq	2$
-	add.l	#$f80000,d2
+	add.l	ROMaddress-x(a5),d2
 
 2$	bsr	HexL
 	lea	HexBufferL+2-x(a5),a0
