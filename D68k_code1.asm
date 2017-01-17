@@ -814,8 +814,8 @@ c2_bcc:
 
 	move.b	(a0),d2
 	and.b	#%00001111,d2
-	seq	WallPoint-x(a5)
-	move.b	1(a0),d2
+	seq	WallPoint-x(a5)	;auf bra testen
+	move.b	1(a0),d2	;byte or short displacement
 	beq.b	bxx12
 
 	btst	#0,d2		;Test ob Sprung ungerade
@@ -857,6 +857,8 @@ bxx12
 
 bxx22	cmp.b	#$ff,d2
 	bne.b	c2_bccfail
+	tst.b	ArguF-x(a5)		;68020 Option ??
+	bne	c2_bccfail
 	move.l	2(a0),d2
 	beq.b	2$		;falls sprung = null
 	btst	#0,d2		;Test ob Sprung ungerade
