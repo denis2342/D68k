@@ -5,17 +5,17 @@
 ;
 ;	Assembliert mit A68k 2.71 ,SLink 6.58 und small.lib
 ;
-; vasm -nosym -Fhunkexe D68k.asm -o D68k
+; vasm -nosym -Fhunkexe D68k.asm -o D68k -I include -esc
 
  include 'exec/exec_lib.i'
  include 'dos/dos_lib.i'
 
 D68k_Version	MACRO
-			dc.b	'2.0.9'
+			dc.b	'2.1.2'
 		ENDM
 
 D68k_Datum	MACRO
-			dc.b	'11.12.2000'
+			dc.b	'17.01.2017'
 		ENDM
 
 TabSize		equ	6	;2^6 (#64 or $40)= groesse der Tabelle pro Hunk
