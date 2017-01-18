@@ -7,7 +7,7 @@
 ;************************************
 
 Labelcode_1
-	tst.l	CodeSize-x(a5)		;Check für CodeLength = 0
+	tst.l	CodeSize-x(a5)		;Check fuer CodeLength = 0
 	beq.b	LabelcodeE		;Wenn CodeSize = 0 dann RTS
 
 	clr.l	PCounter-x(a5)	;bei NULL anfangen
@@ -27,7 +27,7 @@ GetNewLabel:
 	move.l	SprungMem-x(a5),a2
 	subq.l	#4,SprungPointer-x(a5)
 	add.l	SprungPointer-x(a5),a2
-	move.l	(a2),d7				;DAS nächste Label
+	move.l	(a2),d7				;DAS naechste Label
 
 	bmi.b	3$	;minus darf es nicht sein (kann es auch nicht!)
 
@@ -46,7 +46,7 @@ GetNewLabel:
 	cmp.l	d4,d5
 	beq.b	4$
 
-	cmp.l	64+8(a2,d6.l),d7	;des Nächsten Hunks
+	cmp.l	64+8(a2,d6.l),d7	;des naechsten Hunks
 	bcs.b	4$
 	addq.l	#1,d5
 	bra.b	1$
@@ -57,7 +57,7 @@ GetNewLabel:
 	cmp.l	HunkAnzahl-x(a5),d5	;mit HunkAnzahl vergleichen
 	bge.b	3$
 
-	cmp.l	4(a2,d6.l),d7		;mit Hunkgröße vergleichen
+	cmp.l	4(a2,d6.l),d7		;mit Hunkgroesse vergleichen
 	bge.b	3$
 
 	move.l	4(a2,d6.l),CodeSize-x(a5)
@@ -218,7 +218,7 @@ b2_cas	move.w	(a0),d0
 	cmp.w	#%0000000111000000,d0	;BSET
 	beq	c2_bit
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr0100
 	move.w	(a0),d0
@@ -336,7 +336,7 @@ c2_gr0100
 	cmp.w	#%0100000100000000,d0	;CHK.l  68020...
 	beq	c2_chkl
 5$
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr0101
 	move.w	(a0),d0
@@ -366,7 +366,7 @@ c2_gr0101
 	cmp.w	#%0101000000000000,d0	;ADDQ & SUBQ
 	beq	c2_addsubq
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1000
 	move.w	(a0),d0
@@ -392,7 +392,7 @@ c2_gr1000
 	cmp.w	#%1000000000000000,d0	;OR.x
 	beq	c2_or
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1001
 	move.w	(a0),d0
@@ -405,7 +405,7 @@ b2_subx
 	cmp.w	#%1001000000000000,d0	;SUB.x
 	beq	c2_sub
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1011
 	move.w	(a0),d0
@@ -436,7 +436,7 @@ c2_gr1011
 	cmp.w	#%1011000111000000,d0	;CMPA.l
 	beq	c2_cmpa_l
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1100
 	move.w	(a0),d0
@@ -463,7 +463,7 @@ c2_gr1100
 	cmp.w	#%1100000000000000,d0	;AND.x
 	beq	c2_and
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1101
 	move.w	(a0),d0
@@ -476,7 +476,7 @@ b2_addx	move.w	(a0),d0
 	cmp.w	#%1101000000000000,d0	;ADD.x
 	beq	c2_add
 
-	bra	c2_iNULL		;Mir fällt nichts ein
+	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1110
 	move.w	(a0),d0
@@ -515,7 +515,7 @@ c2_gr1110
 	cmp.w	#%1110111111000000,d0	;BFINS 68020...
 	beq	c2_bfins
 8$
-	bra	c2_NULL		;Mir fällt nichts ein
+	bra	c2_NULL		;mir faellt nichts ein
 
 ;**********************************
 ;	WallPoint Befehle
@@ -1001,7 +1001,7 @@ c2_cmp_l
 
 c2_cmp_x
 	move.w	#%111111111111,Adressposs-x(a5)
-	move.w	#3,CodeID-x(a5)	;Anzahl der Sprünge der JumpTable
+	move.w	#3,CodeID-x(a5)	;Anzahl der Spruenge der JumpTable
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
@@ -1064,14 +1064,14 @@ c2_cmpib:
 	bra	QWERTYUIOPA
 
 c2_cmpiw:
-	move.w	2(a0),Jumps-x(a5)	;Anzahl der Sprünge der JumpTable
+	move.w	2(a0),Jumps-x(a5)	;Anzahl der Spruenge der JumpTable
 	addq.l	#2,ToAdd-x(a5)
 	move.w	#%011111111101,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
 c2_cmpil:
-	move.w	4(a0),Jumps-x(a5)	;Anzahl der Sprünge der JumpTable
+	move.w	4(a0),Jumps-x(a5)	;Anzahl der Spruenge der JumpTable
 	addq.l	#4,ToAdd-x(a5)
 	move.w	#%011111111101,Adressposs-x(a5)
 	bsr	GetSEA2
@@ -1270,11 +1270,11 @@ c2_movem:
 	beq.b	2$
 
 3$	move.w	#%011111101100,Adressposs-x(a5)
-	bsr	GetSEA2		;für Quell-Operand
+	bsr	GetSEA2		;fuer Quell-Operand
 	bra	QWERTYUIOPA
 
 2$	move.w	#%000111110100,Adressposs-x(a5)
-	bsr	GetSEA2		;für Ziel-Operand
+	bsr	GetSEA2		;fuer Ziel-Operand
 	bra	QWERTYUIOPA
 
 ;**********************************
@@ -1693,7 +1693,7 @@ MarkOK2:
 	bne	GetNewLabel
 1$
 MarkOK3:
-	moveq	#2,d2		;nächsten Befehlsanfang ausrechnen
+	moveq	#2,d2		;naechsten Befehlsanfang ausrechnen
 	add.l	ToAdd-x(a5),d2
 	add.l	d2,PCounter-x(a5)
 	rts
@@ -1718,10 +1718,10 @@ BitSetter:
 1$	rts
 
 ;**********************************
-;	Zurücksetzen der Werte PASS3
+;	Zuruecksetzen der Werte PASS3
 ;**********************************
 
-DochFalsch2:			;für falsche Aussortierungen
+DochFalsch2:			;fuer falsche Aussortierungen
 	clr.l	ToAdd-x(a5)	;in der DissAssembler-Routine
 	clr.b	Springer-x(a5)
 	clr.b	WallPoint-x(a5)
@@ -1771,9 +1771,9 @@ JumpTable2:
 
 3$	move.w	(a1)+,d2
 	btst	#0,d2
-	bne.b	4$		;ungerade dürfen sie nicht sein
+	bne.b	4$		;ungerade duerfen sie nicht sein
 
-	ext.l	d2	;alle checks werden in LabelCalc2 durchgeführt !!!
+	ext.l	d2	;alle checks werden in LabelCalc2 durchgefuehrt !!!
 	add.l	d3,d2
 	bmi.b	4$
 
@@ -1804,7 +1804,7 @@ FillJumpTableList:
 
 2$	move.l	DD1(PC),-4(a0)	;An welcher Stelle
 	move.l	DD2(PC),(a0)+	;relativ zu dieser Adresse
-	move.l	DD3(PC),(a0)	;Anzahl der relativen Einträge
+	move.l	DD3(PC),(a0)	;Anzahl der relativen Eintraege
 
 3$	rts
 
