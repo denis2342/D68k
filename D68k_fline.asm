@@ -1,8 +1,8 @@
 ;
-;	F-LINE Befehle für D68k von Denis Ahrens
+;	F-LINE Befehle fuer D68k von Denis Ahrens
 ;
 
-; F-Line für Ausgabe
+; F-Line fuer Ausgabe
 
 c_fline:
 	tst.b	ArguF-x(a5)
@@ -737,7 +737,7 @@ f_fmovem:
 	bne.b	2$
 
 	move.w	#%011111101100,Adressposs-x(a5)
-	bsr	GetSEA			;für Quell-Operand
+	bsr	GetSEA			;fuer Quell-Operand
 	move.b	#',',(a4)+
 
 	move.l	Pointer-x(a5),a0
@@ -769,7 +769,7 @@ f_fmovem:
 
 4$	move.b	#',',(a4)+
 	move.w	#%000111110100,Adressposs-x(a5)
-	bsr	GetSEA		;für Ziel-Operand
+	bsr	GetSEA		;fuer Ziel-Operand
 	bra	DoublePrint
 
 fmmask:	move.l	Pointer-x(a5),a0
@@ -864,7 +864,7 @@ f_fmovecrom:
 ;	FMOVE/M	6888x/68040
 ;**********************************
 
-; für den normalen FMOVE oder falls mehere bits gesetzt sind dann FMOVEM
+; fuer den normalen FMOVE oder falls mehere bits gesetzt sind dann FMOVEM
 
 f_fmovescr:
 
@@ -876,7 +876,7 @@ f_fmovescr:
 
 	btst	#12,d2
 	beq.b	1$
-	addq.b	#1,d7		;für jedes REGISTER wird d7 um eins erhöht
+	addq.b	#1,d7		;fuer jedes REGISTER wird d7 um eins erhoeht
 
 1$	btst	#11,d2
 	beq.b	2$
@@ -893,7 +893,7 @@ f_fmovescr:
 	move.b	#"L",(a4)+
 	bra.b	f_fmovecr2
 
-f_fmovemcr:			;für mehrere SYSTEM CONTROL REGISTER
+f_fmovemcr:			;fuer mehrere SYSTEM CONTROL REGISTER
 	move.l	#"EM.L",(a4)+
 
 f_fmovecr2:
@@ -1528,7 +1528,7 @@ p_pmove1_851:
 
 	move.l	a4,d7		;retten
 	bsr	p_getmmureg	;SizeBWL holen
-	move.l	d7,a4		;und zurückholen
+	move.l	d7,a4		;und zurueckholen
 
 	bsr	GetSEA
 	move.b	#',',(a4)+
@@ -1824,7 +1824,7 @@ f_move16_2
 	tst.b	d2
 	beq.b	1$
 
-	;was sonst außer 1
+	;was sonst ausser 1
 
 2$	move.l	2(a0),d2	;MOVE16 xxx.L,(Ay)+
 	bsr	HexLDi
@@ -2333,7 +2333,7 @@ p2_pbcc:
 f2_fbcc:
 ;	move.l	Pointer-x(a5),a0
 
-	st	Springer-x(a5)		;für Trace-Methode
+	st	Springer-x(a5)		;fuer Trace-Methode
 
 	btst	#6,1(a0)
 	beq.b	1$
