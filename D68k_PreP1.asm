@@ -100,7 +100,9 @@ NoCode2:
 	cmp.w	#$03fb,d7	;Hunk_Index
 	beq	HIndex2
 
-	cmp.l	#$11144ef9,d7	;Kickstartkennung
+	cmp.l	#$11114ef9,d7	;OLDROM Kickstartkennung
+	beq	KickStart2
+	cmp.l	#$11144ef9,d7	;512KB ROM Kickstartkennung
 	beq	KickStart2
 	cmp.l	#$00008000,d7	;Zyxel Firmware 6.22
 	beq	Zyxel
@@ -246,8 +248,7 @@ KickStart2:
 	move.l	#1,CurrHunk-x(a5)
 
 	move.l	d0,-(SP)
-	move.l	#$1000000,d0		; ende des kickroms
-	sub.l	FileSize-x(a5),d0	; kicksize abziehen ($80000)
+	move.l	#$f80000,d0		; alle ROMs werden wohl hier eingeblendet
 	move.l	d0,ROMaddress-x(a5)	; macht dann $f80000 als adresse
 	move.l	(SP)+,d0
 
