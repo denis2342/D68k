@@ -127,23 +127,18 @@ Liste2:	dc.w	c2_gr0000-Liste2	;0000
 c2_gr0000
 	move.w	(a0),d0
 
-	cmp.w	#%0000000000111100,d0	;($003C) ORI to CCR
-	beq	c2_ori_to_ccr
-	cmp.w	#%0000000001111100,d0	;($007C) ORI to SR
-	beq	c2_ori_to_sr
-	cmp.w	#%0000001000111100,d0	;($023C) ANDI to CCR
-	beq	c2_andi_to_ccr
-	cmp.w	#%0000001001111100,d0	;($027C) ANDI to SR
-	beq	c2_andi_to_sr
-	cmp.w	#%0000101000111100,d0	;($0A3C) EORI to CCR
-	beq	c2_eori_to_ccr
-	cmp.w	#%0000101001111100,d0	;($0A7C) EORI to SR
-	beq	c2_eori_to_sr
+	bclr	#6,d0			; CCR or SR, we don't care
+	cmp.w	#%0000000000111100,d0	;($007C/$003C) ORI to SR/CCR
+	beq	c2_ori_to_sr_ccr
+	cmp.w	#%0000001000111100,d0	;($027C/$023C) ANDI to SR/CCR
+	beq	c2_andi_to_sr_ccr
+	cmp.w	#%0000101000111100,d0	;($0A7C/$0A3C) EORI to SR/CCR
+	beq	c2_eori_to_sr_ccr
 
 	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq.b	1$
 
-;	move.w	(a0),d0
+	move.w	(a0),d0
 	andi.w	#%1111110111111111,d0
 	cmp.w	#%0000110011111100,d0	;CAS2 68020...
 	beq	c2_cas2
@@ -537,12 +532,9 @@ c2_rtd:
 	st	WallPoint-x(a5)
 
 c2_stop:
-c2_ori_to_sr:
-c2_andi_to_sr:
-c2_eori_to_sr:
-c2_ori_to_ccr:	
-c2_andi_to_ccr:	
-c2_eori_to_ccr:	
+c2_ori_to_sr_ccr:
+c2_andi_to_sr_ccr:
+c2_eori_to_sr_ccr:
 c2_link_w
 c2_to_ccr
 c2_movec
