@@ -547,13 +547,14 @@ f_standard2:
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
+	move.b	SizeBWL-x(a5),d2
+	cmp.b	#"B",d2
 	beq.b	2$
-	cmp.b	#"W",SizeBWL-x(a5)
+	cmp.b	#"W",d2
 	beq.b	2$
-	cmp.b	#"L",SizeBWL-x(a5)
+	cmp.b	#"L",d2
 	beq.b	2$
-	cmp.b	#"S",SizeBWL-x(a5)
+	cmp.b	#"S",d2
 	beq.b	2$
 	bclr	#0,d0
 
@@ -587,13 +588,14 @@ f_ftst:	move.l	#"FTST",(a4)+
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
+	move.b	SizeBWL-x(a5),d2
+	cmp.b	#"B",d2
 	beq.b	2$
-	cmp.b	#"W",SizeBWL-x(a5)
+	cmp.b	#"W",d2
 	beq.b	2$
-	cmp.b	#"L",SizeBWL-x(a5)
+	cmp.b	#"L",d2
 	beq.b	2$
-	cmp.b	#"S",SizeBWL-x(a5)
+	cmp.b	#"S",d2
 	beq.b	2$
 	bclr	#0,d0
 
@@ -620,13 +622,14 @@ f_fsincos
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
+	move.b	SizeBWL-x(a5),d2
+	cmp.b	#"B",d2
 	beq.b	2$
-	cmp.b	#"W",SizeBWL-x(a5)
+	cmp.b	#"W",d2
 	beq.b	2$
-	cmp.b	#"L",SizeBWL-x(a5)
+	cmp.b	#"L",d2
 	beq.b	2$
-	cmp.b	#"S",SizeBWL-x(a5)
+	cmp.b	#"S",d2
 	beq.b	2$
 	bclr	#0,d0
 
@@ -655,13 +658,14 @@ f_fmove2:
 	bsr	GetFSSP
 
 	move.w	#%000111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
+	move.b	SizeBWL-x(a5),d2
+	cmp.b	#"B",d2
 	beq	4$
-	cmp.b	#"W",SizeBWL-x(a5)
+	cmp.b	#"W",d2
 	beq	4$
-	cmp.b	#"L",SizeBWL-x(a5)
+	cmp.b	#"L",d2
 	beq	4$
-	cmp.b	#"S",SizeBWL-x(a5)
+	cmp.b	#"S",d2
 	beq	4$
 	bclr	#0,d0
 
@@ -969,21 +973,19 @@ FPREGS:
 
 ;**********************************
 ;	FSAVE	6888x/68040
+;	PSAVE	68881
 ;**********************************
 
 f_fsave:
-	move.l	#"FSAV",(a4)+
-	move.w	#$4509,(a4)+	;'E' + TAB
-	move.w	#%000111110100,Adressposs-x(a5)
-	bsr	GetSEA
-	bra	DoublePrint
-
-;**********************************
-;	PSAVE	68851
-;**********************************
+	move.l	#"FSAV",d2
+	bra.b	p_save
 
 p_psave:
-	move.l	#"PSAV",(a4)+
+	move.l	#"PSAV",d2
+;	bra.b	p_save
+
+p_save:
+	move.l	d2,(a4)+
 	move.w	#$4509,(a4)+	;'E' + TAB
 	move.w	#%000111110100,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1052,16 +1054,16 @@ p_pflush040:
 ;**********************************
 
 p_ptestr:
-	move.l	#"PTES",(a4)+
-	move.l 	#$54520928,(a4)+	;'TR' + TAB '('
-	move.b	#'A',(a4)+
-	bsr	RegNumD
-	move.b	#')',(a4)+
-	bra	DoublePrint
+	move.l 	#$54520928,d2	;'TR' + TAB '('
+	bra	p_ptest
 
 p_ptestw:
+	move.l 	#$54570928,d2	;'TW' + TAB '('
+;	bra	p_ptest
+
+p_ptest:
 	move.l	#"PTES",(a4)+
-	move.l 	#$54570928,(a4)+	;'TW' + TAB '('
+	move.l 	d2,(a4)+
 	move.b	#'A',(a4)+
 	bsr	RegNumD
 	move.b	#')',(a4)+
@@ -1072,15 +1074,16 @@ p_ptestw:
 ;**********************************
 
 p_plpar:
-	move.l	#"PLPA",(a4)+
-	move.l 	#$52092841,(a4)+	;'R' + TAB '(A'
-	bsr	RegNumD
-	move.b	#')',(a4)+
-	bra	DoublePrint
+	move.l 	#$52092841,d2	;'R' + TAB '(A'
+	bra	p_plpa
 
 p_plpaw:
+	move.l 	#$57092841,d2	;'T' + TAB '(A'
+;	bra	p_plpa
+
+p_plpa:
 	move.l	#"PLPA",(a4)+
-	move.l 	#$57092841,(a4)+	;'T' + TAB '(A'
+	move.l 	d2,(a4)+
 	bsr	RegNumD
 	move.b	#')',(a4)+
 	bra	DoublePrint
@@ -1274,16 +1277,15 @@ f_pscc:	move.w	#'PS',(a4)+		;MMU
 ;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	GetmmuCoCo
-	move.b	#9,(a4)+
-	addq.l	#2,ToAdd-x(a5)
-	move.w	#%000111111101,Adressposs-x(a5)
-	bsr	GetSEA
-	bra	DoublePrint
+	bra	f_xscc
 
 f_fscc:	move.w	#'FS',(a4)+		;FPCP
 ;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	GetcpCoCo
+;	bra	f_xscc
+
+f_xscc:
 	move.b	#9,(a4)+
 	addq.l	#2,ToAdd-x(a5)
 	move.w	#%000111111101,Adressposs-x(a5)
@@ -1793,7 +1795,7 @@ f_move16_1:
 	move.b	2(a0),d2
 	and.b	#%01110000,d2
 	lsr.b	#4,d2
-	add.b	#'0',d2
+	add.b	#'0',d2		; das zweite adressregister
 	move.b	d2,(a4)+
 	move.w	#')+',(a4)+
 	addq.l	#2,ToAdd-x(a5)
