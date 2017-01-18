@@ -148,7 +148,7 @@ c2_gr0000
 	cmp.w	#%0000011011000000,d0	;RTM 68020 only
 	beq	c2_rtm
 1$
-;	move.w	(a0),d0
+	move.w	(a0),d0
 	andi.w	#%1111111111000000,d0
 	cmp.w	#%0000110000000000,d0	;CMPI.b
 	beq	c2_cmpib
