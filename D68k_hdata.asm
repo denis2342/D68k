@@ -236,7 +236,7 @@ d_dc_l2
 
 PrintLongData:
 	tst.b	ArguG-x(a5)	;HEXDATA/S
-	bne	4$
+	bne.b	4$
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
 	cmp.b	#31,(a0)
@@ -247,6 +247,15 @@ PrintLongData:
 	bls.b	4$
 	cmp.b	#31,3(a0)
 	bls.b	4$
+
+	cmp.b	#126,(a0)		;wenn zu gross dann kein ASCII-Text
+	bhi.b	4$
+	cmp.b	#126,1(a0)
+	bhi.b	4$
+	cmp.b	#126,2(a0)
+	bhi.b	4$
+	cmp.b	#126,3(a0)
+	bhi.b	4$
 
 	move.l	d5,Mnemonic-x(a5)
 	move.b	#'"',(a4)+
@@ -263,13 +272,24 @@ PrintLongData:
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
 	cmp.b	#31,(a0)
-	bgt.b	3$
-	cmp.b	#31,1(a0)
-	bgt.b	3$
-	cmp.b	#31,2(a0)
-	bgt.b	3$
-	cmp.b	#31,3(a0)
+	bls.b	5$
+	cmp.b	#126,(a0)
+	bls.b	3$
+
+5$	cmp.b	#31,1(a0)
+	bls.b	6$
+	cmp.b	#126,1(a0)
+	bls.b	3$
+
+6$	cmp.b	#31,2(a0)
+	bls.b	7$
+	cmp.b	#126,2(a0)
+	bls.b	3$
+
+7$	cmp.b	#31,3(a0)
 	bls.b	2$
+	cmp.b	#126,3(a0)
+	bhi.b	2$
 
 3$	move.l	d5,Mnemonic-x(a5)
 	move.b	#9,(a4)+
@@ -286,13 +306,18 @@ PrintLongData:
 
 PrintWordData:
 	tst.b	ArguG-x(a5)	;HEXDATA/S
-	bne	4$
+	bne.b	4$
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
 	cmp.b	#31,(a0)
 	bls.b	4$
 	cmp.b	#31,1(a0)
 	bls.b	4$
+
+	cmp.b	#126,(a0)		;wenn zu gross dann kein ASCII-Text
+	bhi.b	4$
+	cmp.b	#126,1(a0)
+	bhi.b	4$
 
 	move.w	d5,Mnemonic-x(a5)
 	move.b	#'"',(a4)+
@@ -307,9 +332,14 @@ PrintWordData:
 
 	move.l	Pointer-x(a5),a0	;wenn zu klein dann kein ASCII-Text
 	cmp.b	#31,(a0)
-	bgt.b	3$
-	cmp.b	#31,1(a0)
+	bls.b	5$
+	cmp.b	#126,(a0)
+	bls.b	3$
+
+5$	cmp.b	#31,1(a0)
 	bls.b	2$
+	cmp.b	#126,1(a0)
+	bhi.b	2$
 
 3$	move.w	d5,Mnemonic-x(a5)
 	move.b	#9,(a4)+
@@ -325,11 +355,13 @@ PrintWordData:
 
 PrintByteData:
 	tst.b	ArguG-x(a5)	;HEXDATA/S
-	bne	4$
+	bne.b	4$
 
 	move.l	Pointer-x(a5),a0	;wenn NULL dann kein ASCII-Text
 	cmp.b	#31,(a0)
 	bls.b	4$
+	cmp.b	#126,(a0)
+	bhi.b	4$
 
 	move.b	d5,Mnemonic-x(a5)
 	move.b	#'"',(a4)+
@@ -344,6 +376,8 @@ PrintByteData:
 	move.l	Pointer-x(a5),a0	;wenn NULL dann kein ASCII-Text
 	cmp.b	#31,(a0)
 	bls.b	2$
+	cmp.b	#126,(a0)
+	bhi.b	2$
 
 	move.b	d5,Mnemonic-x(a5)
 	move.b	#9,(a4)+

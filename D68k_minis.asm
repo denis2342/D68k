@@ -262,10 +262,11 @@ TextSort:
 	lea	Mnemonic-x(a5),a0	;Filtert aus Texten Steuerzeichen
 	moveq	#3,d7			;raus (leider auch Umlaute)
 1$	move.b	(a0)+,d0
-	bclr	#7,d0
 	cmp.b	#31,d0
-	bgt.b	2$
-	move.b	#' ',-1(a0)	;Steuerzeichen werden gegen ein
+	bls.b	3$
+	cmp.b	#126,d0
+	bls.b	2$
+3$	move.b	#' ',-1(a0)	;Steuerzeichen werden gegen ein
 2$	dbra	d7,1$		;Space eingetauscht
 	rts
 
