@@ -3117,8 +3117,8 @@ NoBaseDisplacement:
 
 4$	move.b	AdMode-x(a5),d2
 	and.b	#%00000110,d2		;Skalierung
-	lsr.b	#1,d2
 	beq.b	5$
+	lsr.b	#1,d2
 	moveq	#1,d6
 	lsl.b	d2,d6
 	add.b	#'0',d6
