@@ -155,7 +155,8 @@ SymbolLabel:
 	bra.b	2$
 
 ;**********************************
-;	Sortieren der Labeltabelle
+;	erst die lables sortieren
+;	dann doppelte eintraege entfernen
 ;**********************************
 
 SortLabel:
