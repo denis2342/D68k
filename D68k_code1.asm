@@ -935,16 +935,13 @@ c2_move_w
 	cmp.l	#"89ab",8(a0)
 	bne.b	2$
 	cmp.l	#"cdef",12(a0)
-	bne.b	2$
-	moveq	#16-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	4$
 
 2$	cmp.l	#"89AB",8(a0)	;0123456789abcdef
 	bne.b	3$
 	cmp.l	#"CDEF",12(a0)
 	bne.b	3$
-	moveq	#16-2,d0
+4$	moveq	#16-2,d0
 	add.l	d0,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 
