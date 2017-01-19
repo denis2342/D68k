@@ -114,12 +114,13 @@ HexW:	lea	HexBufferW-x(a5),a0	;Wandelt #$24 in D2
 	rts
 
 HexB:	lea	HexBufferB-x(a5),a0	;Wandelt #$24 in D2
-	moveq	#1,d0			;nach "24" in HexPuffer um
-1$	rol.b	#4,d2
+	rol.b	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
 	move.b	HexDigits-x(a5,d1.w),(a0)+
-	dbra	d0,1$
+	rol.b	#4,d2
+	and.w	#$0f,d2
+	move.b	HexDigits-x(a5,d2.w),(a0)+
 	rts
 
 ;**********************************
