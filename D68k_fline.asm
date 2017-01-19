@@ -504,24 +504,7 @@ f_standard
 	move.b	#9,(a4)+
 	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
-	beq.b	1$
-
-	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
-	beq.b	2$
-	cmp.b	#"W",SizeBWL-x(a5)
-	beq.b	2$
-	cmp.b	#"L",SizeBWL-x(a5)
-	beq.b	2$
-	cmp.b	#"S",SizeBWL-x(a5)
-	beq.b	2$
-	bclr	#0,d0
-
-2$	move.w	d0,Adressposs-x(a5)
-	bsr	GetSEA		;<ea> to register
-	move.b	#',',(a4)+
-	bsr	GetFDreg
-	bra	DoublePrint
+	bne.b	f_standard_sub
 
 1$	move.b	#"X",-2(a4)				;R/M=0
 	bsr	GetFSreg
@@ -529,19 +512,7 @@ f_standard
 	bsr	GetFDreg
 	bra	DoublePrint
 
-;**********************************
-;	FSTANDARD 6888x/68040 Monadic
-;**********************************
-
-f_standard2:
-	addq.l	#2,ToAdd-x(a5)
-	move.b	#".",(a4)+
-	bsr	GetFSSP
-	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
-	btst	#6,2(a0)
-	beq.b	1$
-
+f_standard_sub:
 	move.w	#%111111111101,d0		;R/M=1
 	move.b	SizeBWL-x(a5),d2
 	cmp.b	#"B",d2
@@ -560,7 +531,20 @@ f_standard2:
 	bsr	GetFDreg
 	bra	DoublePrint
 
-1$	move.b	#"X",-2(a4)				;R/M=0
+;**********************************
+;	FSTANDARD 6888x/68040 Monadic
+;**********************************
+
+f_standard2:
+	addq.l	#2,ToAdd-x(a5)
+	move.b	#".",(a4)+
+	bsr	GetFSSP
+	move.b	#9,(a4)+
+	move.l	Pointer-x(a5),a0
+	btst	#6,2(a0)
+	bne.b	f_standard_sub
+
+	move.b	#"X",-2(a4)				;R/M=0
 	bsr	GetFSreg
 	move.b	#',',(a4)+
 	bsr	GetFDreg
