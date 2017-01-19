@@ -1857,8 +1857,7 @@ c2_fline
 
 	lea	Befehl-x(a5),a4		;WICHTIG !!!
 
-	move.w	(a0),d7
-	move.w	d7,d0
+	move.w	(a0),d0
 ;	andi.w	#%1111111111111111,d0
 	cmp.w	#%1111000001111010,d0	;PTRAPcc 68851
 	beq	p2_ptrapcc
@@ -1869,22 +1868,8 @@ c2_fline
 	cmp.w	#%1111100000000000,d0	;LPSTOP 68060
 	beq	x2_lpstop
 
+	move.w	d0,d7
 ;	move.w	d7,d0
-	andi.w	#%1111111111000000,d0
-	cmp.w	#%1111001000000000,d0	;FLINE STANDARD
-	beq	f2_fcom
-	cmp.w	#%1111000000000000,d0	;PMMU  STANDARD
-	beq	p2_pcom
-	cmp.w	#%1111001100000000,d0	;FSAVE 6888x/68040
-	beq	f2_fsave
-	cmp.w	#%1111000100000000,d0	;PSAVE 68851
-	beq	p2_psave
-	cmp.w	#%1111001101000000,d0	;FRESTORE 6888x/68040
-	beq	f2_frestore
-	cmp.w	#%1111000101000000,d0	;PRESTORE 68851
-	beq	p2_prestore
-
-	move.w	d7,d0
 	andi.w	#%1111111111111000,d0
 	cmp.w	#%1111011000100000,d0	;MOVE16 68040
 	beq	f2_move16_1
@@ -1904,13 +1889,28 @@ c2_fline
 	beq	c2_NULL
 
 ;	move.w	d7,d0
+	andi.w	#%1111111111000000,d0
+	cmp.w	#%1111001000000000,d0	;FLINE STANDARD
+	beq	f2_fcom
+	cmp.w	#%1111000000000000,d0	;PMMU  STANDARD
+	beq	p2_pcom
+	cmp.w	#%1111001100000000,d0	;FSAVE 6888x/68040
+	beq	f2_fsave
+	cmp.w	#%1111000100000000,d0	;PSAVE 68851
+	beq	p2_psave
+	cmp.w	#%1111001101000000,d0	;FRESTORE 6888x/68040
+	beq	f2_frestore
+	cmp.w	#%1111000101000000,d0	;PRESTORE 68851
+	beq	p2_prestore
+
+;	move.w	d7,d0
 	andi.w	#%1111111111100000,d0
 	cmp.w	#%1111011000000000,d0	;MOVE16 68040
 	beq	f2_move16_2
 	cmp.w	#%1111010100000000,d0	;PFLUSH 68040
 	beq	c2_NULL
 
-	move.w	d7,d0
+;	move.w	d7,d0
 	andi.w	#%1111111100100000,d0
 	cmp.w	#%1111010000000000,d0	;CINV 68040
 	beq	c2_NULL
@@ -1995,6 +1995,11 @@ f2_fcom:
 	and.w	#%1111110000000000,d0
 	cmp.w	#%0101110000000000,d0	;FMOVE CONSTANT ROM
 	beq	f2_fmovecrom
+
+;	move.w	2(a0),d0
+	and.w	#%1110000000000000,d0
+	cmp.w	#%0110000000000000,d0	;FMOVE (register to memory)
+	beq	f2_fmove2
 
 	move.w	2(a0),d0
 	and.w	#%1010000001111111,d0
@@ -2119,11 +2124,6 @@ f2_fcom:
 	and.w	#%1100011100000000,d0
 	cmp.w	#%1100000000000000,d0	;FMOVEM DATA
 	beq	f2_fmovem
-
-	move.w	2(a0),d0
-	and.w	#%1110000000000000,d0
-	cmp.w	#%0110000000000000,d0	;FMOVE (register to memory)
-	beq	f2_fmove2
 
 	bra	c2_iNULL
 
