@@ -195,7 +195,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	tst.l	ToAdd-x(a5)
 	beq	JO2
 
-0$	bsr	PCHexWord0	;einmal fuer alle
+	bsr	PCHexWord0	;einmal fuer alle
 
 	moveq	#2,d2
 	cmp.l	ToAdd-x(a5),d2	;testen wieviel daten dazukommen
@@ -227,7 +227,7 @@ MarkOK:	tst.b	Argu3-x(a5)	;NOPC/S
 	cmp.l	ToAdd-x(a5),d2
 	beq	JO
 
-4$	bsr	PCHexWord4	;einmal fuer alle
+	bsr	PCHexWord4	;einmal fuer alle
 
 	move.l	ToAdd-x(a5),d7
 	lsr.l	#1,d7
