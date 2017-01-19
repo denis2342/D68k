@@ -1055,13 +1055,13 @@ p_pflush040:
 
 p_ptestr:
 	move.l 	#$54520928,d2	;'TR' + TAB '('
-	bra	p_ptest
+	bra	p_ptestx
 
 p_ptestw:
 	move.l 	#$54570928,d2	;'TW' + TAB '('
-;	bra	p_ptest
+;	bra	p_ptestx
 
-p_ptest:
+p_ptestx:
 	move.l	#"PTES",(a4)+
 	move.l 	d2,(a4)+
 	move.b	#'A',(a4)+
