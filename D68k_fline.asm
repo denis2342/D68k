@@ -1705,14 +1705,12 @@ p_ptest:
 	bsr	p_getflushlevel
 
 	move.l	Pointer-x(a5),a0
-	btst	#0,2(a0)
-	beq	DoublePrint
-
-	move.b	#',',(a4)+		;AdressRegister
 	move.w	2(a0),d2
+
 	btst	#8,d2
 	beq	DoublePrint	;kein Adressregister
 
+	move.b	#',',(a4)+		;AdressRegister
 	move.b	#'A',(a4)+
 	andi.b	#%11100000,d2
 	lsr.b	#5,d2
