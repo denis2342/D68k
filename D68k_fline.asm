@@ -1783,8 +1783,7 @@ f_xtrapcc
 f_move16_1:
 	move.l	#'MOVE',(a4)+
 	move.l	#$31360928,(a4)+	;'16' + TAB + '('
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_A
 	move.l	#')+,(',(a4)+
 	move.b	#'A',(a4)+
 	move.l	Pointer-x(a5),a0
@@ -1806,60 +1805,32 @@ f_move16_2
 	move.l	#'MOVE',(a4)+
 	move.w	#'16',(a4)+
 	move.b	#9,(a4)+
+	addq.l	#4,ToAdd-x(a5)
 
-	move.w	(a0),d2
-	and.b	#%00011000,d2
-	lsr.b	#3,d2
+	move.w	(a0),d6
+	btst	#3,d6
+	beq	02$
 
-	cmp.b	#2,d2
-	beq.b	3$
-
-	cmp.b	#3,d2
-	beq.b	4$
-
-	tst.b	d2
-	beq.b	1$
-
-	;was sonst ausser 1
-
-2$	move.l	2(a0),d2	;MOVE16 xxx.L,(Ay)+
+13$
+	move.l	2(a0),d2	;MOVE16 xxx.L,(Ay)+
 	bsr	HexLDi
 	move.b	#',',(a4)+
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
+	btst	#4,d6
+	bne	3$
 	move.b	#'+',(a4)+
-	addq.l	#4,ToAdd-x(a5)
-	bra	DoublePrint
+3$	bra	DoublePrint
 
-4$	move.l	2(a0),d2		;MOVE16 xxx.L,(Ay)
-	bsr	HexLDi
-	move.b	#',',(a4)+
-	move.b	#'(',(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+02$	bsr	RegNumD_Bracket_A	;MOVE16 (Ay),xxx.L
 	move.b	#')',(a4)+
-	addq.l	#4,ToAdd-x(a5)
-	bra	DoublePrint
-
-3$	move.b	#'(',(a4)+		;MOVE16 (Ay),xxx.L
-	move.b	#'A',(a4)+
-	bsr	RegNumD
-	move.b	#')',(a4)+
-	bra.b	5$
-
-1$	move.b	#'(',(a4)+		;MOVE16 (Ay)+,xxx.L
-	move.b	#'A',(a4)+
-	bsr	RegNumD
-	move.b	#')',(a4)+
+	btst	#4,d6
+	bne	2$
 	move.b	#'+',(a4)+
-
-5$	move.b	#',',(a4)+
+2$	move.b	#',',(a4)+
 	move.l	Pointer-x(a5),a0
 	move.l	2(a0),d2
 	bsr	HexLDi
-	addq.l	#4,ToAdd-x(a5)
 	bra	DoublePrint
 
 ;**********************************
