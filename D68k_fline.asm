@@ -1829,7 +1829,7 @@ f_move16_2
 	move.b	#'A',(a4)+
 	bsr	RegNumD
 	move.b	#')',(a4)+
-	move.b	#'-',(a4)+
+	move.b	#'+',(a4)+
 	addq.l	#4,ToAdd-x(a5)
 	bra	DoublePrint
 
