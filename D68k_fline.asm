@@ -671,7 +671,7 @@ f_fmove2:
 
 4$	move.w	d0,Adressposs-x(a5)
 
-	cmp.b	#"?",-1(a4)
+	tst.b	-1(a4)
 	beq.b	1$
 
 	cmp.b	#"P",-1(a4)
@@ -2253,7 +2253,7 @@ f2_standard
 f2_fmove2
 	addq.l	#2,ToAdd-x(a5)
 	bsr	GetFSSP
-	cmp.b	#"?",-1(a4)
+	tst.b	-1(a4)
 	bne.b	1$
 	move.b	#"P",SizeBWL-x(a5)
 1$	move.l	Pointer-x(a5),a0
@@ -2580,7 +2580,7 @@ GetFSSP:
 ; 111 ?
 
 SSPlist:
-	dc.b	"LSXPWDB?"
+	dc.b	"LSXPWDB",0
 
 ;**********************************
 ;	Speichert die Co. Codes vom CoProzessor
