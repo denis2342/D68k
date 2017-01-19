@@ -100,7 +100,7 @@ HexL:	lea	HexBufferL-x(a5),a0	;Wandelt #$24 in D2
 1$	rol.l	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a0)+
+	move.b	HexDigits(PC,d1.w),(a0)+
 	dbra	d0,1$
 	rts
 
@@ -109,7 +109,7 @@ HexW:	lea	HexBufferW-x(a5),a0	;Wandelt #$24 in D2
 1$	rol.w	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a0)+
+	move.b	HexDigits(PC,d1.w),(a0)+
 	dbra	d0,1$
 	rts
 
@@ -117,10 +117,10 @@ HexB:	lea	HexBufferB-x(a5),a0	;Wandelt #$24 in D2
 	rol.b	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a0)+
+	move.b	HexDigits(PC,d1.w),(a0)+
 	rol.b	#4,d2
 	and.w	#$0f,d2
-	move.b	HexDigits-x(a5,d2.w),(a0)+
+	move.b	HexDigits(PC,d2.w),(a0)+
 	rts
 
 ;**********************************
@@ -132,6 +132,9 @@ HexDDi:	move.l	(a0)+,d2
 	move.l	(a0),d2
 	bsr.b	HexDD
 	rts
+
+HexDigits:
+	dc.b	"0123456789ABCDEF"
 
 HexXDi:	move.l	(a0)+,d2
 	bsr.b	HexLDi
@@ -150,7 +153,7 @@ HexDD:	moveq	#7,d0
 1$	rol.l	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a4)+
+	move.b	HexDigits(PC,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
@@ -163,7 +166,7 @@ HexWDip	moveq	#3,d0
 1$	rol.w	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a4)+
+	move.b	HexDigits(PC,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
@@ -176,7 +179,7 @@ HexBDip	moveq	#1,d0
 1$	rol.b	#4,d2
 	move.b	d2,d1
 	and.w	#$0f,d1
-	move.b	HexDigits-x(a5,d1.w),(a4)+
+	move.b	HexDigits(PC,d1.w),(a4)+
 	dbra	d0,1$
 	rts
 
