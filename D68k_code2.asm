@@ -1179,21 +1179,22 @@ c_sbcd:	move.l	#'SBCD',(a4)+
 
 c_subx:	move.l	#'SUBX',(a4)+
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	bne.b	c_bcdx
+	tst.b	SizeBWL-x(a5)
+	bne.b	c_bcdx2
 	bsr	DochFalsch
 	bra	b_subx
 
 c_addx:	move.l	#'ADDX',(a4)+
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	bne.b	c_bcdx
+	tst.b	SizeBWL-x(a5)
+	bne.b	c_bcdx2
 	bsr	DochFalsch
 	bra	b_addx
 
 c_bcdx:	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
+	tst.b	SizeBWL-x(a5)
 	beq	OpCodeError
+c_bcdx2:
 	move.b	#'.',(a4)+
 	move.b	SizeBWL-x(a5),(a4)+
 	move.b	#9,(a4)+
@@ -1233,7 +1234,7 @@ LinksRechts:
 	move.b	#"L",(a4)+
 LinksRechts2:
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
+	tst.b	SizeBWL-x(a5)
 	beq	OpCodeError
 
 	move.l	Pointer-x(a5),a0
@@ -1496,11 +1497,10 @@ c_cmp_y	move.b	-1(a4),SizeBWL-x(a5)
 c_moves	move.w	#%000111111100,Adressposs-x(a5)
 	move.b	#'A',RegArt-x(a5)
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	beq	OpCodeError
 	move.l	#'MOVE',(a4)+
 	move.w	#'S.',(a4)+
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 	move.b	#9,(a4)+
 	addq.l	#2,ToAdd-x(a5)
 
@@ -1543,6 +1543,7 @@ c_subi2
 	bsr	GetBWL
 	move.b	#'.',(a4)+
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
 
@@ -1707,6 +1708,7 @@ c_cmpi2
 	bsr	GetBWL
 	move.b	#'.',(a4)+
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
@@ -1838,9 +1840,8 @@ c_addq	move.l	#'ADDQ',(a4)+
 c_subqaddq
 	move.b	#'.',(a4)+
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	beq	OpCodeError
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
 
@@ -2216,9 +2217,8 @@ c_neg	move.l	#'NEG.',(a4)+
 
 NurEAundBWL
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	beq	OpCodeError
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 	move.b	#9,(a4)+
 	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA
@@ -2228,9 +2228,8 @@ NurEAundBWL
 
 c_tst	move.l	#'TST.',(a4)+
 	bsr	GetBWL
-	cmp.b	#'?',SizeBWL-x(a5)
-	beq	OpCodeError
 	move.b	SizeBWL-x(a5),(a4)+
+	beq	OpCodeError
 	move.b	#9,(a4)+
 	move.w	#%111111111111,Adressposs-x(a5)
 	cmp.b	#'B',SizeBWL-x(a5)
@@ -3530,7 +3529,7 @@ GetBWL:	move.l	Pointer-x(a5),a0
 	move.b	Size(PC,d2.w),SizeBWL-x(a5)
 	rts
 
-Size:	dc.b	"BWL?"
+Size:	dc.b	"BWL",0
 
 ;**********************************
 ;	Speichert die Co. Codes
