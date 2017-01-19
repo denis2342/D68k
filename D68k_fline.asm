@@ -1060,8 +1060,7 @@ p_ptestw:
 p_ptestx:
 	move.l	#"PTES",(a4)+
 	move.l 	d2,(a4)+
-	move.b	#'A',(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_A
 	move.b	#')',(a4)+
 	bra	DoublePrint
 
@@ -1070,17 +1069,17 @@ p_ptestx:
 ;**********************************
 
 p_plpar:
-	move.l 	#$52092841,d2	;'R' + TAB '(A'
+	move.w 	#$5209,d2	;'R' + TAB
 	bra	p_plpa
 
 p_plpaw:
-	move.l 	#$57092841,d2	;'T' + TAB '(A'
+	move.w 	#$5709,d2	;'T' + TAB
 ;	bra	p_plpa
 
 p_plpa:
 	move.l	#"PLPA",(a4)+
-	move.l 	d2,(a4)+
-	bsr	RegNumD
+	move.w 	d2,(a4)+
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
 	bra	DoublePrint
 
@@ -1145,9 +1144,7 @@ f_cachelines:
 8$	cmp.b	#"A",-4(a4)
 	beq.b	9$
 	move.b	#',',(a4)+
-	move.b	#'(',(a4)+
-	move.b	#"A",(a4)+
-	bsr	RegNumD
+	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
 9$	bra	DoublePrint
 
