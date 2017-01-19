@@ -2490,28 +2490,23 @@ GetFDreg:
 	move.w	2(a0),d0
 	andi.w	#%0000001110000000,d0
 	lsr.w	#7,d0
-	add.b	#"0",d0
-	move.b	#"F",(a4)+
-	move.b	#"P",(a4)+
-	move.b	d0,(a4)+
-	rts
+	bra	GetFxreg
 
 GetFD2reg:
 	move.b	#',',(a4)+
 	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d0
 	andi.b	#%00000111,d0
-	add.b	#"0",d0
-	move.b	#"F",(a4)+
-	move.b	#"P",(a4)+
-	move.b	d0,(a4)+
-	rts
+	bra	GetFxreg
 
 GetFSreg:
 	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d0
 	andi.b	#%00011100,d0
 	lsr.b	#2,d0
+;	bra	GetFxreg
+
+GetFxreg:
 	add.b	#"0",d0
 	move.b	#"F",(a4)+
 	move.b	#"P",(a4)+
