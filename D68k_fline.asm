@@ -8,8 +8,7 @@ c_fline:
 	tst.b	ArguF-x(a5)
 	beq	OpCode1
 
-	move.w	(a0),d7
-	move.w	d7,d0
+	move.w	(a0),d0
 ;	andi.w	#%1111111111111111,d0
 	cmp.w	#%1111001001111010,d0	;FTRAPcc 68881/2 68040
 	beq	f_ftrapcc
@@ -20,22 +19,7 @@ c_fline:
 	cmp.w	#%1111100000000000,d0	;LPSTOP 68060 !!!
 	beq	x_lpstop
 
-;	move.w	d7,d0
-	andi.w	#%1111111111000000,d0
-	cmp.w	#%1111001000000000,d0	;FLINE STANDARD
-	beq	f_fcom
-	cmp.w	#%1111000000000000,d0	;PMMU  STANDARD
-	beq	p_pcom
-	cmp.w	#%1111001100000000,d0	;FSAVE 6888x/68040
-	beq	f_fsave
-	cmp.w	#%1111000100000000,d0	;PSAVE 68851
-	beq	p_psave
-	cmp.w	#%1111001101000000,d0	;FRESTORE 6888x/68040
-	beq	f_frestore
-	cmp.w	#%1111000101000000,d0	;PRESTORE 68851
-	beq	p_prestore
-
-	move.w	d7,d0
+	move.w	d0,d7
 	andi.w	#%1111111111111000,d0
 	cmp.w	#%1111011000100000,d0	;MOVE16 68040
 	beq	f_move16_1
@@ -54,26 +38,38 @@ c_fline:
 	cmp	#%1111010111001000,d0	;PLPAR
 	beq	p_plpar
 
-	move.w	d7,d0
-	andi.w	#%1111111100100000,d0
-	cmp.w	#%1111010000000000,d0	;CINV 68040
-	beq	f_cinv
-	cmp.w	#%1111010000100000,d0	;CPUSH 68040
-	beq	f_cpush
-
-	move.w	d7,d0
+;	move.w	d7,d0
 	andi.w	#%1111111111100000,d0
 	cmp.w	#%1111011000000000,d0	;MOVE16 68040
 	beq	f_move16_2
 	cmp.w	#%1111010100000000,d0	;PFLUSH 68040
 	beq	p_pflush040
 
-	move.w	d7,d0
+;	move.w	d7,d0
 	andi.w	#%1111111111000000,d0
+	cmp.w	#%1111001000000000,d0	;FLINE STANDARD
+	beq	f_fcom
+	cmp.w	#%1111000000000000,d0	;PMMU  STANDARD
+	beq	p_pcom
+	cmp.w	#%1111001100000000,d0	;FSAVE 6888x/68040
+	beq	f_fsave
+	cmp.w	#%1111000100000000,d0	;PSAVE 68851
+	beq	p_psave
+	cmp.w	#%1111001101000000,d0	;FRESTORE 6888x/68040
+	beq	f_frestore
+	cmp.w	#%1111000101000000,d0	;PRESTORE 68851
+	beq	p_prestore
 	cmp.w	#%1111001001000000,d0	;FScc 6888x
 	beq	f_fscc
 	cmp.w	#%1111000001000000,d0	;PScc 68851
 	beq	f_pscc
+
+	move.w	d7,d0
+	andi.w	#%1111111100100000,d0
+	cmp.w	#%1111010000000000,d0	;CINV 68040
+	beq	f_cinv
+	cmp.w	#%1111010000100000,d0	;CPUSH 68040
+	beq	f_cpush
 
 	move.w	d7,d0
 	andi.w	#%1111111110000000,d0
