@@ -1549,11 +1549,12 @@ c_subi2
 
 	move.l	Pointer-x(a5),a0
 
-	cmp.b	#'L',SizeBWL-x(a5)
+	move.b	SizeBWL-x(a5),d2
+	cmp.b	#'L',d2
 	beq	AddL
-	cmp.b	#'W',SizeBWL-x(a5)
+	cmp.b	#'W',d2
 	beq	AddW
-	cmp.b	#'B',SizeBWL-x(a5)
+	cmp.b	#'B',d2
 	bne	OpCodeError
 
 AddB:	tst.b	2(a0)
