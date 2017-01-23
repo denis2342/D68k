@@ -1596,33 +1596,13 @@ c_AddSub
 	andi.w	#%111,d2
 
 	cmp.b	#%011,d2
-	beq	9$
-	cmp.b	#%111,d2
-	beq	10$
-
-	move.b	#'.',(a4)+	;diese Zeile brauchen ab jetzt alle !
-
-	cmp.b	#%000,d2	;die jetzt folgen
-	beq	1$
-	cmp.b	#%001,d2
-	beq	2$
-	cmp.b	#%010,d2
-	beq	3$
-
-	cmp.b	#%100,d2
-	beq	4$
-	cmp.b	#%101,d2
-	beq	5$
-	cmp.b	#%110,d2
-	beq	6$
-
-	bra	OpCodeError
-
-9$	move.b	#'A',(a4)+	;ADDA.W
+	bne	9$
+	move.b	#'A',(a4)+	;ADDA.W
 	move.w	#'.W',(a4)+
 	bra	11$
-
-10$	move.b	#'A',(a4)+	;ADDA.L
+9$	cmp.b	#%111,d2
+	bne	10$
+	move.b	#'A',(a4)+	;ADDA.L
 	move.w	#'.L',(a4)+
 
 11$	move.b	-1(a4),SizeBWL-x(a5)
@@ -1634,7 +1614,11 @@ c_AddSub
 	bsr	RegNumD2
 	bra	DoublePrint
 
-1$	move.b	#'B',(a4)	;ADD.B	EA,D0
+10$	move.b	#'.',(a4)+	;diese Zeile brauchen ab jetzt alle !
+
+	tst.b	d2		; #%000
+	bne	1$
+	move.b	#'B',(a4)	;ADD.B	EA,D0
 	move.b	(a4)+,SizeBWL-x(a5)
 	move.b	#9,(a4)+	;ADD.?	EA,D0
 	move.w	#%111111111111,Adressposs-x(a5)
@@ -1642,17 +1626,21 @@ c_AddSub
 	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
+1$	cmp.b	#%110,d2
+	beq	6$
+	cmp.b	#%010,d2
+	beq	3$
+
+	cmp.b	#%100,d2
+	beq	4$
+	cmp.b	#%101,d2
+	beq	5$
+;	cmp.b	#%010,d2	; this can fall through
+;	beq	2$
+
 2$	move.b	#'W',(a4)+	;ADD.W	EA,D0
 	bra	7$
 3$	move.b	#'L',(a4)+	;ADD.L	EA,D0
-	bra	7$
-
-4$	move.b	#'B',(a4)+	;ADD.B	D0,EA
-	bra	8$
-5$	move.b	#'W',(a4)+	;ADD.W	D0,EA
-	bra	8$
-6$	move.b	#'L',(a4)+	;ADD.L	D0,EA
-	bra	8$
 
 7$	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#9,(a4)+	;ADD.?	EA,D0
@@ -1660,6 +1648,12 @@ c_AddSub
 	bsr	GetSEA
 	bsr	RegNumD2_K_D
 	bra	DoublePrint
+
+4$	move.b	#'B',(a4)+	;ADD.B	D0,EA
+	bra	8$
+5$	move.b	#'W',(a4)+	;ADD.W	D0,EA
+	bra	8$
+6$	move.b	#'L',(a4)+	;ADD.L	D0,EA
 
 8$	move.b	-1(a4),SizeBWL-x(a5)
 	move.b	#9,(a4)+	;ADD.?	D0,EA
