@@ -81,10 +81,6 @@ LabelcodeSearch:
 	move.w	CodeID-x(a5),LastCodeID-x(a5)
 	clr.w	CodeID-x(a5)
 
-	move.l	CodeAnfang-x(a5),a0
-	add.l	PCounter-x(a5),a0
-	move.l	a0,Pointer-x(a5)	;WICHTIG !!!
-
 	tst.b	ArguD-x(a5)	;TRACE/S
 	beq.b	1$
 
@@ -99,7 +95,15 @@ LabelcodeSearch:
 	btst	d7,0(a2,d5.w)
 	bne	GetNewLabel
 
-1$	move.b	(a0),d7
+1$	clr.w	ToAdd-x(a5)
+	clr.b	Springer-x(a5)
+	clr.b	WallPoint-x(a5)
+
+	move.l	CodeAnfang-x(a5),a0
+	add.l	PCounter-x(a5),a0
+	move.l	a0,Pointer-x(a5)	;WICHTIG !!!
+
+	move.b	(a0),d7
 
 	and.w	#$00f0,d7
 	lsr.b	#3,d7
