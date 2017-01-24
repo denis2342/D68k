@@ -1090,7 +1090,7 @@ c_bcc:	;move.l	Pointer-x(a5),a0
 	bsr	GetCoCo
 	move.b	#'.',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.b	1(a0),d2
 	beq.b	bxx1		;auf WORD testen
 	btst	#0,d2		;Test ob Sprung ungerade
@@ -1120,7 +1120,8 @@ c_bcc:	;move.l	Pointer-x(a5),a0
 bxx1	move.b	#'W',(a4)+	;bcc.W
 	move.b	#9,(a4)+
 
-HexWpm	move.l	Pointer-x(a5),a0
+HexWpm:
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	btst	#0,d2		;Test ob Sprung ungerade
 	bne	OpCodeError
@@ -1144,7 +1145,7 @@ HexWpm	move.l	Pointer-x(a5),a0
 bxx2	cmp.b	#$ff,d2
 	bne	OpCodeError
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.l	2(a0),d2
 	btst	#0,d2		;Test ob Sprung ungerade
 	bne	OpCodeError
@@ -1199,7 +1200,7 @@ c_bcdx2:
 	move.b	SizeBWL-x(a5),(a4)+
 	move.b	#9,(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#3,1(a0)
 	beq.b	addxd
 
@@ -1237,7 +1238,7 @@ LinksRechts2:
 ;	tst.b	SizeBWL-x(a5)
 	beq	OpCodeError
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#0,(a0)
 	bne.b	2$
 	move.b	#'R',-1(a4)		;Also doch nach rechts
@@ -1504,13 +1505,13 @@ c_moves	move.w	#%000111111100,Adressposs-x(a5)
 	move.b	#9,(a4)+
 	addq.l	#2,ToAdd-x(a5)
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	moveq	#0,d2
 	move.b	2(a0),d2
 	lsr.w	#4,d2
 	add.b	#'0',d2
 	move.b	d2,Mnemonic-x(a5)
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
 	tst.b	d2		; war btst #7,d2 mit bne.b 1$
 	bmi.b	1$
@@ -1547,7 +1548,7 @@ c_subi2
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 
 	move.b	SizeBWL-x(a5),d2
 	cmp.b	#'L',d2
@@ -1709,7 +1710,7 @@ c_cmpi2
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
 
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 
 	cmp.b	#'L',d2
 	beq.b	immL
@@ -2366,7 +2367,7 @@ c_trapcc_w
 	move.b	#'W',(a4)+
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 	bsr	HexWDi
 	addq.l	#2,ToAdd-x(a5)
@@ -2379,7 +2380,7 @@ c_trapcc_l
 	move.b	#'L',(a4)+
 	move.b	#9,(a4)+
 	move.b	#'#',(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	move.l	2(a0),d2
 	bsr	HexLDi
 	addq.l	#4,ToAdd-x(a5)
@@ -2618,7 +2619,6 @@ c_movem	move.l	#'MOVE',(a4)+
 mmask:	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d0		;get mask
 
-	move.l	Pointer-x(a5),a0
 	move.w	(a0),d1		;if '-(An)', reverse bits
 	and.w	#%0000000000111000,D1
 	cmp.w	#%0000000000100000,D1
@@ -2973,6 +2973,7 @@ AdreInDirektDisIndex:			;110rrr
 	add.l	ToAdd-x(a5),a0
 	move.w	2(a0),d2
 	move.w	d2,AdMode-x(a5)
+
 	btst	#8,d2
 	bne	AdreInDirektBaseDisIndex	;--> 68020... modes
 
@@ -3517,7 +3518,8 @@ AdressIll:
 ;	LONG, WORD oder Byte
 ;**********************************
 
-GetBWL:	move.l	Pointer-x(a5),a0
+GetBWL:
+;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	andi.w	#%11000000,d2
 
@@ -3531,7 +3533,8 @@ Size:	dc.b	"BWL",0
 ;	Speichert die Co. Codes
 ;**********************************
 
-GetCoCo	move.l	Pointer-x(a5),a0
+GetCoCo:
+;	move.l	Pointer-x(a5),a0
 	move.b	(a0),d2
 	andi.w	#%00001111,d2
 
@@ -3552,8 +3555,8 @@ BCCx:	dc.b	"RASRHILSCCCSNEEQVCVSPLMIGELTGTLE"
 ;	Speichert die Co. Codes
 ;**********************************
 
-GetCoCo2
-	move.l	Pointer-x(a5),a0
+GetCoCo2:
+;	move.l	Pointer-x(a5),a0
 	move.b	(a0),d2
 	andi.w	#%00001111,d2
 
