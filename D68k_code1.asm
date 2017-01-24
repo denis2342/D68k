@@ -870,7 +870,7 @@ bxx22	cmp.b	#$ff,d2
 
 c2_subx:
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	bne	QWERTYUIOPA
 	bsr	DochFalsch2
 	bra	b2_subx
@@ -879,7 +879,7 @@ c2_subx:
 
 c2_addx:
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	bne	QWERTYUIOPA
 	bsr	DochFalsch2
 	bra	b2_addx
@@ -998,7 +998,7 @@ c2_cmp_x
 
 c2_moves
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	beq	c2_iNULL
 	addq.l	#2,ToAdd-x(a5)
 	bsr	GetSEA2
@@ -1012,6 +1012,7 @@ c2_eori:
 c2_ori:
 c2_andi:
 	bsr	GetBWL
+	beq	c2_iNULL
 
 	move.w	#%000111111101,Adressposs-x(a5)
 
@@ -1021,8 +1022,7 @@ c2_andi:
 	cmp.b	#'W',SizeBWL-x(a5)
 	beq.b	immW2
 
-	cmp.b	#'B',SizeBWL-x(a5)
-	bne	c2_iNULL
+;	cmp.b	#'B',SizeBWL-x(a5)
 
 	move.l	Pointer-x(a5),a0
 	tst.b	2(a0)
@@ -1154,7 +1154,7 @@ c2_and
 
 c2_addsubq
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	beq	c2_iNULL
 	move.w	#%000111111111,Adressposs-x(a5)
 	cmp.b	#'B',SizeBWL-x(a5)
@@ -1170,7 +1170,7 @@ c2_negx:
 c2_not:
 c2_clr:
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	beq	c2_iNULL
 	move.w	#%000111111101,Adressposs-x(a5)
 	bsr	GetSEA2
@@ -1180,7 +1180,7 @@ c2_clr:
 
 c2_tst:
 	bsr	GetBWL
-	tst.b	SizeBWL-x(a5)
+;	tst.b	SizeBWL-x(a5)
 	beq	c2_iNULL
 	move.w	#%111111111111,Adressposs-x(a5)
 	cmp.b	#'B',SizeBWL-x(a5)
