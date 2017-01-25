@@ -16,19 +16,23 @@ WriteInfoText:
 ;	D2 Registerwert in ASCII umw.
 ;**********************************
 
-DecL:	movem.l	d0-d2/a0-a1,-(SP)
-	moveq	#10-1,d0	;10 Digits konnvertieren
+DecL:	movem.l	d0-d3/a0-a1,-(SP)
+	moveq	#10-1,d0	;10 Digits konvertieren
 	lea	Buffer-x(a5),a0
 	lea	pwrof10,a1
-nex:	moveq	#'0',d1		;Fange mit Digit '0' an
-dec:	addq.b	#1,d1		;Digit + 1
-	sub.l	(a1),d2		;noch drin?
-	bcc.b	dec		;wenn so
-	subq.b	#1,d1		;korrigiere Digit
-	add.l	(a1)+,d2	;den auch
+
+1$	moveq	#'/',d1		;Fange mit Digit '0' an
+	move.l	(a1)+,d3
+
+2$	addq.b	#1,d1		;Digit + 1
+	sub.l	d3,d2		;noch drin?
+	bcc.b	2$		;wenn so
+
+	add.l	d3,d2		;den auch
 	move.b	d1,(a0)+	;Digit -> Buffer
-	dbra	d0,nex		;for 8 Digits
-done:	movem.l	(SP)+,d0-d2/a0-a1
+	dbra	d0,1$		;for 8 Digits
+
+	movem.l	(SP)+,d0-d3/a0-a1
 	rts
 
 ;**********************************
