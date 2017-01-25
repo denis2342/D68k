@@ -31,7 +31,8 @@ FehlerMeldung:
 ;**********************************
 
 ErrorDatei2:
-	bsr	DateiC1
+	move.l  FileHD-x(a5),d1
+	bsr	DateiClose
 ErrorDatei:
 	move.l	#Error1T,d1
 	moveq	#Error2T-Error1T,d2
@@ -177,15 +178,9 @@ DateiO2:
 ;	File wieder schliessen
 ;**********************************
 
-DateiC1	move.l	DosBase-x(a5),a6	;geladenes File
-	move.l	FileHD-x(a5),d1
+DateiClose
 	beq.b	1$
-	jsr	_LVOClose(a6)
-1$	rts
-
-DateiC2	move.l	DosBase-x(a5),a6
-	move.l	FileHD2-x(a5),d1	;File zum saven
-	beq.b	1$
+	move.l	DosBase-x(a5),a6
 	jsr	_LVOClose(a6)
 1$	rts
 

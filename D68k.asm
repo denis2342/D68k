@@ -49,7 +49,8 @@ _main:	lea	x,a5
 	bsr	DateiO1		;Datei1 oeffnen
 	bsr	Speicher	;Speicher fuer File
 	bsr	Einladen	;File wird in den Speicher geladen
-	bsr	DateiC1		;Datei1 schliessen
+	move.l  FileHD-x(a5),d1	;File zum saven
+	bsr	DateiClose	;Datei1 schliessen
 	bsr	MakeIDFile	;Nur wenn Trace an ist, ID-File erstellen
 
 	bsr	PrePASS1	;Hunks zaehlen
@@ -67,7 +68,8 @@ Error2:	move.l	#IntroE-1,d1	;Cursor setzen
 	moveq	#4,d2
 	bsr	PrintText
 
-	bsr	DateiC2		;SaveFile schliessen
+	move.l  FileHD2-x(a5),d1        ;File zum saven
+	bsr	DateiClose		;SaveFile schliessen
 
 4$	move.l	DosBase-x(a5),a6
 	move.l	ArgsBack-x(a5),d1
