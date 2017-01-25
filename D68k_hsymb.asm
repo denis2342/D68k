@@ -96,9 +96,3 @@ qqq3:	cmp.l	#0,a1
 ;	bne	1$
 ;	subq.l	#1,a4
 ;	rts
-
-	; kopiert von A1 nach A4 bis D1 abgelaufen ist...
-
-qqq5x:	move.b	(a1)+,(a4)+
-qqq5:	dbra	d1,qqq5x
-	rts

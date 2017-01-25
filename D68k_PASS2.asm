@@ -505,8 +505,9 @@ PrintHunkName:
 	move.b	#',',(a4)+
 
 	lea	HunkForm1-x(a5),a1
-	move.l	#10,d1
-	bsr	qqq5
+	moveq	#10-1,d1
+2$	move.b	(a1)+,(a4)+
+	dbra	d1,2$
 
 	move.b	#' ',(a4)+
 	move.b	#';',(a4)+
@@ -522,8 +523,9 @@ PrintHunkName:
 	move.l	CodeSize-x(a5),d2	;und Angabe der Laenge in Dez.
 	bsr	DecL
 	lea	Buffer+4-x(a5),a1
-	move.l	#6,d1
-	bsr	qqq5
+	moveq	#6-1,d1
+3$	move.b	(a1)+,(a4)+
+	dbra	d1,3$
 
 	move.b	#10,(a4)+
 
