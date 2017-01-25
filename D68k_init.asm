@@ -13,7 +13,7 @@ GetOptions:
 	jsr	_LVOReadArgs(a6)
 	move.l	d0,ArgsBack-x(a5)
 	beq	FehlerMeldung
-2$	rts
+	rts
 
 ;*****************************************************
 
@@ -62,7 +62,7 @@ Aborted	move.l	#Error3T,d1
 ;**********************************
 
 LabelMemSizeError:
-;	eor.b	#2,$bfe001		;LED zurückflippen
+;	eor.b	#2,$bfe001		;LED zurueckflippen
 	move.l	#Error4T,d1
 	moveq	#Error5T-Error4T,d2
 	bsr	PrintText
@@ -104,32 +104,32 @@ Print:	tst.l	FileHD2-x(a5)
 	rts
 
 ;**********************************
-;	File für Arbeit öffnen
+;	File fuer Arbeit oeffnen
 ;**********************************
 
 DateiO1:
 	move.l	Argu1-x(a5),d1	;Argument von der Optionszeile holen
-	beq	ErrorDatei	;konnte nicht geöffnet werden
+	beq	ErrorDatei	;konnte nicht geoeffnet werden
 
 2$	move.l	#1005,d2	;Modus 'Lesen'
 	move.l	DosBase-x(a5),a6
 	jsr	_LVOOpen(a6)
 	move.l	d0,FileHD-x(a5)
-	beq	ErrorDatei	;konnte nicht geöffnet werden
+	beq	ErrorDatei	;konnte nicht geoeffnet werden
 
-	bsr	DateiL		;Dateilänge holen
+	bsr	DateiL		;Dateilaenge holen
 
 	rts
 
 DateiO2:
-	move.l	Argu2-x(a5),d1	;File für ausgabe öffnen
+	move.l	Argu2-x(a5),d1	;File fuer ausgabe oeffnen
 	beq	1$
 
 	move.l	DosBase-x(a5),a6
 	move.l	#1006,d2	;Modus 'Neu'
 	jsr	_LVOOpen(a6)	;Name kommt durchs Argument
 	move.l	d0,FileHD2-x(a5)
-	beq	ErrorDatei	;konnte nicht geöffnet werden
+	beq	ErrorDatei	;konnte nicht geoeffnet werden
 
 	moveq	#';',d0
 	move.b	d0,CheckID
@@ -155,7 +155,7 @@ DateiO2:
 	bsr	DecL
 	clr.b	Buffer+10-x(a5)
 	move.l	FileHD2-x(a5),d1
-	move.l	#Buffer+3,d2		;Filelänge
+	move.l	#Buffer+3,d2		;Filelaenge
 	jsr	_LVOFPuts(a6)
 
 	move.l	FileHD2-x(a5),d1
@@ -169,12 +169,12 @@ DateiO2:
 	jsr	_LVOSetVBuf(a6)
 
 	move.l	Argu2-x(a5),d1		;File
-	moveq	#2,d2			;Maske = 1 Bit für 'Not Executable'
+	moveq	#2,d2			;Maske = 1 Bit fuer 'Not Executable'
 	jsr	_LVOSetProtection(a6)
 1$	rts
 
 ;**********************************
-;	File wieder schließen
+;	File wieder schliessen
 ;**********************************
 
 DateiC1	move.l	DosBase-x(a5),a6	;geladenes File
@@ -210,7 +210,7 @@ DateiL:	move.l	DosBase-x(a5),a6
 
 	subq.l	#1,a1
 
-	cmp.b	#"y",-(a1)		;muß auch noch mit großen Buchstaben
+	cmp.b	#"y",-(a1)		;muss auch noch mit grossen Buchstaben
 	bne.b	2$			;klarkommen.
 	cmp.b	#"r",-(a1)
 	bne.b	2$
@@ -234,7 +234,7 @@ DateiL:	move.l	DosBase-x(a5),a6
 2$	tst.b	Argu4-x(a5)	;INFO/S
 	beq.b	1$
 
-		move.l	#Status1T,d1		;Dateilänge ausgeben
+		move.l	#Status1T,d1		;Dateilaenge ausgeben
 		moveq	#Status2T-Status1T,d2
 		bsr	PrintText
 		move.l	FileSize-x(a5),d2
@@ -243,7 +243,7 @@ DateiL:	move.l	DosBase-x(a5),a6
 1$	rts
 
 ;**********************************
-;	Speicher für File
+;	Speicher fuer File
 ;**********************************
 
 Speicher:
@@ -296,16 +296,16 @@ SpeicherBack:
 
 	dbf	d7,6$
 
-	move.l	HunkMem-x(a5),a1	;Für die Hunktabelle
+	move.l	HunkMem-x(a5),a1	;Fuer die Hunktabelle
 	jsr	_LVOFreeVec(a6)
 
-1$	move.l	Memory-x(a5),a1		;Für das File
+1$	move.l	Memory-x(a5),a1		;Fuer das File
 	jsr	_LVOFreeVec(a6)
 
-	move.l	LabelMem-x(a5),a1	;Für die Labeltabelle
+	move.l	LabelMem-x(a5),a1	;Fuer die Labeltabelle
 	jsr	_LVOFreeVec(a6)
 
-	move.l	SprungMem-x(a5),a1	;Für die Labeltabelle
+	move.l	SprungMem-x(a5),a1	;Fuer die Labeltabelle
 	jsr	_LVOFreeVec(a6)
 
 	rts
@@ -317,14 +317,14 @@ SpeicherBack:
 Einladen:
 	move.l	FileHD-x(a5),d1		;Dieses File
 	move.l	Memory-x(a5),d2		;in diesen Speicher
-	move.l	FileSize-x(a5),d3	;mit dieser Länge
+	move.l	FileSize-x(a5),d3	;mit dieser Laenge
 	move.l	DosBase-x(a5),a6
 	jsr	_LVORead(a6)		;und los geht's
 	moveq	#-1,d3
 	cmp.l	d3,d0
 	beq	ErrorDatei
 
-	bsr	GetFileID	;Ergebnis wird in FileID übergeben
+	bsr	GetFileID	;Ergebnis wird in FileID uebergeben
 
 	rts
 
