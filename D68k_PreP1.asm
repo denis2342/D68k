@@ -247,10 +247,8 @@ KickStart2:
 	subq.l	#4,a2
 	move.l	#1,CurrHunk-x(a5)
 
-	move.l	d0,-(SP)
-	move.l	#$f80000,d0		; alle ROMs werden wohl hier eingeblendet
-	move.l	d0,ROMaddress-x(a5)	; macht dann $f80000 als adresse
-	move.l	(SP)+,d0
+	; alle ROMs werden wohl hier eingeblendet
+	move.l	#$f80000,ROMaddress-x(a5)	; macht dann $f80000 als adresse
 
 	st	KICK-x(a5)
 ;	st	Libby-x(a5)		;muss noch mal gecheckt werden, ob kick wirklich libcode enthaelt !?!
