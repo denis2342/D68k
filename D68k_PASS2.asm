@@ -264,27 +264,7 @@ HExt1:	clr.l	CodeSize-x(a5)
 	bra.b	3$
 
 HReloc32_1:
-	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
-	bra.b	2$
-1$	add.l	d0,CodeSize-x(a5)
-	lsl.l	#2,d0
-	add.l	d0,a2
-	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
-	bne.b	1$		;Wenn NULL dann Ende
-	rts
-
 HReloc16_1:
-	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
-	bra.b	2$
-1$	add.l	d0,CodeSize-x(a5)
-	lsl.l	#2,d0
-	add.l	d0,a2
-	addq.l	#4,a2		;Location of the Label (Symbol)
-2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
-	bne.b	1$		;Wenn NULL dann Ende
-	rts
-
 HReloc08_1:
 	clr.l	CodeSize-x(a5)	;Anzahl der Einraege wird ausgegeben
 	bra.b	2$
@@ -294,10 +274,6 @@ HReloc08_1:
 	addq.l	#4,a2		;Location of the Label (Symbol)
 2$	move.l	(a2)+,d0	;Laenge des Labels in LONGWORDS
 	bne.b	1$		;Wenn NULL dann Ende
-;	move.l	#'RELO',HunkForm1-x(a5)
-;	move.l	#'C08 ',HunkForm2-x(a5)
-;	move.w	#'  ',HunkForm3-x(a5)
-;	bsr	PrintHunkName2
 	rts
 
 Hdrel321:
