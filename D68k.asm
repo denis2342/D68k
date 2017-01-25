@@ -350,6 +350,7 @@ pwrof10	dc.l	1000000000	;10   Es duerfen nur soviele
 
 DosName		dc.b	'dos.library',0
 
+ColonReturn:	dc.b	':'
 RETURN:
 FileLine1:	dc.b	10,10,';Disassembled File  : ',0
 FileLine2:	dc.b	10,';FileSize in Bytes  : ',0

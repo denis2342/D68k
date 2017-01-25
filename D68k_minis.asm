@@ -144,9 +144,7 @@ SymbolLabel:
 6$	move.l	(a1)+,d1
 	bsr	qqq2
 
-	move.b	#':',Befehl-x(a5)
-	move.b	#10,Befehl+1-x(a5)
-	move.l	#Befehl,d1
+	move.l	#ColonReturn,d1
 	moveq	#2,d2
 	bsr	Print
 
