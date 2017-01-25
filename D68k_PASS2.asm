@@ -60,23 +60,11 @@ HCode1:	move.l	(a2)+,d0	;CodeSize in Longwords
 	move.l	d0,CodeSize-x(a5)
 	move.l	a2,CodeAnfang-x(a5)
 	move.l	#'CODE',HunkForm1-x(a5)
-	move.l	#'    ',HunkForm2-x(a5)
-	move.w	#'  ',HunkForm3-x(a5)
 
 	move.l	-8(a2),d0
 
-	btst	#30,d0
-	beq.b	2$
-	move.l	#',CHI',HunkForm2-x(a5)
-	move.b	#'P',HunkForm3-x(a5)
-	bra.b	3$
-
-2$	tst.l	d0		; war btst #31,d0 mit beq.b 3$
-	bpl.b	3$
-	move.l	#',FAS',HunkForm2-x(a5)
-	move.b	#'T',HunkForm3-x(a5)
-
-3$	bsr	PrintHunkName
+	bsr	ChipOrFast
+	bsr	PrintHunkName
 
 	tst.b	Argu7-x(a5)
 	bne.b	1$
@@ -96,23 +84,11 @@ HData1:	addq.l	#4,a2
 
 	move.l	a2,CodeAnfang-x(a5)
 	move.l	#'DATA',HunkForm1-x(a5)
-	move.l	#'    ',HunkForm2-x(a5)
-	move.w	#'  ',HunkForm3-x(a5)
 
 	move.l	-8(a2),d0
 
-	btst	#30,d0
-	beq.b	2$
-	move.l	#',CHI',HunkForm2-x(a5)
-	move.b	#'P',HunkForm3-x(a5)
-	bra.b	3$
-
-2$	tst.l	d0		; war btst #31,d0 mit beq.b 3$
-	bpl.b	3$
-	move.l	#',FAS',HunkForm2-x(a5)
-	move.b	#'T',HunkForm3-x(a5)
-
-3$	bsr	PrintHunkName
+	bsr	ChipOrFast
+	bsr	PrintHunkName
 
 	tst.b	Argu8-x(a5)
 	bne.b	1$
@@ -133,10 +109,24 @@ HBSS1:	move.l	(a2)+,d0
 	move.l	d0,CodeSize-x(a5)
 	move.l	a2,CodeAnfang-x(a5)
 	move.l	#'BSS ',HunkForm1-x(a5)
+
+	move.l	-8(a2),d0
+
+	bsr	ChipOrFast
+	bsr	PrintHunkName
+
+	tst.b	Argu9-x(a5)
+	bne.b	1$
+	bsr	DisBSS		;BSS ausgeben oder nicht ???
+
+1$	move.l	CodeAnfang-x(a5),a2
+	move.l	CodeSize-x(a5),d0
+	rts
+
+ChipOrFast:
 	move.l	#'    ',HunkForm2-x(a5)
 	move.w	#'  ',HunkForm3-x(a5)
 
-	move.l	-8(a2),d0
 	btst	#30,d0
 	beq.b	2$
 	move.l	#',CHI',HunkForm2-x(a5)
@@ -148,15 +138,7 @@ HBSS1:	move.l	(a2)+,d0
 	move.l	#',FAS',HunkForm2-x(a5)
 	move.b	#'T',HunkForm3-x(a5)
 
-3$	bsr	PrintHunkName
-
-	tst.b	Argu9-x(a5)
-	bne.b	1$
-	bsr	DisBSS		;BSS ausgeben oder nicht ???
-
-1$	move.l	CodeAnfang-x(a5),a2
-	move.l	CodeSize-x(a5),d0
-	rts
+3$	rts
 
 HOverlay1:
 	move.l	(a2),d0
