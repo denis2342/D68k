@@ -137,11 +137,11 @@ ExePASS1:
 	cmp.w	#$03eb,d7	;Hunk_BSS
 	beq	HBSS4
 	cmp.w	#$03ec,d7	;Hunk_Reloc32
-	beq	HReloc32_4
+	beq	SearchReloc32Label
 	cmp.w	#$03ed,d7	;Hunk_Reloc16
-	beq	HReloc16_4
+	beq	SearchReloc16Label
 	cmp.w	#$03ee,d7	;Hunk_Reloc8
-	beq	HReloc08_4
+	beq	SearchReloc08Label
 	cmp.w	#$03ef,d7	;Hunk_Ext
 	beq	HExt4
 	cmp.w	#$03f0,d7	;Hunk_Symbol
@@ -260,13 +260,6 @@ HExt4:	bra.b	3$
 	add.l	d0,a0
 	addq.l	#4,a0
 	bra.b	3$
-
-HReloc32_4:
-	bra	SearchReloc32Label
-HReloc16_4:
-	bra	SearchReloc16Label
-HReloc08_4:
-	bra	SearchReloc08Label
 
 Hdrel324:
 Hdrel084:
