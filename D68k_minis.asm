@@ -197,61 +197,63 @@ SortLabel:
 QuickLabel:
 	move.l	LabelMem-x(a5),a1
 	move.l	LabelPointer-x(a5),d7
-	beq	Quick6
+	beq	QuickEnd
 
 QuickSort:
 	subq.l	#4,d7	;(1 Langwort)
-	beq	Quick6
+	beq	QuickEnd
 
 	move.l	a1,a2
 	lea	0(a1,d7.l),a3
 	move.l	a3,a0
 
-QuickS:	move.l	a0,d2
+QuickStart:
+	move.l	a0,d2
 	add.l	a1,d2
 	lsr.l	#1,d2
 	andi.b	#-4,d2	; durch vier teilbar machen
 	move.l	d2,a4
 	move.l	(a4),d2
 
-Quick:	cmp.l	(a2)+,d2
-	bhi.b	Quick
+1$	cmp.l	(a2)+,d2
+	bhi.b	1$
 
 	subq.l	#4,a2
 	addq.l	#4,a3
 
-Quick2:	cmp.l	-(a3),d2
-	bcs.b	Quick2
+2$	cmp.l	-(a3),d2
+	bcs.b	2$
 
 	cmp.l	a3,a2
-	bhi.b	Quick4
+	bhi.b	3$
 
-	move.l	(a3),d5
+	move.l	(a3),d5		; swap
 	move.l	(a2),(a3)
 	move.l	d5,(a2)+
 	subq.l	#4,a3
 
 	cmp.l	a3,a2
-	blo.b	Quick
+	blo.b	1$
 
-Quick4:	cmp.l	a3,a1
-	bcc.b	Quick5
+3$	cmp.l	a3,a1
+	bcc.b	4$
 
 	move.l	a0,-(SP)
 	move.l	a3,a0
 	move.l	a1,a2
-	bsr.b	QuickS
+	bsr.b	QuickStart
 	move.l	(SP)+,a0
 
-Quick5:	cmp.l	a0,a2
-	bcc.b	Quick6
+4$	cmp.l	a0,a2
+	bcc.b	QuickEnd
 
 	move.l	a1,-(SP)
 	move.l	a2,a1
 	move.l	a0,a3
-	bsr.b	QuickS
+	bsr.b	QuickStart
 	move.l	(SP)+,a1
-Quick6:	rts
+QuickEnd:
+	rts
 
 ;**********************************
 ;	Filtert Steuerzeichen aus einem Text
