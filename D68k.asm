@@ -49,8 +49,7 @@ _main:	lea	x,a5
 	bsr	DateiO1		;Datei1 oeffnen
 	bsr	Speicher	;Speicher fuer File
 	bsr	Einladen	;File wird in den Speicher geladen
-	move.l  FileHD-x(a5),d1	;File zum saven
-	bsr	DateiClose	;Datei1 schliessen
+	bsr	DateiCloseHD1	;Datei1 schliessen
 	bsr	MakeIDFile	;Nur wenn Trace an ist, ID-File erstellen
 
 	bsr	PrePASS1	;Hunks zaehlen

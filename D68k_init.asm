@@ -31,8 +31,7 @@ FehlerMeldung:
 ;**********************************
 
 ErrorDatei2:
-	move.l  FileHD-x(a5),d1
-	bsr	DateiClose
+	bsr	DateiCloseHD1
 ErrorDatei:
 	move.l	#Error1T,d1
 	moveq	#Error2T-Error1T,d2
@@ -178,6 +177,8 @@ DateiO2:
 ;	File wieder schliessen
 ;**********************************
 
+DateiCloseHD1:
+	move.l	FileHD-x(a5),d1
 DateiClose
 	beq.b	1$
 	move.l	DosBase-x(a5),a6
