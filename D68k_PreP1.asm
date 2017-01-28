@@ -243,12 +243,14 @@ Zyxel:	add.l	FileSize-x(a5),a2
 	rts
 
 KickStart2:
+	; load the baseaddress from location $4 in the ROM
+	move.l	(a2),d0
+	move.w	#$0000,d0	; clear lower half of address
+	move.l	d0,ROMaddress-x(a5)
+
 	add.l	FileSize-x(a5),a2	; kickstart filesize
 	subq.l	#4,a2
 	move.l	#1,CurrHunk-x(a5)
-
-	; alle ROMs werden wohl hier eingeblendet
-	move.l	#$f80000,ROMaddress-x(a5)	; macht dann $f80000 als adresse
 
 	st	KICK-x(a5)
 ;	st	Libby-x(a5)		;muss noch mal gecheckt werden, ob kick wirklich libcode enthaelt !?!
