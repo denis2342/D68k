@@ -745,16 +745,16 @@ JumpTableListTest:
 	move.l	d6,a0
 	move.l	PCounter-x(a5),d1
 
-2$	cmp.l	(a0),d1
+2$	cmp.l	(a0)+,d1
 	beq	3$
-	lea	12(a0),a0
+	addq	#8,a0
 	tst.l	(a0)
 	bne	2$
 
 1$	rts
 
-3$	move.l	4(a0),LastLabel-x(a5)
-	move.l	8(a0),Jumps-x(a5)
+3$	move.l	(a0)+,LastLabel-x(a5)
+	move.l	(a0),Jumps-x(a5)
 	sne	JumpTableOn
 	rts
 
