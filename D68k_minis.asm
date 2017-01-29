@@ -86,10 +86,10 @@ PLabel:		move.l	8(a0,d6.l),d1	;Ende des aktuellen Hunks in D1
 	lsr.l	#2,d2
 	addq.l	#1,d2
 	bsr	HexL
-	move.b	#'L',HexBufferL+1-x(a5)
+	move.b	#'L',HexBufferL+2-x(a5)
 	move.b	#':',Hexplus-x(a5)
-	move.l	#HexBufferL+1,d1
-	moveq	#9,d2
+	move.l	#HexBufferL+2,d1
+	moveq	#8,d2
 	move.b	#10,Hexplus2-x(a5)
 	bsr	Print
 	addq.l	#4,d3		;LabelPointer
@@ -801,8 +801,7 @@ PrintRelocXLabel:
 	lsr.l	#2,d2
 	bsr	HexL
 	move.b	#'L',(a4)+
-	lea	HexBufferL+2-x(a5),a0
-	move.b	(a0)+,(a4)+
+	lea	HexBufferL+3-x(a5),a0
 	move.b	(a0)+,(a4)+
 	move.b	(a0)+,(a4)+
 	move.b	(a0)+,(a4)+
