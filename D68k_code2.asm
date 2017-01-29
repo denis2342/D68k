@@ -755,7 +755,7 @@ JumpTableListTest:
 
 3$	move.l	(a0)+,LastLabel-x(a5)
 	move.l	(a0),Jumps-x(a5)
-	sne	JumpTableOn
+	sne	JumpTableOn-x(a5)
 	rts
 
 ;**********************************
