@@ -2283,8 +2283,7 @@ c_mulxl
 	beq.b	c_mulul
 
 c_mulsl	move.l	#'MULS',(a4)+
-	st	Vorzeichen-x(a5)
-	bra.b	c_calclong
+	bra.b	c_calclongvz
 
 c_mulul	move.l	#'MULU',(a4)+
 	bra.b	c_calclong
@@ -2292,14 +2291,15 @@ c_mulul	move.l	#'MULU',(a4)+
 c_divxl
 ;	move.l	Pointer-x(a5),a0
 	btst	#3,2(a0)
-	beq.b	c_divul
-
-c_divsl	move.l	#'DIVS',(a4)+
-	st	Vorzeichen-x(a5)
-	bra.b	c_calclong
+	bne.b	c_divsl
 
 c_divul	move.l	#'DIVU',(a4)+
-;	bra.b	c_calclong
+	bra.b	c_calclong
+
+c_divsl	move.l	#'DIVS',(a4)+
+
+c_calclongvz:
+	st	Vorzeichen-x(a5)
 
 c_calclong
 	move.w	2(a0),d2
