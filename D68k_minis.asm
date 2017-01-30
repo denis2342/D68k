@@ -213,30 +213,30 @@ QuickStart:
 	lsr.l	#1,d2
 	andi.b	#-4,d2	; durch vier teilbar machen
 	move.l	d2,a4
-	move.l	(a4),d2
+	move.l	(a4),d2		;pivot festlegen
 
-1$	cmp.l	(a2)+,d2
+1$	cmp.l	(a2)+,d2	; wert groesser als pivot finden
 	bhi.b	1$
 
 	subq.l	#4,a2
 	addq.l	#4,a3
 
-2$	cmp.l	-(a3),d2
-	bcs.b	2$
+2$	cmp.l	-(a3),d2	; wert kleiner als pivot finden
+	blo.b	2$
 
 	cmp.l	a3,a2
 	bhi.b	3$
 
-	move.l	(a3),d5		; swap
+	move.l	(a3),d5		; beide werte tauschen
 	move.l	(a2),(a3)
 	move.l	d5,(a2)+
 	subq.l	#4,a3
 
-	cmp.l	a3,a2
+	cmp.l	a3,a2		; ueberkreuzen sich die ranges schon?
 	blo.b	1$
 
-3$	cmp.l	a3,a1
-	bcc.b	4$
+3$	cmp.l	a3,a1		; unterer range schon zu klein zum teilen?
+	bhs.b	4$
 
 	move.l	a0,-(SP)
 	move.l	a3,a0
@@ -244,8 +244,8 @@ QuickStart:
 	bsr.b	QuickStart
 	move.l	(SP)+,a0
 
-4$	cmp.l	a0,a2
-	bcc.b	QuickEnd
+4$	cmp.l	a0,a2		; oberer range schon zu klein zum teilen?
+	bhs.b	QuickEnd
 
 	move.l	a1,-(SP)
 	move.l	a2,a1
