@@ -745,18 +745,19 @@ JumpTableListTest:
 	move.l	d6,a0
 	move.l	PCounter-x(a5),d1
 
-2$	cmp.l	(a0)+,d1
-	beq	3$
-	addq	#8,a0
-	tst.l	(a0)
+	subq	#8,a0		; preloop kludge
+
+2$	addq	#8,a0
+	move.l	(a0)+,d6
+	beq	1$
+	cmp.l	d6,d1
 	bne	2$
 
-1$	rts
-
-3$	move.l	(a0)+,LastLabel-x(a5)
+	move.l	(a0)+,LastLabel-x(a5)
 	move.l	(a0),Jumps-x(a5)
 	sne	JumpTableOn-x(a5)
-	rts
+
+1$	rts
 
 ;**********************************
 
