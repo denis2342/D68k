@@ -1790,10 +1790,11 @@ FillJumpTableList:
 
 	move.l	d2,a0
 
-1$	tst.l	(a0)+		;erstmal eine freie Stelle suchen !!
-	beq	2$
-	addq.l	#8,a0
-	bra	1$
+	subq	#8,a0		; preloop kludge
+
+1$	addq.l	#8,a0
+	tst.l	(a0)+		;erstmal eine freie Stelle suchen !!
+	bne	1$
 
 2$	move.l	DD1(PC),-4(a0)	;An welcher Stelle
 	move.l	DD2(PC),(a0)+	;relativ zu dieser Adresse
