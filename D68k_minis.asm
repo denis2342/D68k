@@ -500,10 +500,8 @@ SprungMemFueller:
 	bne.b	2$
 
 	move.l	SprungMem-x(a5),a2
-	move.l	a2,a3
 	move.l	SprungPointer-x(a5),d7
 	beq.b	1$
-	add.l	d7,a3
 	lsr.l	#2,d7
 	subq.w	#1,d7
 
@@ -511,17 +509,7 @@ SprungMemFueller:
 	dbeq	d7,1$		;ist. Wenn ja dann ist der Eintrag unnoetig
 	beq.b	2$
 
-;	movem.l	d2/a3,-(SP)
-
-;	bsr	HexOutPutL
-;	bsr	Space
-;	move.l	a3,d2
-;	bsr	HexOutPutL
-;	bsr	Return
-
-;	movem.l	(SP)+,d2/a3
-
-	move.l	d2,(a3)		;Sprungpointer zur Liste addieren
+	move.l	d2,(a2)		;Sprungpointer zur Liste addieren
 	addq.l	#4,SprungPointer-x(a5)
 
 2$	rts
