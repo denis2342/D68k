@@ -589,6 +589,7 @@ LabelPrint16:
 	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und ueberspringen
 	bne	4$
 
+<<<<<<< HEAD
 	move.l	PCounter-x(a5),d0	;richtige Adresse
 	add.l	ToAdd-x(a5),d0		;fuer andere sachen
 	addq.l	#2,d0			;fuer den Mnemonic
@@ -608,6 +609,9 @@ LabelPrint16:
 	bne.b	2$
 
 	bra	PrintRelocXLabel
+=======
+	bsr	LabelPrintSub
+>>>>>>> 132da21 (made a function from some duplicate code)
 
 4$	rts
 
@@ -627,9 +631,20 @@ LabelPrint08:
 	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und ueberspringen
 	bne	4$
 
+<<<<<<< HEAD
 	move.l	PCounter-x(a5),d0	;richtige Adresse
 	add.l	ToAdd-x(a5),d0		;fuer andere sachen
 	addq.l	#2,d0			;fuer den Mnemonic
+=======
+	bsr	LabelPrintSub
+
+4$	rts
+
+LabelPrintSub:
+	moveq	#2,d0			;fuer den Mnemonic
+	add.w	ToAdd-x(a5),d0		;fuer andere sachen
+	add.l	PCounter-x(a5),d0	;richtige Adresse
+>>>>>>> 132da21 (made a function from some duplicate code)
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
 	beq	4$
