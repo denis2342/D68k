@@ -171,17 +171,18 @@ SortLabel:
 	move.l	(a0)+,d0
 	move.l	a0,a1
 
-1$	move.l	(a0)+,d1
+	bra	1$
 
-	cmp.l	a0,d7
-	bcs.b	2$
-
-	cmp.l	d0,d1
+3$	cmp.l	d0,d1
 	beq.b	1$
 
 	move.l	d1,(a1)+
 	move.l  d1,d0
-	bra.b	1$
+
+1$	move.l	(a0)+,d1
+
+	cmp.l	a0,d7
+	bcc.b	3$
 
 2$	move.l	a1,d7
 	sub.l	d6,d7
