@@ -166,25 +166,23 @@ SortLabel:
 	move.l	LabelPointer-x(a5),d7
 	beq.b	2$
 
-	add.l	a0,d7
+	lsr.l	#2,d7
+	subq.l	#2,d7
+	bmi.b	3$
 
 	move.l	(a0)+,d0
 	move.l	a0,a1
 
-	bra	1$
-
-3$	cmp.l	d0,d1
-	beq.b	1$
+1$	move.l	(a0)+,d1
+	cmp.l	d0,d1
+	beq.b	2$
 
 	move.l	d1,(a1)+
 	move.l  d1,d0
 
-1$	move.l	(a0)+,d1
+2$	dbra	d7,1$
 
-	cmp.l	a0,d7
-	bcc.b	3$
-
-2$	move.l	a1,d7
+3$	move.l	a1,d7
 	sub.l	d6,d7
 	move.l	d7,LabelPointer-x(a5)
 
