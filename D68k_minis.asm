@@ -206,6 +206,8 @@ QuickSort:
 	lea	0(a1,d7.l),a3
 	move.l	a3,a0
 
+	moveq	#4,d6
+
 QuickStart:
 	move.l	a0,d2
 	add.l	a1,d2
@@ -214,14 +216,16 @@ QuickStart:
 	move.l	d2,a4
 	move.l	(a4),d2		;pivot festlegen
 
-1$	cmp.l	(a2)+,d2	; wert groesser als pivot finden
-	bhi.b	1$
+	moveq	#-1,d4
 
-	subq.l	#4,a2
-	addq.l	#4,a3
+1$	cmp.l	(a2)+,d2	; wert groesser als pivot finden
+	dbls	d4,1$
+
+	sub.l	d6,a2
+	add.l	d6,a3
 
 2$	cmp.l	-(a3),d2	; wert kleiner als pivot finden
-	blo.b	2$
+	dbhs	d4,2$
 
 	cmp.l	a3,a2
 	bhi.b	3$
@@ -229,7 +233,7 @@ QuickStart:
 	move.l	(a3),d5		; beide werte tauschen
 	move.l	(a2),(a3)
 	move.l	d5,(a2)+
-	subq.l	#4,a3
+	sub.l	d6,a3
 
 	cmp.l	a3,a2		; ueberkreuzen sich die ranges schon?
 	blo.b	1$
