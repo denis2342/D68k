@@ -491,7 +491,7 @@ SprungMemFueller:
 ; in D6 muss die Hunknummer uebergeben werden
 
 	btst	#0,d2	;Adresse auf gerade testen
-	bne.b	2$
+	bne.b	3$
 
 	move.l	HunkMem-x(a5),a0
 	move.l	32(a0,d6.l),a2		;BitMem des Hunks von D6
@@ -500,22 +500,22 @@ SprungMemFueller:
 	move.w	d5,d7		;gesetzt war, wenn das der Fall ist, dann
 	lsr.l	#3,d5		;brauch die Adresse nicht im SprungMem eingetragen
 	btst	d7,0(a2,d5.w)	;werden.
-	bne.b	2$
+	bne.b	3$
 
 	move.l	SprungMem-x(a5),a2
 	move.l	SprungPointer-x(a5),d7
-	beq.b	1$
+	beq.b	2$
 	lsr.l	#2,d7
 	subq.w	#1,d7
 
 1$	cmp.l	(a2)+,d2	;Testen ob Adresse in Liste schon vorhanden
 	dbeq	d7,1$		;ist. Wenn ja dann ist der Eintrag unnoetig
-	beq.b	2$
+	beq.b	3$
 
-	move.l	d2,(a2)		;Sprungpointer zur Liste addieren
+2$	move.l	d2,(a2)		;Sprungpointer zur Liste addieren
 	addq.l	#4,SprungPointer-x(a5)
 
-2$	rts
+3$	rts
 
 ;**********************************
 ;	Label in (a4)+ ausgeben mit Reloc32
