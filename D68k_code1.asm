@@ -22,40 +22,42 @@ LabelcodeE:
 	rts
 
 GetNewLabel:
-3$	tst.l	SprungPointer-x(a5)	;sind noch welche da ???
-	beq.b	2$
 	move.l	SprungMem-x(a5),a2
-	subq.l	#4,SprungPointer-x(a5)
-	add.l	SprungPointer-x(a5),a2
-	move.l	(a2),d7				;DAS naechste Label
+	move.l	SprungPointer-x(a5),d6	;sind noch welche da ???
 
-	bmi.b	3$	;minus darf es nicht sein (kann es auch nicht!)
+1$	subq.l	#4,d6
+	bmi.b	4$
+	move.l	0(a2,d6),d7				;DAS naechste Label
+
+	bmi.b	1$	;minus darf es nicht sein (kann es auch nicht!)
 
 	btst	#0,d7	;ungerade darf es nicht sein
-	bne.b	3$
+	bne.b	1$
 
 	move.l	HunkAnzahl-x(a5),d4
-	beq.b	3$			;keine Hunks ???
+	beq.b	1$			;keine Hunks ???
 	subq.l	#1,d4
+
+	move.l	d6,SprungPointer-x(a5)
 
 	move.l	HunkMem-x(a5),a2
 	moveq	#0,d5
 
-1$	move.l	d5,d6
+2$	move.l	d5,d6
 	lsl.l	#TabSize,d6
 	cmp.l	d4,d5
-	beq.b	4$
+	beq.b	3$
 
 	cmp.l	64+8(a2,d6.l),d7	;des naechsten Hunks
-	bcs.b	4$
+	bcs.b	3$
 	addq.l	#1,d5
-	bra.b	1$
+	bra.b	2$
 
-4$	sub.l	8(a2,d6.l),d7		;negativ darf es nicht sein
-	bmi.b	3$
+3$	sub.l	8(a2,d6.l),d7		;negativ darf es nicht sein
+	bmi.b	1$
 
 	cmp.l	HunkAnzahl-x(a5),d5	;mit HunkAnzahl vergleichen
-	bge.b	3$
+	bge.b	1$
 
 	cmp.l	4(a2,d6.l),d7		;mit Hunkgroesse vergleichen
 	bge.b	3$
@@ -66,7 +68,8 @@ GetNewLabel:
 	move.l	d7,PCounter-x(a5)
 	rts
 
-2$	addq.l	#4,SP
+4$	clr.l	SprungPointer-x(a5)
+	addq.l	#4,SP
 	rts
 
 ;**********************************
