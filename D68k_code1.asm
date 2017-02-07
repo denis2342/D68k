@@ -1594,23 +1594,25 @@ Konstante2:				;111 100
 	btst	#11,d0
 	beq	AdressIll2
 
-	cmp.b	#'B',SizeBWL-x(a5)	;byte integer
+	move.b	SizeBWL-x(a5),d0
+
+	cmp.b	#'B',d0		;byte integer
 	beq	KonsB2
-	cmp.b	#'W',SizeBWL-x(a5)	;word integer
+	cmp.b	#'W',d0		;word integer
 	beq	KonsW2
-	cmp.b	#'L',SizeBWL-x(a5)	;long-word integer
+	cmp.b	#'L',d0		;long-word integer
 	beq	KonsL2
 
 	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll2
 
-	cmp.b	#'S',SizeBWL-x(a5)	;single-precision real
+	cmp.b	#'S',d0		;single-precision real
 	beq	KonsS2
-	cmp.b	#'P',SizeBWL-x(a5)	;packed-decimal real
+	cmp.b	#'P',d0		;packed-decimal real
 	beq	KonsX2
-	cmp.b	#'D',SizeBWL-x(a5)	;double-precision real
+	cmp.b	#'D',d0		;double-precision real
 	beq	KonsD2
-	cmp.b	#'X',SizeBWL-x(a5)	;extended-precision real
+	cmp.b	#'X',d0		;extended-precision real
 	beq	KonsX2
 
 	bra.b	AdressIll2

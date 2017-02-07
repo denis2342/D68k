@@ -3450,23 +3450,25 @@ Konstante:				;111 100
 	add.l	ToAdd-x(a5),a0
 	addq.l	#2,a0
 
-	cmp.b	#'B',SizeBWL-x(a5)	;byte integer
+	move.b	SizeBWL-x(a5),d0
+
+	cmp.b	#'B',d0		;byte integer
 	beq	KonsB
-	cmp.b	#'W',SizeBWL-x(a5)	;word integer
+	cmp.b	#'W',d0		;word integer
 	beq	KonsW
-	cmp.b	#'L',SizeBWL-x(a5)	;long-word integer or Label
+	cmp.b	#'L',d0		;long-word integer or Label
 	beq	KonsL
 
 	tst.b	ArguF-x(a5)		;68020 Option ???
 	beq	AdressIll
 
-	cmp.b	#'S',SizeBWL-x(a5)	;singe-precision real
+	cmp.b	#'S',d0		;singe-precision real
 	beq	KonsS
-	cmp.b	#'P',SizeBWL-x(a5)	;packed-decimal real
+	cmp.b	#'P',d0		;packed-decimal real
 	beq	KonsX
-	cmp.b	#'D',SizeBWL-x(a5)	;double-precision real
+	cmp.b	#'D',d0		;double-precision real
 	beq	KonsD
-	cmp.b	#'X',SizeBWL-x(a5)	;extended-precision real
+	cmp.b	#'X',d0		;extended-precision real
 	beq	KonsX
 
 	bra	AdressIll
