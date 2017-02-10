@@ -796,19 +796,17 @@ c2_bcc:
 	bne.b	14$
 	cmp.l	#$61727900,4(a0)	;'ary',0
 	bne.b	14$
-	moveq	#8-2,d0
+
+15$	moveq	#8-2,d0
 	add.l	d0,ToAdd-x(a5)
 	bra	QWERTYUIOPA
 
 14$	cmp.l	#"devi",(a0)	;device
-	bne.b	15$
+	bne.b	16$
 	cmp.w	#"ce",4(a0)
-	bne.b	15$
-	moveq	#8-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	15$
 
-15$
+16$
 99$	st	Springer-x(a5)
 
 	move.b	(a0),d2
