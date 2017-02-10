@@ -757,8 +757,8 @@ fmmask:	move.l	Pointer-x(a5),a0
 	move.b	3(a0),d0		;get mask
 
 	move.l	Pointer-x(a5),a0
-	move.w	(a0),d1		;if '-(An)', reverse bits
-	and.b	#%00111000,D1
+	moveq	#%00111000,D1
+	and.w	(a0),d1		;if '-(An)', reverse bits
 	cmp.b	#%00100000,D1
 	beq.b	fm20
 	moveq	#7,d3
@@ -832,8 +832,8 @@ f_fmovecrom:
 	move.l	#"FMOV",(a4)+
 	move.l	#'ECR.',(a4)+
 	move.w	#$5809,(a4)+	;'X' + TAB
-	move.w	2(a0),d2
-	andi.b	#%01111111,d2
+	moveq	#%01111111,d2
+	and.w	2(a0),d2
 	move.b	#'#',(a4)+
 	bsr	HexBDi
 	move.b	#',',(a4)+
@@ -998,8 +998,8 @@ p_pflush040:
 	move.l	#"PFLU",(a4)+
 	move.w	#"SH",(a4)+
 ;	move.l	Pointer-x(a5),a0
-	move.w	(a0),d2
-	andi.b	#%00011000,d2
+	moveq	#%00011000,d2
+	and.w	(a0),d2
 	lsr.b	#3,d2
 	cmp.b	#1,d2
 	beq.b	1$
@@ -1013,8 +1013,8 @@ p_pflush040:
 	move.b	#'(',(a4)+
 	move.b	#"A",(a4)+
 	move.l	Pointer-x(a5),a0
-	move.w	(a0),d2
-	andi.b	#%00000111,d2
+	moveq	#%00000111,d2
+	and.w	(a0),d2
 	add.b	#"0",d2
 	move.b	d2,(a4)+
 	move.b	#')',(a4)+
@@ -1296,8 +1296,8 @@ p_pflush:
 	cmp.w	#%0010000000000000,d2
 	bne	OpCodeError
 
-	move.b	2(a0),d2
-	and.b	#%00011100,d2
+	moveq	#%00011100,d2
+	and.b	2(a0),d2
 	lsr.b	#2,d2
 	cmp.b	#%001,d2	;PFLUSHA
 	beq.b	2$
@@ -1339,8 +1339,8 @@ p_pflush:
 
 p_getflushfc:
 	move.l	Pointer-x(a5),a0
-	move.w	2(a0),d2
-	and.b	#%00011111,d2
+	moveq	#%00011111,d2
+	and.w	2(a0),d2
 	btst	#4,d2
 	bne.b	1$
 	btst	#3,d2
@@ -1387,8 +1387,8 @@ p_getflushmask:
 
 p_getflushlevel:
 	move.l	Pointer-x(a5),a0	;von 1-7
-	move.b	2(a0),d2
-	and.b	#%00011100,d2
+	moveq	#%00011100,d2
+	and.b	2(a0),d2
 	lsr.b	#2,d2
 	move.b	#'#',(a4)+
 	bsr	HexB
@@ -1601,8 +1601,8 @@ p_pmove3_851:
 
 p_getmmureg:
 	move.l	Pointer-x(a5),a0
-	move.b	2(a0),d2
-	andi.w	#%00011100,d2
+	moveq	#%00011100,d2
+	and.b	2(a0),d2
 
 	lea	MMUREG(PC,d2.w),a0
 
@@ -1725,8 +1725,8 @@ f_ftrapcc:
 
 f_xtrapcc
 	move.l	Pointer-x(a5),a0
-	move.w	(a0),d2
-	andi.b	#%111,d2
+	moveq	#%111,d2
+	and.w	(a0),d2
 	cmp.b	#%100,d2
 	beq	DoublePrint
 	cmp.b	#%010,d2
@@ -2415,8 +2415,9 @@ p2_ptrapcc:
 f2_ftrapcc:
 ;	move.l	Pointer-x(a5),a0
 	addq.l	#2,ToAdd-x(a5)
-	move.w	(a0),d2
-	andi.b	#%111,d2
+	moveq	#%111,d2
+	and.w	(a0),d2
+
 	cmp.b	#%100,d2
 	beq.b	1$
 	cmp.b	#%010,d2
@@ -2477,14 +2478,14 @@ GetFDreg:
 GetFD2reg:
 	move.b	#',',(a4)+
 	move.l	Pointer-x(a5),a0
-	move.w	2(a0),d0
-	andi.b	#%00000111,d0
+	moveq	#%00000111,d0
+	and.w	2(a0),d0
 	bra	GetFxreg
 
 GetFSreg:
 	move.l	Pointer-x(a5),a0
-	move.b	2(a0),d0
-	andi.b	#%00011100,d0
+	moveq	#%00011100,d0
+	and.b	2(a0),d0
 	lsr.b	#2,d0
 ;	bra	GetFxreg
 
@@ -2501,8 +2502,8 @@ GetFxreg:
 
 GetFSSP:
 	move.l	Pointer-x(a5),a0
-	move.b	2(a0),d0
-	andi.w	#%00011100,d0
+	moveq	#%00011100,d0
+	and.b	2(a0),d0
 	lsr.b	#2,d0
 
 	lea	SSPlist(PC,d0.w),a0

@@ -920,10 +920,9 @@ c_moveq
 
 c_trap	move.l	#'TRAP',(a4)+
 	move.w	#"\t#",(a4)+	;TAB + '#'
-	moveq	#0,d2
 ;	move.l	Pointer-x(a5),a0
-	move.w	(a0),d2
-	andi.w	#%00001111,d2
+	moveq	#%00001111,d2
+	and.w	(a0),d2
 	bsr	DecL
 	move.b	Buffer+8-x(a5),(a4)+
 	move.b	Buffer+9-x(a5),(a4)+
@@ -1942,8 +1941,8 @@ c_callm	move.l	#'CALL',(a4)+
 c_cas:	move.l	#'CAS.',(a4)+
 
 ;	move.l	Pointer-x(a5),a0
-	move.b	(a0),d2
-	andi.b	#%00000110,d2
+	moveq	#%00000110,d2
+	and.b	(a0),d2
 	moveq	#'?',d4
 	cmp.b	#%00000010,d2
 	bne.b	1$
@@ -1964,8 +1963,8 @@ c_cas:	move.l	#'CAS.',(a4)+
 	move.b	#9,(a4)+
 	move.b	#'D',(a4)+
 ;	move.l	Pointer-x(a5),a0
-	move.w	2(a0),d2
-	and.b	#%00000111,d2
+	moveq	#%00000111,d2
+	and.w	2(a0),d2
 	add.b	#'0',d2
 	move.b	d2,(a4)+
 
@@ -2003,8 +2002,8 @@ c_cas2_l
 c_cas2x	move.b	#9,(a4)+
 
 ;	move.l	Pointer-x(a5),a0
-	move.w	2(a0),d2
-	and.b	#%00000111,d2
+	moveq	#%00000111,d2
+	and.w	2(a0),d2
 	add.b	#'0',d2
 	move.b	#'D',(a4)+
 	move.b	d2,(a4)+
@@ -2012,8 +2011,8 @@ c_cas2x	move.b	#9,(a4)+
 	move.b	#':',(a4)+
 
 ;	move.l	Pointer-x(a5),a0
-	move.w	4(a0),d2
-	and.b	#%00000111,d2
+	moveq	#%00000111,d2
+	and.w	4(a0),d2
 	add.b	#'0',d2
 	move.b	#'D',(a4)+
 	move.b	d2,(a4)+
@@ -2432,8 +2431,8 @@ c_bitk:	move.w	#%000111111101,Adressposs-x(a5)
 c_bitk2	move.w	#$0923,(a4)+		;TAB + '#'
 	moveq	#0,d2
 ;	move.l	Pointer-x(a5),a0
-	move.b	3(a0),d2
-	andi.b	#$1f,d2		; modulo 32
+	moveq	#$1f,d2		; modulo 32
+	and.b	3(a0),d2
 	bsr	DecL
 	move.l	Pointer-x(a5),a0
 	cmp.b	#7,3(a0)
@@ -2620,8 +2619,8 @@ c_movem	move.l	#'MOVE',(a4)+
 mmask:	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d0		;get mask
 
-	move.w	(a0),d1		;if '-(An)', reverse bits
-	and.w	#%0000000000111000,D1
+	moveq	#%0000000000111000,D1
+	and.w	(a0),d1		;if '-(An)', reverse bits
 	cmp.w	#%0000000000100000,D1
 	bne.b	m20
 	moveq	#15,d3
@@ -2723,8 +2722,8 @@ c_movec	move.l	#'MOVE',(a4)+	;MOVEC
 GetKoRe	move.l	Pointer-x(a5),a0
 	move.w	2(a0),d2
 
-	move.w	d2,d7
-	and.w	#%0000000000001111,d7
+	moveq	#%0000000000001111,d7
+	and.w	d2,d7
 
 	btst	#11,d2			; ist es $80x ?
 	bne	1$
@@ -2815,8 +2814,8 @@ RegNumD_A:
 	move.b	#'A',(a4)+
 RegNumD:
 	move.l	Pointer-x(a5),a0
-	move.w	(a0),d7
-	andi.b	#%00000111,d7
+	moveq	#%00000111,d7
+	and.w	(a0),d7
 	add.b	#'0',d7
 	move.b	d7,(a4)+
 	rts
@@ -2831,8 +2830,8 @@ RegNumD2_D:
 	move.b	#'D',(a4)+
 RegNumD2:
 	move.l	Pointer-x(a5),a0
-	move.b	(a0),d7
-	andi.b	#%00001110,d7
+	moveq	#%00001110,d7
+	and.b	(a0),d7
 	lsr.b	#1,d7
 	add.b	#'0',d7		;direkt in (a4)+ reinschreiben
 	move.b	d7,(a4)+
@@ -3005,8 +3004,8 @@ AdreInDirektDisIndex:			;110rrr
 	beq.b	4$
 	move.b	#'L',-1(a4)	;dann eben doch nicht W, sondern L
 
-4$	move.b	AdMode-x(a5),d2
-	and.b	#%00000110,d2		;Skalierung
+4$	moveq	#%00000110,d2		;Skalierung
+	and.b	AdMode-x(a5),d2
 	lsr.b	#1,d2
 	beq.b	5$		;1 als Skalierung weglassen
 
@@ -3030,8 +3029,8 @@ AdreInDirektBaseDisIndex:			;110rrr
 	addq.l	#2,ToAdd-x(a5)
 	move.b	#'(',(a4)+
 
-	move.b	AdMode+1-x(a5),d2
-	andi.b	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	AdMode+1-x(a5),d2
 	beq.b	1$
 
 	move.b	#'[',(a4)+
@@ -3070,8 +3069,8 @@ NoBaseDisplacement:
 2$	btst	#2,d2
 	beq.b	8$
 
-	move.b	AdMode+1-x(a5),d2
-	andi.b	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	AdMode+1-x(a5),d2
 	beq.b	8$
 	move.b	AdMode+1-x(a5),d2
 
@@ -3112,8 +3111,8 @@ NoBaseDisplacement:
 	beq.b	4$
 	move.b	#'L',-1(a4)
 
-4$	move.b	AdMode-x(a5),d2
-	and.b	#%00000110,d2		;Skalierung
+4$	moveq	#%00000110,d2		;Skalierung
+	and.b	AdMode-x(a5),d2
 	beq.b	5$
 	lsr.b	#1,d2
 	moveq	#1,d6
@@ -3273,8 +3272,8 @@ PCIndexDis				;111 011
 
 4$	move.b	d5,(a4)+
 
-	move.b	AdMode-x(a5),d2
-	and.b	#%00000110,d2		;Skalierung
+	moveq	#%00000110,d2		;Skalierung
+	and.b	AdMode-x(a5),d2
 	lsr.b	#1,d2
 	beq.b	3$		;1 als Skalierung weglassen
 
@@ -3298,8 +3297,8 @@ PCIndexBaseDis				;111 011
 	addq.l	#2,ToAdd-x(a5)
 	move.b	#'(',(a4)+
 
-	move.b	AdMode+1-x(a5),d2
-	andi.b	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	AdMode+1-x(a5),d2
 	beq.b	1$
 
 	move.b	#'[',(a4)+
@@ -3368,8 +3367,8 @@ NoPCBaseDisplacement:
 2$	move.b	#'P',(a4)+
 	move.b	#'C',(a4)+
 
-	move.b	AdMode+1-x(a5),d2
-	andi.b	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	AdMode+1-x(a5),d2
 	beq.b	8$
 	btst	#2,AdMode+1-x(a5)
 	beq.b	8$
@@ -3538,8 +3537,8 @@ Size:	dc.b	"BWL",0
 
 GetCoCo:
 ;	move.l	Pointer-x(a5),a0
-	move.b	(a0),d2
-	andi.w	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	(a0),d2
 
 	add.b	d2,d2
 
@@ -3560,8 +3559,8 @@ BCCx:	dc.b	"RASRHILSCCCSNEEQVCVSPLMIGELTGTLE"
 
 GetCoCo2:
 ;	move.l	Pointer-x(a5),a0
-	move.b	(a0),d2
-	andi.w	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	(a0),d2
 
 	add.b	d2,d2
 

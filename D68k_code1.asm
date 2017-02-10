@@ -611,8 +611,8 @@ c2_pea:
 
 c2_cas:
 ;	move.l	Pointer-x(a5),a0
-	move.b	(a0),d2
-	and.b	#%00000110,d2
+	moveq	#%00000110,d2
+	and.b	(a0),d2
 	bne.b	1$
 	bsr	DochFalsch2
 	bra	b2_cas
@@ -793,8 +793,8 @@ c2_bcc:
 16$
 99$	st	Springer-x(a5)
 
-	move.b	(a0),d2
-	and.b	#%00001111,d2
+	moveq	#%00001111,d2
+	and.b	(a0),d2
 	seq	WallPoint-x(a5)	;auf bra testen
 	move.b	1(a0),d2	;byte or short displacement
 	beq.b	bxx12
