@@ -681,6 +681,26 @@ c2_moveq:
 
 ;********************************************
 
+add12:
+	moveq	#12-2,d0
+	add.l	d0,ToAdd-x(a5)
+	bra	QWERTYUIOPA
+
+add16:
+	moveq	#16-2,d0
+	add.l	d0,ToAdd-x(a5)
+	bra	QWERTYUIOPA
+
+add14:
+	moveq	#14-2,d0
+	add.l	d0,ToAdd-x(a5)
+	bra	QWERTYUIOPA
+
+add18:
+	moveq	#18-2,d0
+	add.l	d0,ToAdd-x(a5)
+	bra	QWERTYUIOPA
+
 c2_bcc:
 
 ;	move.l	Pointer-x(a5),a0
@@ -691,74 +711,47 @@ c2_bcc:
 	cmp.l	#"grap",(a0)	;graphics.library
 	bne.b	1$
 	cmp.l	#"hics",4(a0)
-	bne.b	1$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	add18
 
 1$	cmp.l	#"intu",(a0)	;intuition.library
 	bne.b	2$
 	cmp.l	#"itio",4(a0)
-	bne.b	2$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	add18
 
 2$	cmp.l	#"dos.",(a0)	;dos.library
 	bne.b	3$
 	cmp.l	#"libr",4(a0)
-	bne.b	3$
-	moveq	#12-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	add12
 
 3$	cmp.l	#"loca",(a0)	;locale.library
 	bne.b	4$
 	cmp.l	#"le.l",4(a0)
-	bne.b	4$
-	moveq	#16-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	add16
 
 4$	cmp.l	#"gadt",(a0)	;gadtools.library
 	bne.b	5$
 	cmp.l	#"ools",4(a0)
-	bne.b	5$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq.b	add18
 
 5$	cmp.l	#"asl.",(a0)	;asl.library
 	bne.b	6$
 	cmp.l	#"libr",4(a0)
-	bne.b	6$
-	moveq	#12-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add12
 
 6$	cmp.l	#"iffp",(a0)	;iffparse.library
 	bne.b	7$
 	cmp.l	#"arse",4(a0)
-	bne.b	7$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add18
 
 7$	cmp.l	#"disk",(a0)	;diskfont.library
 	bne.b	8$
 	cmp.l	#"font",4(a0)
-	bne.b	8$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add18
 
 8$	cmp.l	#"bull",(a0)	;bullet.library
 	bne.b	9$
 	cmp.l	#"et.l",4(a0)
-	bne.b	9$
-	moveq	#16-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add16
 
 9$	cmp.l	#"comm",(a0)	;commodities.library
 	bne.b	10$
@@ -771,26 +764,17 @@ c2_bcc:
 10$	cmp.l	#"expa",(a0)	;expansion.library
 	bne.b	11$
 	cmp.l	#"nsio",4(a0)
-	bne.b	11$
-	moveq	#18-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add18
 
 11$	cmp.l	#"icon",(a0)	;icon.library
 	bne.b	12$
 	cmp.l	#".lib",4(a0)
-	bne.b	12$
-	moveq	#14-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add14
 
 12$	cmp.l	#"exec",(a0)	;exec.library
 	bne.b	13$
 	cmp.l	#".lib",4(a0)
-	bne.b	13$
-	moveq	#14-2,d0
-	add.l	d0,ToAdd-x(a5)
-	bra	QWERTYUIOPA
+	beq	add14
 
 13$	cmp.l	#"libr",(a0)	;library
 	bne.b	14$
