@@ -206,13 +206,14 @@ QuickSort:
 	lea	0(a1,d7.l),a3
 	move.l	a3,a0
 
+	moveq	#-4,d7
 	moveq	#4,d6
 
 QuickStart:
 	move.l	a0,d2
 	add.l	a1,d2
 	lsr.l	#1,d2
-	andi.b	#-4,d2	; durch vier teilbar machen
+	and.b	d7,d2	; durch vier teilbar machen
 	move.l	d2,a4
 	move.l	(a4),d2		;pivot festlegen
 
