@@ -2355,14 +2355,13 @@ p2_pmove2_851:
 p2_pmove3_851:
 ;	move.l	Pointer-x(a5),a0
 	addq.l	#2,ToAdd-x(a5)
+	moveq	#-1,d0			;all addressmodes
 	btst	#1,2(a0)		;TO or FROM register ?
 	beq.b	2$
 
-	move.w	#%000111111111,Adressposs-x(a5)
-	bsr	GetSEA2
-	bra	QWERTYUIOPA
+	move.w	#%000111111111,d0
 
-2$	move.w	#%111111111111,Adressposs-x(a5)
+2$	move.w	d0,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
