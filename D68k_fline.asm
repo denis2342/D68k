@@ -514,22 +514,35 @@ f_standard
 
 f_standard_sub:
 	move.w	#%111111111101,d0		;R/M=1
-	move.b	SizeBWL-x(a5),d2
-	cmp.b	#"B",d2
-	beq.b	2$
-	cmp.b	#"W",d2
-	beq.b	2$
-	cmp.b	#"L",d2
-	beq.b	2$
-	cmp.b	#"S",d2
-	beq.b	2$
-	bclr	#0,d0
 
-2$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
+	move.w	d0,Adressposs-x(a5)
 	bsr	GetSEA		;<ea> to register
 	move.b	#',',(a4)+
 	bsr	GetFDreg
 	bra	DoublePrint
+
+;**********************************
+;	the possible addressmodes are already set in d0
+;**********************************
+
+addressbitcheck:
+	move.b	SizeBWL-x(a5),d2
+
+	cmp.b	#"B",d2
+	beq.b	1$
+	cmp.b	#"W",d2
+	beq.b	1$
+	cmp.b	#"L",d2
+	beq.b	1$
+	cmp.b	#"S",d2
+	beq.b	1$
+
+	bclr	#0,d0	; clear addressregister direct mode
+	move.w	d0,Adressposs-x(a5)
+
+1$	rts
 
 ;**********************************
 ;	FSTANDARD 6888x/68040 Monadic
@@ -568,18 +581,9 @@ f_ftst:	move.l	#"FTST",(a4)+
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-	move.b	SizeBWL-x(a5),d2
-	cmp.b	#"B",d2
-	beq.b	2$
-	cmp.b	#"W",d2
-	beq.b	2$
-	cmp.b	#"L",d2
-	beq.b	2$
-	cmp.b	#"S",d2
-	beq.b	2$
-	bclr	#0,d0
 
-2$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
 	bsr	GetSEA		;<ea> to register
 	bra	DoublePrint
 
@@ -602,18 +606,9 @@ f_fsincos
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-	move.b	SizeBWL-x(a5),d2
-	cmp.b	#"B",d2
-	beq.b	2$
-	cmp.b	#"W",d2
-	beq.b	2$
-	cmp.b	#"L",d2
-	beq.b	2$
-	cmp.b	#"S",d2
-	beq.b	2$
-	bclr	#0,d0
 
-2$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
 	bsr	GetSEA		;<ea> to register
 	bsr	GetFD2reg
 	move.b	#':',(a4)+
@@ -638,18 +633,9 @@ f_fmove2:
 	bsr	GetFSSP
 
 	move.w	#%000111111101,d0		;R/M=1
-	move.b	SizeBWL-x(a5),d2
-	cmp.b	#"B",d2
-	beq	4$
-	cmp.b	#"W",d2
-	beq	4$
-	cmp.b	#"L",d2
-	beq	4$
-	cmp.b	#"S",d2
-	beq	4$
-	bclr	#0,d0
 
-4$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
 
 	tst.b	-1(a4)
 	beq.b	1$
@@ -2167,17 +2153,9 @@ f2_standard
 	beq	QWERTYUIOPA
 
 	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"W",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"L",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"S",SizeBWL-x(a5)
-	beq	2$
-	bclr	#0,d0
 
-2$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
 	bsr	GetSEA2		;<ea> to register
 	bra	QWERTYUIOPA
 
@@ -2194,17 +2172,9 @@ f2_fmove2
 	beq	QWERTYUIOPA
 
 	move.w	#%111111111101,d0		;R/M=1
-	cmp.b	#"B",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"W",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"L",SizeBWL-x(a5)
-	beq	2$
-	cmp.b	#"S",SizeBWL-x(a5)
-	beq	2$
-	bclr	#0,d0
 
-2$	move.w	d0,Adressposs-x(a5)
+	bsr	addressbitcheck
+
 	bsr	GetSEA2		;<ea> to register
 	bra	QWERTYUIOPA
 
