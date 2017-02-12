@@ -1071,6 +1071,12 @@ p_plpa:
 ;	CINV	68040
 ;**********************************
 
+cinv_sector:
+	dc.b	0	;0
+	dc.b	"L"	;1
+	dc.b	"P"	;2
+	dc.b	"A"	;3
+
 f_cpush:
 	move.l	#"CPUS",(a4)+
 	move.b	#"H",(a4)+
@@ -1083,23 +1089,12 @@ f_cachelines:
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	lsr.b	#3,d2
-	andi.b	#%11,d2
+	andi.w	#%11,d2
+	beq	OpCodeError
 
-	cmp.b	#1,d2
-	beq.b	1$
-	cmp.b	#2,d2
-	beq.b	2$
-	cmp.b	#3,d2
-	beq.b	3$
-	bra	OpCodeError
+	move.b	cinv_sector(PC,d2.w),(a4)+
 
-1$	move.b	#"L",(a4)+
-	bra.b	4$
-2$	move.b	#"P",(a4)+
-	bra.b	4$
-3$	move.b	#"A",(a4)+
-
-4$	move.b	#9,(a4)+
+	move.b	#9,(a4)+
 	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	lsr.b	#6,d2
