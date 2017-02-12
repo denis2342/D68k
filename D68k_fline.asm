@@ -2188,14 +2188,13 @@ f2_move16_1
 f2_fmovem:
 ;	move.l	Pointer-x(a5),a0
 	addq.l	#2,ToAdd-x(a5)
+	move.w	#%000111110100,d0	;to memory
 	btst	#5,2(a0)
 	bne.b	2$
 
-	move.w	#%011111101100,Adressposs-x(a5)		;from memory
-	bsr	GetSEA2
-	bra	QWERTYUIOPA
+	move.w	#%011111101100,d0	;from memory
 
-2$	move.w	#%000111110100,Adressposs-x(a5)		;to memory
+2$	move.w	d0,Adressposs-x(a5)
 	bsr	GetSEA2
 	bra	QWERTYUIOPA
 
