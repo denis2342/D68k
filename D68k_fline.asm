@@ -1077,6 +1077,12 @@ cinv_sector:
 	dc.b	"P"	;2
 	dc.b	"A"	;3
 
+cinv_cache:
+	dc.b	"N"	;0
+	dc.b	"D"	;1
+	dc.b	"I"	;2
+	dc.b	"B"	;3
+
 f_cpush:
 	move.l	#"CPUS",(a4)+
 	move.b	#"H",(a4)+
@@ -1092,40 +1098,26 @@ f_cachelines:
 	andi.w	#%11,d2
 	beq	OpCodeError
 
-	move.b	cinv_sector(PC,d2.w),(a4)+
+	move.b	cinv_sector(PC,d2.w),(a4)+	; setting sector
 
 	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
+
+;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	lsr.b	#6,d2
-	andi.b	#%11,d2
-	
-	cmp.b	#1,d2
-	beq.b	5$
-	cmp.b	#2,d2
-	beq.b	6$
-	cmp.b	#3,d2
-	beq.b	7$
+	andi.w	#%11,d2
 
-	move.b	#"N",(a4)+
-	move.b	#"C",(a4)+
-	bra.b	8$
-
-5$	move.b	#"D",(a4)+
-	move.b	#"C",(a4)+
-	bra.b	8$
-6$	move.b	#"I",(a4)+
-	move.b	#"C",(a4)+
-	bra.b	8$
-7$	move.b	#"B",(a4)+
+	move.b	cinv_cache(PC,d2.w),(a4)+	; setting cache
 	move.b	#"C",(a4)+
 
-8$	cmp.b	#"A",-4(a4)
-	beq.b	9$
+	cmp.b	#"A",-4(a4)	; was it CINVA (or CPUSHA)
+	beq.b	1$
+
 	move.b	#',',(a4)+
 	bsr	RegNumD_Bracket_A
 	move.b	#')',(a4)+
-9$	bra	DoublePrint
+
+1$	bra	DoublePrint
 
 ;**********************************
 ;	FBcc	6888x
