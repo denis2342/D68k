@@ -1513,7 +1513,7 @@ c_moves	move.w	#%000111111100,Adressposs-x(a5)
 	move.b	d2,Mnemonic-x(a5)
 ;	move.l	Pointer-x(a5),a0
 	move.b	2(a0),d2
-	tst.b	d2		; war btst #7,d2 mit bne.b 1$
+;	tst.b	d2		; war btst #7,d2 mit bne.b 1$
 	bmi.b	1$
 	move.b	#'D',RegArt-x(a5)
 
