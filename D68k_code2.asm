@@ -155,14 +155,10 @@ c_gr0000
 	beq	c_cmpi
 	cmp.w	#%0000110010000000,d0	;CMPI.l
 	beq	c_cmpi
-	cmp.w	#%0000100000000000,d0	;BTST #
-	beq	c_btstk
-	cmp.w	#%0000100001000000,d0	;BCHG #
-	beq	c_bchgk
-	cmp.w	#%0000100010000000,d0	;BCLR #
-	beq	c_bclrk
-	cmp.w	#%0000100011000000,d0	;BSET #
-	beq	c_bsetk
+
+	andi.w	#%1111111100000000,d0
+	cmp.w	#%0000100000000000,d0	;BTST... #
+	beq	c_bit_dynamic
 
 	tst.b	ArguF-x(a5)		;68020 Option ??
 	beq.b	3$
@@ -202,15 +198,9 @@ b_cas	move.w	d7,d0
 	beq	c_movep
 
 	move.w	d7,d0
-	andi.w	#%1111000111000000,d0
-	cmp.w	#%0000000100000000,d0	;BTST
-	beq	c_btst
-	cmp.w	#%0000000101000000,d0	;BCHG
-	beq	c_bchg
-	cmp.w	#%0000000110000000,d0	;BCLR
-	beq	c_bclr
-	cmp.w	#%0000000111000000,d0	;BSET
-	beq	c_bset
+	andi.w	#%1111000100000000,d0
+	cmp.w	#%0000000100000000,d0	;BTST, BCHG, BCLR and BSET
+	beq	c_bit_dynamic
 
 	bra	OpCodeError
 
@@ -2335,46 +2325,36 @@ c_trapcc_l
 ;	Bit-Manipulation mit EA		;BTST	d0,EA
 ;**********************************
 
-c_btst	move.l	#'BTST',(a4)+
-	move.w	#%111111111101,Adressposs-x(a5)
-	move.b	#'B',SizeBWL-x(a5)
-	bra	c_bit2
+c_bit_dynamic:
+	move.w	(a0),d2
+	and.w	#%11000000,d2
+	lsr.w	#3,d2
+	lea	c_bitmode(PC,d2.w),a1
+	move.l	(a1)+,(a4)+
+	move.w  (a1)+,Adressposs-x(a5)
+	move.b  (a1)+,SizeBWL-x(a5)
 
-c_bchg	move.l	#'BCHG',(a4)+
-	bra	c_bit
+	btst	#8,(a0)
+	beq	c_bit_constant
 
-c_bset	move.l	#'BSET',(a4)+
-	bra	c_bit
-
-c_bclr	move.l	#'BCLR',(a4)+
-;	bra	c_bit
-
-c_bit:	move.w	#%000111111101,Adressposs-x(a5)
-c_bit2	move.w	#$0944,(a4)+
+	move.w	#$0944,(a4)+
 	bsr	RegNumD2
 	move.b	#',',(a4)+
 	bsr	GetSEA
 	bra	DoublePrint
 
+c_bitmode:
+	dc.w	"BT","ST",%111111111101,"BB"
+	dc.w	"BC","HG",%000111111101,0
+	dc.w	"BC","LR",%000111111101,0
+	dc.w	"BS","ET",%000111111101,0
+
 ;**********************************
 ;	Bit-Manipulation mit Kons.	;BTST	#1,EA
 ;**********************************
 
-c_btstk	move.l	#'BTST',(a4)+
-	move.w	#%111111111101,Adressposs-x(a5)
-	move.b	#'B',SizeBWL-x(a5)
-	bra	c_bitk2
-
-c_bsetk	move.l	#'BSET',(a4)+
-	bra	c_bitk
-c_bchgk	move.l	#'BCHG',(a4)+
-	bra	c_bitk
-c_bclrk	move.l	#'BCLR',(a4)+
-;	bra	c_bitk
-
-c_bitk:	move.w	#%000111111101,Adressposs-x(a5)
-c_bitk2	move.w	#$0923,(a4)+		;TAB + '#'
-;	move.l	Pointer-x(a5),a0
+c_bit_constant
+	move.w	#$0923,(a4)+		;TAB + '#'
 	moveq	#$1f,d2		; modulo 32
 	and.b	3(a0),d2
 	bsr	DecL
