@@ -2400,7 +2400,6 @@ c_bclrk	move.l	#'BCLR',(a4)+
 
 c_bitk:	move.w	#%000111111101,Adressposs-x(a5)
 c_bitk2	move.w	#$0923,(a4)+		;TAB + '#'
-	moveq	#0,d2
 ;	move.l	Pointer-x(a5),a0
 	moveq	#$1f,d2		; modulo 32
 	and.b	3(a0),d2
