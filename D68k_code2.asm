@@ -1369,21 +1369,21 @@ c_dbcc:	move.w	#'DB',(a4)+
 
 ;**********************************
 
-c_exgda	move.b	#'D',Mnemonic+0-x(a5)
-	move.b	#'A',Mnemonic+1-x(a5)
+c_exgda	moveq	#'D',d1
+	moveq	#'A',d2
 	bra	exgpr
-c_exga	move.b	#'A',Mnemonic+0-x(a5)
-	move.b	#'A',Mnemonic+1-x(a5)
+c_exga	moveq	#'A',d1
+	moveq	#'A',d2
 	bra	exgpr
-c_exgd	move.b	#'D',Mnemonic+0-x(a5)
-	move.b	#'D',Mnemonic+1-x(a5)
+c_exgd	moveq	#'D',d1
+	moveq	#'D',d2
 ;	bra	exgpr
 
 exgpr	move.l	#$45584709,(a4)+	;EXG + TABs
-	move.b	Mnemonic+0-x(a5),(a4)+
+	move.b	d1,(a4)+
 	bsr	RegNumD2
 	move.b	#',',(a4)+
-	move.b	Mnemonic+1-x(a5),(a4)+
+	move.b	d2,(a4)+
 	bsr	RegNumD
 	bra	DoublePrint
 
