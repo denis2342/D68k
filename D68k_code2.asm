@@ -952,21 +952,20 @@ c_ext:	move.w	#'EX',(a4)+
 	beq.b	1$
 
 	tst.b	ArguF-x(a5)		;68020 Option ??
-	beq.b	3$
+	beq	OpCodeError
 
 	move.b	#'B',(a4)+
 
 1$	move.b	#'.',(a4)+
-	move.b	#'L',(a4)+
+	moveq	#'L',d0
 	btst	#6,d2
 	bne.b	2$
-	move.b	#'W',-1(a4)
-2$	move.b	#9,(a4)+
+	moveq	#'W',d0
+2$	move.b	d0,(a4)+
+	move.b	#9,(a4)+
 	move.b	#'D',(a4)+
 	bsr	RegNumD
 	bra	DoublePrint
-
-3$	bra	OpCodeError
 
 ;**********************************
 
