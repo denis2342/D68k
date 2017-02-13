@@ -1776,51 +1776,23 @@ c_and	move.l	#'AND.',(a4)+
 c_OrAnd
 ;	move.l	Pointer-x(a5),a0
 
-	move.w	(a0),d2
-	lsr.w	#6,d2
-	andi.w	#%111,d2
+	bsr	GetBWL
+	beq	OpCodeError
 
-;	tst.b	d2
-	beq	1$
-	cmp.b	#%001,d2
-	beq	2$
-	cmp.b	#%010,d2
-	beq	3$
-
-	cmp.b	#%100,d2
-	beq	4$
-	cmp.b	#%101,d2
-	beq	5$
-	cmp.b	#%110,d2
-	beq	6$
-
-	bra	OpCodeError
-
-1$	moveq	#'B',d2
-	bra	7$
-2$	moveq	#'W',d2
-	bra	7$
-3$	moveq	#'L',d2
-;	bra	7$
-
-7$	move.b	d2,(a4)+
-	move.b	d2,SizeBWL-x(a5)	;xxx.x	EA,D0
+	move.b	SizeBWL-x(a5),(a4)+
 	move.b	#9,(a4)+
+
+	btst	#8,(a0)
+	bne	1$
+
+	;xxx.x  EA,D0
+
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
 	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
-4$	moveq	#'B',d2
-	bra	8$
-5$	moveq	#'W',d2
-	bra	8$
-6$	moveq	#'L',d2
-;	bra	8$
-
-8$	move.b	d2,(a4)+
-	move.b	#9,(a4)+		;xxx.x	D0,EA
-	bsr	RegNumD2_D
+1$	bsr	RegNumD2_D		;xxx.x	D0,EA
 	move.b	#',',(a4)+
 	move.w	#%000111111100,Adressposs-x(a5)
 	bsr	GetSEA
