@@ -1327,7 +1327,7 @@ c_movep	move.l	#'MOVE',(a4)+
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 
-	tst.b	d2		;war btst #7,d2 mit beq.b $1
+;	tst.b	d2		;war btst #7,d2 mit beq.b $1
 	bpl.b	1$
 
 3$	btst	#6,d2
