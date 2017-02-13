@@ -1590,6 +1590,7 @@ c_add	move.w	#'AD',(a4)+	;ADD
 ;	bra	c_AddSub
 
 c_AddSub
+	bsr	GetBWL
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
 	lsr.w	#6,d2
@@ -1600,6 +1601,7 @@ c_AddSub
 	move.b	#'A',(a4)+	;ADDA.W
 	move.w	#'.W',(a4)+
 	bra	11$
+
 9$	cmp.b	#%111,d2
 	bne	10$
 	move.b	#'A',(a4)+	;ADDA.L
@@ -1614,50 +1616,22 @@ c_AddSub
 	bsr	RegNumD2
 	bra	DoublePrint
 
-10$	move.b	#'.',(a4)+	;diese Zeile brauchen ab jetzt alle !
+10$	move.b	#'.',(a4)+
+	move.b	SizeBWL-x(a5),(a4)+
+	move.b	#9,(a4)+
+	btst	#8,(a0)
+	bne	2$
 
-	tst.b	d2		; #%000
-	bne	1$
-	move.b	#'B',(a4)	;ADD.B	EA,D0
-	move.b	(a4)+,SizeBWL-x(a5)
-	move.b	#9,(a4)+	;ADD.?	EA,D0
+	; ADD.?  EA,D0
+
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
 	bsr	RegNumD2_K_D
 	bra	DoublePrint
 
-1$	cmp.b	#%110,d2
-	beq	6$
-	cmp.b	#%010,d2
-	beq	3$
+	; ADD.?	D0,EA
 
-	cmp.b	#%100,d2
-	beq	4$
-	cmp.b	#%101,d2
-	beq	5$
-;	cmp.b	#%010,d2	; this can fall through
-;	beq	2$
-
-2$	move.b	#'W',(a4)+	;ADD.W	EA,D0
-	bra	7$
-3$	move.b	#'L',(a4)+	;ADD.L	EA,D0
-
-7$	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#9,(a4)+	;ADD.?	EA,D0
-	move.w	#%111111111111,Adressposs-x(a5)
-	bsr	GetSEA
-	bsr	RegNumD2_K_D
-	bra	DoublePrint
-
-4$	move.b	#'B',(a4)+	;ADD.B	D0,EA
-	bra	8$
-5$	move.b	#'W',(a4)+	;ADD.W	D0,EA
-	bra	8$
-6$	move.b	#'L',(a4)+	;ADD.L	D0,EA
-
-8$	move.b	-1(a4),SizeBWL-x(a5)
-	move.b	#9,(a4)+	;ADD.?	D0,EA
-	bsr	RegNumD2_D
+2$	bsr	RegNumD2_D
 	move.b	#',',(a4)+
 	move.w	#%000111111100,Adressposs-x(a5)
 	bsr	GetSEA
