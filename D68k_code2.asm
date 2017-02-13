@@ -1456,7 +1456,7 @@ c_movex	move.w	#%000111111101,HunkForm1-x(a5)
 
 c_cmp_b	move.l	#'CMP.',(a4)+		;CMP.B
 	move.w	#$4209,(a4)+		;'B' + TAB
-	move.b	-2(a4),SizeBWL-x(a5)
+	move.b	#"B",SizeBWL-x(a5)
 	move.w	#%111111111101,Adressposs-x(a5)
 	bsr	GetSEA
 	bsr	RegNumD2_K_D
