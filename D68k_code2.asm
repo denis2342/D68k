@@ -2456,7 +2456,6 @@ c_bfreg	move.l	Pointer-x(a5),a0
 
 c_bfea:	move.b	#'{',(a4)+
 
-	moveq	#0,d2
 	move.l	Pointer-x(a5),a0	;Offset of Bit-Field
 	move.w	2(a0),d2
 	btst	#11,d2
