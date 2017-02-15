@@ -771,7 +771,7 @@ PrintRelocXLabel:
 
 	move.l	d2,d1
 	bsr	BinSearch		;MUCH MORE TURBO !!!
-	tst.l	d0
+;	tst.l	d0			;flags are still set
 	beq	1$
 
 	addq.l	#4,d0
