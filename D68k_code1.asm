@@ -1260,19 +1260,24 @@ GetDEA2_2:
 
 	andi.b	#%00111000,d2
 
+	lsr.b	#3,d2
+	cmp.b	#4,d2
+	bls	DataDirekt2
+
 ;	tst.b	d2			;000 rrr
-	beq	DataDirekt2
-	cmp.b	#%001000,d2		;001 rrr
-	beq	AdreDirekt2
-	cmp.b	#%010000,d2		;010 rrr
-	beq	AdreInDirekt2
-	cmp.b	#%011000,d2		;011 rrr
-	beq	AdreInDirektPostin2
-	cmp.b	#%100000,d2		;100 rrr
-	beq	AdreInDirektPrede2
-	cmp.b	#%101000,d2		;101 rrr
+;	beq	DataDirekt2
+;	cmp.b	#%001,d2		;001 rrr
+;	beq	AdreDirekt2
+;	cmp.b	#%010,d2		;010 rrr
+;	beq	AdreInDirekt2
+;	cmp.b	#%011,d2		;011 rrr
+;	beq	AdreInDirektPostin2
+;	cmp.b	#%100,d2		;100 rrr
+;	beq	AdreInDirektPrede2
+
+	cmp.b	#%101,d2		;101 rrr
 	beq	AdreInDirektDis2
-	cmp.b	#%110000,d2		;110 rrr
+	cmp.b	#%110,d2		;110 rrr
 	beq	AdreInDirektDisIndex2
 
 	andi.b	#%00000111,d7
@@ -1290,39 +1295,19 @@ GetDEA2_2:
 
 	bra	AdressIll2
 
-DataDirekt2:				;000rrr D0
-	btst	#0,d0
-	beq	AdressIll2
-	rts
-
-AdreDirekt2:				;001rrr A0
-	btst	#1,d0
-	beq	AdressIll2
-	rts
-
-AdreInDirekt2:				;010rrr (A0)
-	btst	#2,d0
-	beq	AdressIll2
-	rts
-
-AdreInDirektPostin2:			;011rrr (A0)+
-	btst	#3,d0
-	beq	AdressIll2
-	rts
-
-AdreInDirektPrede2:			;100rrr -(A0)
-	btst	#4,d0
-	beq	AdressIll2
-	rts
-
 AdreInDirektDis2:			;101rrr $1234(A0)
-	btst	#5,d0
-	beq	AdressIll2
 	addq.l	#2,ToAdd-x(a5)
+DataDirekt2:				;000rrr D0
+AdreDirekt2:				;001rrr A0
+AdreInDirekt2:				;010rrr (A0)
+AdreInDirektPostin2:			;011rrr (A0)+
+AdreInDirektPrede2:			;100rrr -(A0)
+	btst	d2,d0
+	beq	AdressIll2
 	rts
 
 AdreInDirektDisIndex2:			;110rrr $12(A0,D0.l)
-	btst	#6,d0
+	btst	d2,d0
 	beq	AdressIll2
 
 ;	move.l	Pointer-x(a5),d2	;????
