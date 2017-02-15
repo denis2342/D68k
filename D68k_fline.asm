@@ -502,7 +502,7 @@ f_standard
 	move.b	#".",(a4)+
 	bsr	GetFSSP
 	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
 	bne.b	f_standard_sub
 
@@ -553,7 +553,7 @@ f_standard2:
 	move.b	#".",(a4)+
 	bsr	GetFSSP
 	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
 	bne.b	f_standard_sub
 
@@ -576,12 +576,11 @@ f_ftst:	move.l	#"FTST",(a4)+
 	move.b	#".",(a4)+
 	bsr	GetFSSP
 	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-
 	bsr	addressbitcheck
 
 	bsr	GetSEA		;<ea> to register
@@ -601,12 +600,11 @@ f_fsincos
 	move.l	#"COS.",(a4)+
 	bsr	GetFSSP
 	move.b	#9,(a4)+
-	move.l	Pointer-x(a5),a0
+;	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
 	beq.b	1$
 
 	move.w	#%111111111101,d0		;R/M=1
-
 	bsr	addressbitcheck
 
 	bsr	GetSEA		;<ea> to register
@@ -630,14 +628,11 @@ f_fmove2:
 	addq.l	#2,ToAdd-x(a5)
 	move.l	#"FMOV",(a4)+
 	move.w	#'E.',(a4)+
-	bsr	GetFSSP
 
 	move.w	#%000111111101,d0		;R/M=1
-
 	bsr	addressbitcheck
 
-
-	tst.b	-1(a4)
+	bsr	GetFSSP
 	beq.b	1$
 
 	cmp.b	#"P",-1(a4)
@@ -2152,7 +2147,6 @@ f2_standard
 	beq	QWERTYUIOPA
 
 	move.w	#%111111111101,d0		;R/M=1
-
 	bsr	addressbitcheck
 
 	bsr	GetSEA2		;<ea> to register
@@ -2460,8 +2454,8 @@ GetFSSP:
 	and.b	2(a0),d0
 	lsr.b	#2,d0
 
-	lea	SSPlist(PC,d0.w),a0
-	move.b	(a0),d0
+	lea	SSPlist(PC,d0.w),a1
+	move.b	(a1),d0
 	move.b	d0,(a4)+
 	move.b	d0,SizeBWL-x(a5)
 	rts
