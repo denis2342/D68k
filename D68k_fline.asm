@@ -1755,9 +1755,8 @@ f_move16_2
 
 	move.w	(a0),d6
 	btst	#3,d6
-	beq	02$
+	beq	1$
 
-13$
 	move.l	2(a0),d2	;MOVE16 xxx.L,(Ay)+
 	bsr	HexLDi
 	move.b	#',',(a4)+
@@ -1768,7 +1767,7 @@ f_move16_2
 	move.b	#'+',(a4)+
 3$	bra	DoublePrint
 
-02$	bsr	RegNumD_Bracket_A	;MOVE16 (Ay),xxx.L
+1$	bsr	RegNumD_Bracket_A	;MOVE16 (Ay),xxx.L
 	move.b	#')',(a4)+
 	btst	#4,d6
 	bne	2$
