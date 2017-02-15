@@ -1287,9 +1287,8 @@ p_pflush:
 
 2$	move.b	#'A',(a4)+
 	move.w	2(a0),d2
-	bclr	#10,d2
-	bclr	#13,d2
-	tst.w	d2		;MASK and FC MUST be NULL
+	and.w	#%1101101111111111,d2
+;	tst.w	d2		;MASK and FC MUST be NULL
 	bne	OpCodeError
 	bra	DoublePrint
 
