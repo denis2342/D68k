@@ -987,11 +987,11 @@ p_pflush040:
 	moveq	#%00011000,d2
 	and.w	(a0),d2
 	lsr.b	#3,d2
-	cmp.b	#1,d2
+	subq.b	#1,d2	; test d2 for 1
 	beq.b	1$
-	cmp.b	#2,d2
+	subq.b	#1,d2	; test d2 for 2
 	beq.b	2$
-	cmp.b	#3,d2
+	subq.b	#1,d2	; test d2 for 3
 	beq.b	3$
 
 	move.b	#"N",(a4)+

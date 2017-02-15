@@ -49,12 +49,13 @@ DissaData:
 	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
 	beq.b	2$
+
 	move.w	ExternSize-x(a5),d0
-	cmp.w	#1,d0
+	subq.w	#1,d0			;test d0 for 1
 	beq	d_dc_b
-	cmp.w	#2,d0
+	subq.w	#1,d0			;test d0 for 2
 	beq	d_dc_w2
-	cmp.w	#4,d0
+	subq.w	#2,d0			;test d0 for 4
 	beq	d_dc_l2
 2$
 	move.l	NextLabel-x(a5),d3

@@ -67,12 +67,13 @@ DissaCode:
 3$	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
 	beq.b	2$
+
 	move.w	ExternSize-x(a5),d0
-	cmp.w	#1,d0
+	subq.w	#1,d0			; test d0 for 1
 	beq	ByteData
-	cmp.w	#2,d0
+	subq.w	#1,d0			; test d0 for 2
 	beq	WordData2
-	cmp.w	#4,d0
+	subq.w	#2,d0			; test d0 for 4
 	beq	LongData2
 
 2$	clr.l	ToAdd-x(a5)
