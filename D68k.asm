@@ -524,6 +524,10 @@ Jumps:		dc.w	0	;Die fuer die Laenge der Jumptables (hoffentlich)
 LastMove:	dc.l	0	;
 LastMoveAdress:	dc.l	0	;Adresse des letzten Movebefehls
 
+ExternSize:	dc.w	0
+
+ToAdd:		dc.l	0	;Zwischenspeicher fuer Befehlslaenge
+
 Hexminus2:	dc.b	0
 Hexminus:	dc.b	0
 HexBufferL:	dc.b	0,0,0,0	;muss immer gerade sein
@@ -545,7 +549,6 @@ SizeBWL:	dc.b	0
 RegArt:		ds.b	2
 Vorzeichen:	dc.b	0
 DataRem:	dc.b	0
-ExternSize:	dc.b	0
 LabelYes:	dc.b	0
 Springer:	dc.b	0
 WallPoint:	dc.b	0

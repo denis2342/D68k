@@ -49,12 +49,12 @@ DissaData:
 	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
 	beq.b	2$
-	move.b	ExternSize-x(a5),d0
-	cmp.b	#1,d0
+	move.w	ExternSize-x(a5),d0
+	cmp.w	#1,d0
 	beq	d_dc_b
-	cmp.b	#2,d0
+	cmp.w	#2,d0
 	beq	d_dc_w2
-	cmp.b	#4,d0
+	cmp.w	#4,d0
 	beq	d_dc_l2
 2$
 	move.l	NextLabel-x(a5),d3
@@ -106,7 +106,7 @@ d_dc_b:	move.l	#'dc.b',(a4)+	;dann BYTE
 	rts
 
 7$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
+	move.w	ExternSize-x(a5),d0
 	add.l	d0,PCounter-x(a5)
 	rts
 
@@ -158,7 +158,7 @@ d_dc_w2
 	rts
 
 7$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
+	move.w	ExternSize-x(a5),d0
 	add.l	d0,PCounter-x(a5)
 	rts
 
@@ -229,7 +229,7 @@ d_dc_l2
 	rts
 
 7$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
+	move.w	ExternSize-x(a5),d0
 	add.l	d0,PCounter-x(a5)
 	rts
 

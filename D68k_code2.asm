@@ -67,12 +67,12 @@ DissaCode:
 3$	bsr	CheckOnReloc32
 	tst.b	LabelYes-x(a5)
 	beq.b	2$
-	move.b	ExternSize-x(a5),d0
-	cmp.b	#1,d0
+	move.w	ExternSize-x(a5),d0
+	cmp.w	#1,d0
 	beq	ByteData
-	cmp.b	#2,d0
+	cmp.w	#2,d0
 	beq	WordData2
-	cmp.b	#4,d0
+	cmp.w	#4,d0
 	beq	LongData2
 
 2$	clr.l	ToAdd-x(a5)
@@ -586,7 +586,7 @@ WordData2:
 	bsr	LabelPrint16
 
 	tst.b	LabelYes-x(a5)	;wenn LABEL dann kein ASCII-Text
-	bne.b	3$
+	bne	ExternAddDouble
 
 	bsr	PrintWordData
 
@@ -594,7 +594,7 @@ WordData2:
 	bra	DoublePrint
 
 3$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
+	move.w	ExternSize-x(a5),d0
 	add.l	d0,ToAdd-x(a5)
 	bra	DoublePrint
 
@@ -659,16 +659,11 @@ LongData2:
 	bsr	LabelPrint32
 
 	tst.b	LabelYes-x(a5)	;wenn LABEL dann kein ASCII-Text
-	bne	3$
+	bne	ExternAddDouble
 
 	bsr	PrintLongData
 
 	addq.l	#4,ToAdd-x(a5)
-	bra	DoublePrint
-
-3$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
-	add.l	d0,ToAdd-x(a5)
 	bra	DoublePrint
 
 ByteData:
@@ -685,16 +680,11 @@ ByteData:
 	bsr	LabelPrint08
 
 	tst.b	LabelYes-x(a5)	;wenn LABEL dann kein ASCII-Text
-	bne.b	2$
+	bne	ExternAddDouble
 
 	bsr	PrintByteData
 
 	addq.l	#1,ToAdd-x(a5)
-	bra	DoublePrint
-
-2$	moveq	#0,d0
-	move.b	ExternSize-x(a5),d0
-	add.l	d0,ToAdd-x(a5)
 	bra	DoublePrint
 
 LabelTab:
@@ -718,6 +708,12 @@ LabelTab:
 
 	clr.b	JumpTableOn-x(a5)
 1$	clr.l	ToAdd-x(a5)
+	bra	DoublePrint
+
+ExternAddDouble:
+	move.w	ExternSize-x(a5),d0
+	ext.l	d0
+	add.l	d0,ToAdd-x(a5)
 	bra	DoublePrint
 
 JumpTableListTest:

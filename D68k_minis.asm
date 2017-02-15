@@ -523,7 +523,7 @@ SprungMemFueller:
 ;**********************************
 
 LabelPrint32:
-	move.b	#4,ExternSize-x(a5)
+	move.w	#4,ExternSize-x(a5)
 	bsr	PrintExternXX
 	tst.b	LabelYes-x(a5)
 	bne.b	4$
@@ -566,7 +566,7 @@ LabelPrint32:
 4$	rts
 
 LabelPrint16:
-	move.b	#2,ExternSize-x(a5)
+	move.w	#2,ExternSize-x(a5)
 	bsr	PrintExternXX
 	tst.b	LabelYes-x(a5)
 	bne.b	4$
@@ -581,34 +581,12 @@ LabelPrint16:
 	cmp.l	#$03ed,(a1)+	;Reloc16-kennung testen und ueberspringen
 	bne	4$
 
-<<<<<<< HEAD
-	move.l	PCounter-x(a5),d0	;richtige Adresse
-	add.l	ToAdd-x(a5),d0		;fuer andere sachen
-	addq.l	#2,d0			;fuer den Mnemonic
-
-2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
-	beq	4$
-	move.l	d7,d3
-	subq.w	#1,d7		;1 abziehen wegen dbls
-	move.l	(a1)+,d6	;Nummer des Hunks
-
-	move.l	a1,a2		;Zeiger in A1 wieder korrigieren
-	lsl.l	#2,d3
-	add.l	d3,a1
-
-3$	cmp.l	(a2)+,d0	;Eintraege '(a2)' mit richtiger Adresse 'd0'
-	dbls	d7,3$
-	bne.b	2$
-
-	bra	PrintRelocXLabel
-=======
 	bsr	LabelPrintSub
->>>>>>> 132da21 (made a function from some duplicate code)
 
 4$	rts
 
 LabelPrint08:
-	move.b	#1,ExternSize-x(a5)
+	move.w	#1,ExternSize-x(a5)
 	bsr	PrintExternXX
 	tst.b	LabelYes-x(a5)
 	bne.b	4$
@@ -623,20 +601,14 @@ LabelPrint08:
 	cmp.l	#$03ee,(a1)+	;Reloc08-kennung testen und ueberspringen
 	bne	4$
 
-<<<<<<< HEAD
-	move.l	PCounter-x(a5),d0	;richtige Adresse
-	add.l	ToAdd-x(a5),d0		;fuer andere sachen
-	addq.l	#2,d0			;fuer den Mnemonic
-=======
 	bsr	LabelPrintSub
 
 4$	rts
 
 LabelPrintSub:
-	moveq	#2,d0			;fuer den Mnemonic
-	add.w	ToAdd-x(a5),d0		;fuer andere sachen
-	add.l	PCounter-x(a5),d0	;richtige Adresse
->>>>>>> 132da21 (made a function from some duplicate code)
+	move.l	PCounter-x(a5),d0	;richtige Adresse
+	add.l	ToAdd-x(a5),d0		;fuer andere sachen
+	addq.l	#2,d0			;fuer den Mnemonic
 
 2$	move.l	(a1)+,d7	;Anzahl der Offsets in d7
 	beq	4$
@@ -855,7 +827,7 @@ PrintSymbolLabela4:
 	subq.l	#1,a4
 
 2$	addq.l	#4,SP			;vier fuer RTS
-	move.b	#4,ExternSize-x(a5)	;vier wegen reloc32
+	move.w	#4,ExternSize-x(a5)	;vier wegen reloc32
 	st	LabelYes-x(a5)
 	rts
 
@@ -888,31 +860,31 @@ ExXX_1	tst.l	d0		;testen ob > oder < als $80
 
 	rol.l	#8,d0
 
-	move.b	#4,ExternSize-x(a5)
+	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$81,d0
 	beq.b	YesExternXX	;mit Extern_Ref32 vergleichen
 
-;	move.b	#4,ExternSize-x(a5)
+;	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$82,d0
 	beq.b	YesExternXX	;mit Extern_common (32) vergleichen
 
-;	move.b	#4,ExternSize-x(a5)
+;	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$85,d0
 	beq.b	YesExternXX	;mit Extern_Dext32 vergleichen
 
-	move.b	#2,ExternSize-x(a5)
+	move.w	#2,ExternSize-x(a5)
 	cmp.b	#$83,d0
 	beq.b	YesExternXX	;mit Extern_Ref16 vergleichen
 
-;	move.b	#2,ExternSize-x(a5)
+;	move.w	#2,ExternSize-x(a5)
 	cmp.b	#$86,d0
 	beq.b	YesExternXX	;mit Extern_Dext16 vergleichen
 
-	move.b	#1,ExternSize-x(a5)
+	move.w	#1,ExternSize-x(a5)
 	cmp.b	#$84,d0
 	beq.b	YesExternXX	;mit Extern_Ref08 vergleichen
 
-;	move.b	#1,ExternSize-x(a5)
+;	move.w	#1,ExternSize-x(a5)
 	cmp.b	#$87,d0
 	beq.b	YesExternXX	;mit Extern_Dext08 vergleichen
 
@@ -1219,7 +1191,7 @@ CheckOnReloc32:
 	dbls	d7,3$
 	bne.b	2$
 
-4$	move.b	#4,ExternSize-x(a5)
+4$	move.w	#4,ExternSize-x(a5)
 	st	LabelYes-x(a5)
 5$	rts
 
@@ -1248,31 +1220,31 @@ xExXX_1	tst.l	d0		;testen ob > oder < als $80
 
 	rol.l	#8,d0
 
-	move.b	#4,ExternSize-x(a5)
+	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$81,d0
 	beq.b	xYesExternXX	;mit Extern_Ref32 vergleichen
 
-;	move.b	#4,ExternSize-x(a5)
+;	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$82,d0
 	beq.b	xYesExternXX	;mit Extern_common (32) vergleichen
 
-;	move.b	#4,ExternSize-x(a5)
+;	move.w	#4,ExternSize-x(a5)
 	cmp.b	#$85,d0
 	beq.b	xYesExternXX	;mit Extern_Dext32 vergleichen
 
-	move.b	#2,ExternSize-x(a5)
+	move.w	#2,ExternSize-x(a5)
 	cmp.b	#$83,d0
 	beq.b	xYesExternXX	;mit Extern_Ref16 vergleichen
 
-;	move.b	#2,ExternSize-x(a5)
+;	move.w	#2,ExternSize-x(a5)
 	cmp.b	#$86,d0
 	beq.b	xYesExternXX	;mit Extern_Dext16 vergleichen
 
-	move.b	#1,ExternSize-x(a5)
+	move.w	#1,ExternSize-x(a5)
 	cmp.b	#$84,d0
 	beq.b	xYesExternXX	;mit Extern_Ref08 vergleichen
 
-;	move.b	#1,ExternSize-x(a5)
+;	move.w	#1,ExternSize-x(a5)
 	cmp.b	#$87,d0
 	beq.b	xYesExternXX	;mit Extern_Dext08 vergleichen
 
