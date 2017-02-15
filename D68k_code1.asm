@@ -397,14 +397,20 @@ c2_gr1000
 	bra	c2_iNULL		;mir faellt nichts ein
 
 c2_gr1001
+c2_gr1101
 	move.w	(a0),d0
-	andi.w	#%1111000100110000,d0
-	cmp.w	#%1001000100000000,d0	;SUBX
-	beq	c2_subx
-b2_subx
+	andi.w	#%1011000011000000,d0
+	cmp.w	#%1001000011000000,d0	;SUBA/ADDA
+	beq	c2_suba
+
 	move.w	(a0),d0
-	andi.w	#%1111000000000000,d0
-	cmp.w	#%1001000000000000,d0	;SUB.x
+	andi.w	#%1011000100110000,d0
+	cmp.w	#%1001000100000000,d0	;SUBX/ADDX
+	beq	QWERTYUIOPA
+
+;	move.w	(a0),d0
+	andi.w	#%1011000000000000,d0
+	cmp.w	#%1001000000000000,d0	;SUB.x/ADD.x
 	beq	c2_sub
 
 	bra	c2_iNULL		;mir faellt nichts ein
@@ -464,19 +470,6 @@ c2_gr1100
 	andi.w	#%1111000000000000,d0
 	cmp.w	#%1100000000000000,d0	;AND.x
 	beq	c2_and
-
-	bra	c2_iNULL		;mir faellt nichts ein
-
-c2_gr1101
-	move.w	(a0),d0
-	andi.w	#%1111000100110000,d0
-	cmp.w	#%1101000100000000,d0	;ADDX
-	beq	c2_addx
-
-b2_addx	move.w	(a0),d0
-	andi.w	#%1111000000000000,d0
-	cmp.w	#%1101000000000000,d0	;ADD.x
-	beq	c2_add
 
 	bra	c2_iNULL		;mir faellt nichts ein
 
@@ -857,24 +850,6 @@ bxx22	cmp.b	#$ff,d2
 
 ;**********************************
 
-c2_subx:
-	bsr	GetBWL
-;	tst.b	SizeBWL-x(a5)
-	bne	QWERTYUIOPA
-	bsr	DochFalsch2
-	bra	b2_subx
-
-;**********************************
-
-c2_addx:
-	bsr	GetBWL
-;	tst.b	SizeBWL-x(a5)
-	bne	QWERTYUIOPA
-	bsr	DochFalsch2
-	bra	b2_addx
-
-;**********************************
-
 c2_ext:
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
@@ -1057,6 +1032,22 @@ c2_cmpil:
 
 ;**********************************
 
+c2_suba
+c2_adda
+;	move.l	Pointer-x(a5),a0
+	moveq	#"W",d2
+	btst	#8,(a0)
+	beq	subaadda_sub
+
+subaadda_sub_L:
+	moveq	#"L",d2
+
+subaadda_sub:
+	move.b	d2,SizeBWL-x(a5)
+	move.w	#%111111111111,Adressposs-x(a5)
+	bsr	GetSEA2
+	bra	QWERTYUIOPA
+
 c2_sub
 c2_add
 ;	move.l	Pointer-x(a5),a0
@@ -1069,12 +1060,7 @@ c2_add
 	cmp.b	#%001,d2
 	beq.b	2$
 	cmp.b	#%010,d2
-	beq.b	3$
-
-	cmp.b	#%011,d2
-	beq.b	2$
-	cmp.b	#%111,d2
-	beq.b	3$
+	beq.b	subaadda_sub_L	;ADD.L  EA,D0
 
 	;was sonst (%100,%101,%110)
 
@@ -1088,14 +1074,7 @@ c2_add
 	bra	QWERTYUIOPA
 
 2$	moveq	#'W',d2		;ADD.W	EA,D0
-	bra.b	7$
-3$	moveq	#'L',d2		;ADD.L	EA,D0
-;	bra.b	7$
-
-7$	move.b	d2,SizeBWL-x(a5)
-	move.w	#%111111111111,Adressposs-x(a5)
-	bsr	GetSEA2
-	bra	QWERTYUIOPA
+	bra.b	subaadda_sub
 
 ;**********************************
 

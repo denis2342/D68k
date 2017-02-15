@@ -393,15 +393,27 @@ c_gr1000
 
 ;****************************************************
 
+c_gr1101
 c_gr1001
 	move.w	(a0),d7
 	move.w	d7,d0
+	andi.w	#%1111000011000000,d0
+	cmp.w	#%1101000011000000,d0	;ADDA.x
+	beq	c_adda
+	cmp.w	#%1001000011000000,d0	;SUBA.x
+	beq	c_suba
+
+	move.w	d7,d0
 	andi.w	#%1111000100110000,d0
+	cmp.w	#%1101000100000000,d0	;ADDX.x
+	beq	c_addx
 	cmp.w	#%1001000100000000,d0	;SUBX.x
 	beq	c_subx
 
-b_subx	move.w	d7,d0
+;	move.w	d7,d0
 	andi.w	#%1111000000000000,d0
+	cmp.w	#%1101000000000000,d0	;ADD.x
+	beq	c_add
 	cmp.w	#%1001000000000000,d0	;SUB.x
 	beq	c_sub
 
@@ -470,22 +482,6 @@ c_gr1100
 	andi.w	#%1111000000000000,d0
 	cmp.w	#%1100000000000000,d0	;AND.x
 	beq	c_and
-
-	bra	OpCodeError
-
-;****************************************************
-
-c_gr1101
-	move.w	(a0),d7
-	move.w	d7,d0
-	andi.w	#%1111000100110000,d0
-	cmp.w	#%1101000100000000,d0	;ADDX.x
-	beq	c_addx
-
-b_addx	move.w	d7,d0
-	andi.w	#%1111000000000000,d0
-	cmp.w	#%1101000000000000,d0	;ADD.x
-	beq	c_add
 
 	bra	OpCodeError
 
@@ -1169,17 +1165,11 @@ c_sbcd:	move.l	#'SBCD',(a4)+
 
 c_subx:	move.l	#'SUBX',(a4)+
 	bsr	GetBWL
-;	tst.b	SizeBWL-x(a5)
-	bne.b	c_bcdx2
-	bsr	DochFalsch
-	bra	b_subx
+	bra.b	c_bcdx2
 
 c_addx:	move.l	#'ADDX',(a4)+
 	bsr	GetBWL
-;	tst.b	SizeBWL-x(a5)
-	bne.b	c_bcdx2
-	bsr	DochFalsch
-	bra	b_addx
+	bra.b	c_bcdx2
 
 c_bcdx:	bsr	GetBWL
 ;	tst.b	SizeBWL-x(a5)
@@ -1571,33 +1561,24 @@ AddEnd	addq.l	#2,ToAdd-x(a5)
 
 ;**********************************
 
-c_sub	move.w	#'SU',(a4)+	;SUB
-	move.b	#'B',(a4)+
-	bra	c_AddSub
+c_suba	move.l	#'SUBA',(a4)+	;SUBA
+	bra	c_addasuba
 
-c_add	move.w	#'AD',(a4)+	;ADD
-	move.b	#'D',(a4)+
-;	bra	c_AddSub
+c_adda	move.l	#'ADDA',(a4)+	;SUBA
+;	bra	c_addasuba
 
-c_AddSub
-	bsr	GetBWL
+c_addasuba:
+	moveq	#"W",d7
 ;	move.l	Pointer-x(a5),a0
 	move.w	(a0),d2
-	lsr.w	#6,d2
-	andi.w	#%111,d2
+	btst	#8,d2
+	beq	1$
 
-	cmp.b	#%011,d2
-	bne	9$
-	move.b	#'A',(a4)+	;ADDA.W
-	move.w	#'.W',(a4)+
-	bra	11$
+	moveq	#"L",d7
 
-9$	cmp.b	#%111,d2
-	bne	10$
-	move.b	#'A',(a4)+	;ADDA.L
-	move.w	#'.L',(a4)+
-
-11$	move.b	-1(a4),SizeBWL-x(a5)
+1$	move.b	#".",(a4)+
+	move.b	d7,(a4)+
+	move.b	d7,SizeBWL-x(a5)
 	move.b	#9,(a4)+
 	move.w	#%111111111111,Adressposs-x(a5)
 	bsr	GetSEA
@@ -1606,7 +1587,16 @@ c_AddSub
 	bsr	RegNumD2
 	bra	DoublePrint
 
-10$	move.b	#'.',(a4)+
+c_sub	move.l	#'SUB.',(a4)+	;SUB
+	bra	c_AddSub
+
+c_add	move.l	#'ADD.',(a4)+	;ADD
+;	bra	c_AddSub
+
+c_AddSub
+	bsr	GetBWL
+;	move.l	Pointer-x(a5),a0
+
 	move.b	SizeBWL-x(a5),(a4)+
 	move.b	#9,(a4)+
 	btst	#8,(a0)
