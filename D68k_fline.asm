@@ -2139,9 +2139,10 @@ f2_fsincos
 f2_ftst
 
 f2_standard
-	addq.l	#2,ToAdd-x(a5)
 	bsr	GetFSSP
-	move.l	Pointer-x(a5),a0
+f2_standard_sub
+	addq.l	#2,ToAdd-x(a5)
+;	move.l	Pointer-x(a5),a0
 	btst	#6,2(a0)
 	beq	QWERTYUIOPA
 
@@ -2154,21 +2155,11 @@ f2_standard
 ;**********************************
 
 f2_fmove2
-	addq.l	#2,ToAdd-x(a5)
 	bsr	GetFSSP
-	tst.b	-1(a4)
-	bne.b	1$
+	bne.b	f2_standard_sub
+
 	move.b	#"P",SizeBWL-x(a5)
-1$	move.l	Pointer-x(a5),a0
-	btst	#6,2(a0)
-	beq	QWERTYUIOPA
-
-	move.w	#%111111111101,d0		;R/M=1
-
-	bsr	addressbitcheck
-
-	bsr	GetSEA2		;<ea> to register
-	bra	QWERTYUIOPA
+	bra	f2_standard_sub
 
 ;**********************************
 
