@@ -431,130 +431,128 @@ FileIDText2:
  BSS
 
 x:
-DosBase:	dc.l	0	;Zeiger auf DosBase
+DosBase:	ds.l	1	;Zeiger auf DosBase
 
-FileHD:		dc.l	0	;FileHD auf File zum einladen
-FileHD2:	dc.l	0	;FileHD auf File zum saven
-FileHD3:	dc.l	0	;FileHD auf Jumplist-File
-FileID:		dc.l	0	;ID des Files fuer Jumplist-File
-Memory:		dc.l	0	;Speicher in den das File geladen wird
-JLMem:		dc.l	0	;Speicher fuer das Jumplist-File
-FileSize:	dc.l	0	;FileLaenge
+FileHD:		ds.l	1	;FileHD auf File zum einladen
+FileHD2:	ds.l	1	;FileHD auf File zum saven
+FileHD3:	ds.l	1	;FileHD auf Jumplist-File
+FileID:		ds.l	1	;ID des Files fuer Jumplist-File
+Memory:		ds.l	1	;Speicher in den das File geladen wird
+JLMem:		ds.l	1	;Speicher fuer das Jumplist-File
+FileSize:	ds.l	1	;FileLaenge
 
-Output_fh:	dc.l	0
-PRGName:	dc.l	0	;Zeiger auf Programmname
+Output_fh:	ds.l	1
+PRGName:	ds.l	1	;Zeiger auf Programmname
 
 Argu:
-Argu1:		dc.l	0	;FILE
-Argu2:		dc.l	0	;TO/K
-Argu3:		dc.l	0	;NOPC/S
-Argu4:		dc.l	0	;INFO/S
-Argu5:		dc.l	0	;HUNKLAB/S
-Argu6:		dc.l	0	;RLO=RTSLOGICOFF/S
-Argu7:		dc.l	0	;NC=NOCODE/S
-Argu8:		dc.l	0	;ND=NODATA/S
-Argu9:		dc.l	0	;NB=NOBSS/S
-ArguA:		dc.l	0	;DLO=DATALOGICOFF/S
-ArguB:		dc.l	0	;OLO=ORILOGICOFF/S
-ArguC:		dc.l	0	;NL=NEXTLABEL/S
-ArguD:		dc.l	0	;TRACE/S
-ArguE:		dc.l	0	;JL=JUMPLIST/S
-ArguF:		dc.l	0	;68020/S
-ArguG:		dc.l	0	;HEXDATA/S
+Argu1:		ds.l	1	;FILE
+Argu2:		ds.l	1	;TO/K
+Argu3:		ds.l	1	;NOPC/S
+Argu4:		ds.l	1	;INFO/S
+Argu5:		ds.l	1	;HUNKLAB/S
+Argu6:		ds.l	1	;RLO=RTSLOGICOFF/S
+Argu7:		ds.l	1	;NC=NOCODE/S
+Argu8:		ds.l	1	;ND=NODATA/S
+Argu9:		ds.l	1	;NB=NOBSS/S
+ArguA:		ds.l	1	;DLO=DATALOGICOFF/S
+ArguB:		ds.l	1	;OLO=ORILOGICOFF/S
+ArguC:		ds.l	1	;NL=NEXTLABEL/S
+ArguD:		ds.l	1	;TRACE/S
+ArguE:		ds.l	1	;JL=JUMPLIST/S
+ArguF:		ds.l	1	;68020/S
+ArguG:		ds.l	1	;HEXDATA/S
 
-ArgsBack:	dc.l	0	;Zeiger fuer FreeArgs()
+ArgsBack:	ds.l	1	;Zeiger fuer FreeArgs()
 
-LabelMem:	dc.l	0	;Speicher fuer die Labeltabelle
-SprungMem:	dc.l	0	;Speicher fuer die Sprungtabelle
-LabelPointer:	dc.l	0	;Zeiger auf freien Platz in der Labeltabelle
-SprungPointer:	dc.l	0	;Zeiger auf freien Platz in der Sprungtabelle
-LabelMin:	dc.l	0	;sortierte Anzahl der Label
-LabelMax:	dc.l	0	;unsortierte Anzahl der Label
-NextLabel:	dc.l	0	;Laenge in Bytes bis zum naechsten Label/HunkEnde
-LastLabel:	dc.l	0	;Label der Jumptabelle
+LabelMem:	ds.l	1	;Speicher fuer die Labeltabelle
+SprungMem:	ds.l	1	;Speicher fuer die Sprungtabelle
+LabelPointer:	ds.l	1	;Zeiger auf freien Platz in der Labeltabelle
+SprungPointer:	ds.l	1	;Zeiger auf freien Platz in der Sprungtabelle
+LabelMin:	ds.l	1	;sortierte Anzahl der Label
+LabelMax:	ds.l	1	;unsortierte Anzahl der Label
+NextLabel:	ds.l	1	;Laenge in Bytes bis zum naechsten Label/HunkEnde
+LastLabel:	ds.l	1	;Label der Jumptabelle
 
-HunkAnzahl:	dc.l	0	;Anzahl der Hunks
-HunkMem:	dc.l	0	;Speicher fuer HunkTabelle
-HunkMemLen:	dc.l	0	;Laenge der HunkTabelle
-HunkAdd:	dc.l	0
+HunkAnzahl:	ds.l	1	;Anzahl der Hunks
+HunkMem:	ds.l	1	;Speicher fuer HunkTabelle
+HunkMemLen:	ds.l	1	;Laenge der HunkTabelle
+HunkAdd:	ds.l	1
 
-CurrHunk:	dc.l	0	;Aktueller Hunk (fuer Ausgabe)
-HunkForm1:	dc.l	0	;Speicher1 fuer HunkNamenausgabe
-HunkForm2:	dc.l	0	;Speicher2 fuer HunkNamenausgabe
-HunkForm3:	dc.l	0	;Speicher3 fuer HunkNamenausgabe
+CurrHunk:	ds.l	1	;Aktueller Hunk (fuer Ausgabe)
+HunkForm1:	ds.l	1	;Speicher1 fuer HunkNamenausgabe
+HunkForm2:	ds.l	1	;Speicher2 fuer HunkNamenausgabe
+HunkForm3:	ds.l	1	;Speicher3 fuer HunkNamenausgabe
 
-CodeSize:	dc.l	0	;CodeLaenge
-CodeAnfang:	dc.l	0	;Zeiger auf CodeAnfang
+CodeSize:	ds.l	1	;CodeLaenge
+CodeAnfang:	ds.l	1	;Zeiger auf CodeAnfang
 
-PCounter:	dc.l	0	;Zeiger auf (PC)
-Pointer:	dc.l	0	;CodeAnfang+PCounter
-ToAdd:		dc.l	0	;Zwischenspeicher fuer Befehlslaenge
+ToAdd:		ds.l	1	;Zwischenspeicher fuer Befehlslaenge
+PCounter:	ds.l	1	;Zeiger auf (PC)
+Pointer:	ds.l	1	;CodeAnfang+PCounter
 
-RelocXAdress:	dc.l	0	;Adresse des Relocs im Hunk
+RelocXAdress:	ds.l	1	;Adresse des Relocs im Hunk
 
-Mnemonic:	dc.l	0	;Zwischenspeicher fuer Befehlstext
-ErrorNumber:	dc.l	0	;Speicher fuer ReturnCode
-GoBack:		dc.l	0	;A7 {SP} fuer Ruecksprung von ueberall
+Mnemonic:	ds.l	1	;Zwischenspeicher fuer Befehlstext
+ErrorNumber:	ds.l	1	;Speicher fuer ReturnCode
+GoBack:		ds.l	1	;A7 {SP} fuer Ruecksprung von ueberall
 
-ICodesP1:	dc.l	0	;Anzahl der illeg. Befehle im ersten LOOP
-IllPC:		dc.l	0	;Adresse des letzten illegalen Befehls
-Symbole:	dc.l	0	;Anzahl der Symbole
+ICodesP1:	ds.l	1	;Anzahl der illeg. Befehle im ersten LOOP
+IllPC:		ds.l	1	;Adresse des letzten illegalen Befehls
+Symbole:	ds.l	1	;Anzahl der Symbole
 
-Relocs32:	dc.l	0	;Anzahl der Reloc32-Einträge
-Relocs16:	dc.l	0	;Anzahl der Reloc16-Einträge
-Relocs08:	dc.l	0	;Anzahl der Reloc08-Einträge
+Relocs32:	ds.l	1	;Anzahl der Reloc32-Eintraege
+Relocs16:	ds.l	1	;Anzahl der Reloc16-Eintraege
+Relocs08:	ds.l	1	;Anzahl der Reloc08-Eintraege
 
-DRelocs32:	dc.l	0	;Anzahl der DReloc32-Einträge
-DRelocs16:	dc.l	0	;Anzahl der DReloc16-Einträge
-DRelocs08:	dc.l	0	;Anzahl der DReloc08-Einträge
+DRelocs32:	ds.l	1	;Anzahl der DReloc32-Eintraege
+DRelocs16:	ds.l	1	;Anzahl der DReloc16-Eintraege
+DRelocs08:	ds.l	1	;Anzahl der DReloc08-Eintraege
 
-NULL:		dc.l	0	;Da wird ev. ein Zeiger draufgelenkt!
+NULL:		ds.l	1	;Da wird ev. ein Zeiger draufgelenkt!
 
-ROMaddress:	dc.l	0	;Adresse wo das ROM hingemappt wird (z.B. $F80000 fuer Kickroms)
+ROMaddress:	ds.l	1	;Adresse wo das ROM hingemappt wird (z.B. $F80000 fuer Kickroms)
 
-Label:		dc.l	0	;Label Zwischenspeicher
-Adressposs:	dc.w	0	;Erlaubte Adressierungsarten
-AdMode:		dc.w	0	;AdressingModeWORD Zwischenspeicher
+Label:		ds.l	1	;Label Zwischenspeicher
+Adressposs:	ds.w	1	;Erlaubte Adressierungsarten
+AdMode:		ds.w	1	;AdressingModeWORD Zwischenspeicher
 
-CodeID:		dc.w	0	;Zahlen zur internen schnellen Befehlserkennung
-LastCodeID:	dc.w	0	;Vorheriger Befehl war: LastCodeID
-Jumps:		dc.w	0	;Die fuer die Laenge der Jumptables (hoffentlich)
-		dc.w	0
+CodeID:		ds.w	1	;Zahlen zur internen schnellen Befehlserkennung
+LastCodeID:	ds.w	1	;Vorheriger Befehl war: LastCodeID
+Jumps:		ds.w	1	;Die fuer die Laenge der Jumptables (hoffentlich)
+		ds.w	1
 
-LastMove:	dc.l	0	;
-LastMoveAdress:	dc.l	0	;Adresse des letzten Movebefehls
+LastMove:	ds.l	1	;
+LastMoveAdress:	ds.l	1	;Adresse des letzten Movebefehls
 
-ExternSize:	dc.w	0
+ExternSize:	ds.w	1
 
-ToAdd:		dc.l	0	;Zwischenspeicher fuer Befehlslaenge
+Hexminus2:	ds.b	1
+Hexminus:	ds.b	1
+HexBufferL:	ds.b	4	;muss immer gerade sein
+HexBufferW:	ds.b	2
+HexBufferB:	ds.b	2
+Hexplus:	ds.b	1
+Hexplus2:	ds.b	1
 
-Hexminus2:	dc.b	0
-Hexminus:	dc.b	0
-HexBufferL:	dc.b	0,0,0,0	;muss immer gerade sein
-HexBufferW:	dc.b	0,0
-HexBufferB:	dc.b	0,0
-Hexplus:	dc.b	0
-Hexplus2:	dc.b	0
-
-	dc.b	0,0			;eins muss vor Buffer sein
-Buffer:	dc.b	0,0,0,0,0,0,0,0,0,0	;muss immer gerade sein
-	dc.b	0
+	ds.b	2	;eins muss vor Buffer sein
+Buffer:	ds.b	10	;muss immer gerade sein
+	ds.b	1
 
  CNOP 0,4
 		ds.b	3
-Befehltab:	dc.b	0
+Befehltab:	ds.b	1
 Befehl:		ds.b	200	;muss immer gerade sein
 Befehl2:	ds.b	200
-SizeBWL:	dc.b	0
+SizeBWL:	ds.b	1
 RegArt:		ds.b	2
-Vorzeichen:	dc.b	0
-DataRem:	dc.b	0
-LabelYes:	dc.b	0
-Springer:	dc.b	0
-WallPoint:	dc.b	0
-JumpTableOn:	dc.b	0
-Libby:		dc.b	0
-KICK:		dc.b	0
+Vorzeichen:	ds.b	1
+DataRem:	ds.b	1
+LabelYes:	ds.b	1
+Springer:	ds.b	1
+WallPoint:	ds.b	1
+JumpTableOn:	ds.b	1
+Libby:		ds.b	1
+KICK:		ds.b	1
 
  CNOP 0,4
 
