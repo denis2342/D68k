@@ -11,11 +11,11 @@
  include 'dos/dos_lib.i'
 
 D68k_Version	MACRO
-			dc.b	'2.1.2'
+			dc.b	'2.1.3'
 		ENDM
 
 D68k_Datum	MACRO
-			dc.b	'17.01.2017'
+			dc.b	'15.01.2023'
 		ENDM
 
 TabSize		equ	6	;2^6 (#64 or $40)= groesse der Tabelle pro Hunk
