@@ -3078,7 +3078,10 @@ AbsoShort:				;111 000
 	move.l	Pointer-x(a5),a0		;$1234 (Adresse)
 	add.l	ToAdd-x(a5),a0
 	move.w	2(a0),d2
+	st	Vorzeichen-x(a5)
 	bsr	PrintExtern16
+	move.b	#'.',(a4)+
+	move.b	#'W',(a4)+
 	addq.l	#2,ToAdd-x(a5)
 	rts
 
